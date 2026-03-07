@@ -8,6 +8,7 @@ import useInvestors from "./hooks/useInvestors";
 import useCategories from "./hooks/useCategories";
 import useTicker from "./hooks/useTicker";
 import useSOTD from "./hooks/useSOTD";
+import useProfile from "./hooks/useProfile";
 import Sparkline from "./components/common/Sparkline";
 import Tag from "./components/common/Tag";
 import ScoreRow from "./components/common/ScoreRow";
@@ -17,6 +18,8 @@ import CompanyCard from "./components/feed/CompanyCard";
 import CompanyPanel from "./components/panel/CompanyPanel";
 import AuthModal from "./components/auth/AuthModal";
 import UserMenu from "./components/auth/UserMenu";
+import SubmitModal from "./components/submit/SubmitModal";
+import AdminQueue from "./components/admin/AdminQueue";
 
 export default function App(){
   const { user } = useAuth();
@@ -29,6 +32,7 @@ export default function App(){
   const [showAllActivity,setShowAllActivity] = useState(false);
   const [toast,setToast] = useState(null);
   const [showAuth,setShowAuth] = useState(false);
+  const [showSubmit,setShowSubmit] = useState(false);
 
   // Supabase data hooks
   const { data: COS, loading: cosLoading } = useCompanies();
@@ -37,6 +41,8 @@ export default function App(){
   const { data: CATS } = useCategories();
   const { data: TICKER_DATA } = useTicker();
   const { data: SOTD } = useSOTD();
+  const { data: profile } = useProfile();
+  const isAdmin = profile?.role === "admin";
 
   // Safe defaults while loading
   const companies = COS || [];
@@ -115,7 +121,7 @@ export default function App(){
       <nav>
         <div className="logo"><img src="/logo.svg" alt="VentureBrowse" style={{height:18}}/></div>
         <div className="nav-tabs">
-          {TABS.map(t=>(
+          {[...TABS, ...(isAdmin ? ["Admin"] : [])].map(t=>(
             <button key={t} className={`ntab${tab===t?" on":""}`} onClick={()=>setTab(t)}>
               {t}
               {t==="Watchlist"&&watchlist.length>0&&(
@@ -126,7 +132,10 @@ export default function App(){
         </div>
         <div className="nav-r">
           {user ? (
-            <UserMenu/>
+            <>
+              <button className="ghost" onClick={()=>setShowSubmit(true)}>Submit startup</button>
+              <UserMenu/>
+            </>
           ) : (
             <>
               <button className="ghost" onClick={()=>setShowAuth(true)}>Sign in</button>
@@ -247,7 +256,7 @@ export default function App(){
                 <h2 className="sec-title">Investor Intelligence</h2>
                 <p style={{color:"var(--ink3)",fontSize:14,marginTop:6,fontWeight:300}}>Who is actually deploying capital right now — not who says they are.</p>
               </div>
-              <button className="pill-o">I'm a founder →</button>
+              <button className="pill-o" onClick={()=>user?setShowSubmit(true):setShowAuth(true)}>I'm a founder →</button>
             </div>
             <div className="igrid">
               {investors.map((inv,i)=>(
@@ -351,6 +360,8 @@ export default function App(){
           </div>
         )}
 
+        {tab==="Admin"&&isAdmin&&<AdminQueue/>}
+
         <div className="hr"/>
 
         {/* Upgrade */}
@@ -368,6 +379,7 @@ export default function App(){
 
       {sel&&<CompanyPanel co={sel} onClose={()=>setSel(null)} watched={watchlist.includes(sel.id)} onToggleWatch={toggleWatch}/>}
       {showAuth&&<AuthModal onClose={()=>setShowAuth(false)}/>}
+      {showSubmit&&<SubmitModal onClose={()=>setShowSubmit(false)} onNeedAuth={()=>{setShowSubmit(false);setShowAuth(true);}}/>}
       {toast&&<Toast msg={toast}/>}
     </>
   );

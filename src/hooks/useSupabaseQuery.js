@@ -7,12 +7,13 @@ import { useState, useEffect, useRef } from "react";
 const cache = new Map();
 
 export default function useSupabaseQuery(key, queryFn, deps = []) {
-  const [data, setData] = useState(() => cache.get(key) ?? null);
+  const [data, setData] = useState(() => key ? (cache.get(key) ?? null) : null);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(!cache.has(key));
+  const [loading, setLoading] = useState(key ? !cache.has(key) : false);
   const mountedRef = useRef(true);
 
   useEffect(() => {
+    if (!key) { setData(null); setLoading(false); return; }
     mountedRef.current = true;
     let cancelled = false;
 
@@ -36,7 +37,7 @@ export default function useSupabaseQuery(key, queryFn, deps = []) {
 
     run();
     return () => { cancelled = true; mountedRef.current = false; };
-  }, deps);
+  }, [key, ...deps]);
 
   return { data, error, loading };
 }
