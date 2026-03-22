@@ -43,7 +43,7 @@ nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid va
 .pill-o:hover{border-color:var(--ink);background:var(--off)}
 
 /* LAYOUT */
-.wrap{max-width:1280px;margin:0 auto;padding:0 24px 60px}
+.wrap{max-width:1440px;margin:0 auto;padding:0 20px 40px}
 
 /* TAG — sharp, data-style */
 .tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;border:1px solid;font-family:var(--mono);letter-spacing:.02em}
@@ -370,7 +370,7 @@ nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid va
 .hp-subtitle{font-size:13px;color:var(--ink3);font-weight:400}
 
 /* Homepage Sections */
-.hp-section{padding:32px 0;border-top:1px solid var(--bd)}
+.hp-section{padding:24px 0;border-top:1px solid var(--bd)}
 .hp-section:first-of-type{border-top:none}
 .hp-section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
 .hp-section-title{font-family:var(--sans);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.02em}
@@ -698,8 +698,8 @@ nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid va
 .dc2-bs-l{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink4);margin-top:2px;display:block}
 
 /* BRAND PAGE — Full-Page Research View */
-.bp{max-width:1200px;margin:0 auto}
-.bp-header{padding:32px 40px;color:#fff;border-radius:0 0 18px 18px;margin-bottom:28px}
+.bp{max-width:100%;margin:0 auto}
+.bp-header{padding:24px 28px;color:#fff;border-radius:0 0 6px 6px;margin-bottom:20px}
 .bp-hdr-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
 .bp-back{border:none;background:rgba(255,255,255,.15);color:#fff;padding:6px 16px;border-radius:4px;font-size:13px;cursor:pointer;font-family:var(--sans);backdrop-filter:blur(8px);transition:all .15s}
 .bp-back:hover{background:rgba(255,255,255,.25)}
@@ -713,13 +713,13 @@ nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid va
 .bp-hdr-tags{display:flex;gap:6px;flex-wrap:wrap}
 .bp-tech{display:inline-flex;padding:3px 10px;border-radius:4px;font-size:10px;font-weight:500;background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15);font-family:var(--mono);letter-spacing:.04em;backdrop-filter:blur(8px)}
 /* About & Executive Summary */
-.bp-about{padding:36px 0 28px}
+.bp-about{padding:24px 0 20px}
 .bp-about-title{font-family:var(--sans);font-size:22px;font-weight:800;color:var(--ink);margin-bottom:10px;letter-spacing:-.03em}
 .bp-about-text{font-size:16px;color:var(--ink2);font-weight:300;line-height:1.8;max-width:800px}
 .bp-about-built{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
 .bp-about-item{display:flex;align-items:flex-start;gap:8px;padding:8px 14px;background:var(--off);border:1px solid var(--bd);border-radius:8px;font-size:13px;color:var(--ink2);font-weight:300;line-height:1.4}
 .bp-about-check{color:var(--g);font-weight:600;flex-shrink:0}
-.bp-exec{padding:24px 0 32px;border-top:1px solid var(--bd)}
+.bp-exec{padding:16px 0 24px;border-top:1px solid var(--bd)}
 .bp-exec-label{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);margin-bottom:12px}
 .bp-exec-text{font-family:var(--sans);font-size:16px;font-weight:500;color:var(--ink);line-height:1.7;letter-spacing:-.01em;max-width:900px}
 
@@ -728,7 +728,7 @@ nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid va
 .bp-section-divider::after{content:'';flex:1;height:1px;background:var(--bd)}
 .bp-section-label{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);white-space:nowrap}
 
-.bp-body{padding:0 40px 80px}
+.bp-body{padding:0 28px 60px}
 .bp-row{display:grid;gap:16px;margin-bottom:16px}
 .bp-row-3{grid-template-columns:1fr 1fr 1fr}
 .bp-row-2{grid-template-columns:1fr 1fr}
@@ -792,6 +792,43 @@ nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid va
 
 @media(max-width:1100px){.bp-row-3{grid-template-columns:1fr 1fr}.bp-hdr-stats{flex-wrap:wrap;gap:20px}.bp-ads-visual{grid-template-columns:repeat(2,1fr)}.bp-post-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){.bp-row-3,.bp-row-2{grid-template-columns:1fr}.bp-header{padding:20px}.bp-body{padding:0 20px 60px}.bp-hdr-name{font-size:24px}.bp-hdr-stats{gap:14px}.bp-social-grid{flex-direction:column}.bp-ads-visual,.bp-post-grid,.bp-prod-grid{grid-template-columns:1fr}.bp-about-title{font-size:22px}.bp-exec-text{font-size:18px}}
+
+/* Amazon BSR Cards */
+.bp-amazon-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.bp-amazon-card{border:1px solid var(--bd);border-radius:6px;padding:16px;background:var(--w)}
+.bp-amz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.bp-amz-rank{font-family:var(--mono);font-size:20px;font-weight:800;color:var(--ink)}
+.bp-amz-category{font-family:var(--mono);font-size:10px;color:var(--ink4);text-transform:uppercase;letter-spacing:.04em}
+.bp-amz-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:10px;line-height:1.3}
+.bp-amz-chart{margin-bottom:12px}
+.bp-amz-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding-top:10px;border-top:1px solid var(--bd);text-align:center}
+
+/* Departure List */
+.bp-departure{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.bp-departure:last-child{border-bottom:none}
+.bp-dep-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.bp-dep-info{flex:1}
+.bp-dep-role{font-size:13px;font-weight:600;color:var(--ink)}
+.bp-dep-meta{font-size:11px;color:var(--ink4);font-family:var(--mono);margin-top:2px}
+
+/* Glassdoor */
+.bp-glassdoor{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;text-align:center}
+.bp-gd-item{padding:16px;background:var(--off);border-radius:6px;border:1px solid var(--bd)}
+.bp-gd-score{font-family:var(--mono);font-size:28px;font-weight:800;line-height:1}
+.bp-gd-label{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-top:6px}
+.bp-gd-scale{font-family:var(--mono);font-size:10px;color:var(--ink4);margin-top:2px}
+
+@media(max-width:1100px){.bp-amazon-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.bp-amazon-grid{grid-template-columns:1fr}.bp-glassdoor{grid-template-columns:1fr}}
+
+/* Review Items */
+.bp-review-item{padding:12px 0;border-bottom:1px solid var(--bd)}
+.bp-review-item:last-child{border-bottom:none}
+.bp-review-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.bp-review-stars{font-size:13px;color:var(--a);letter-spacing:1px;flex-shrink:0}
+.bp-review-source{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.04em}
+.bp-review-date{font-family:var(--mono);font-size:10px;color:var(--ink4);margin-left:auto}
+.bp-review-text{font-size:13px;color:var(--ink2);font-weight:400;line-height:1.6;font-style:italic}
 
 /* Keyword Table */
 .bp-kw-table{border:1px solid var(--bd);border-radius:6px;overflow:hidden}

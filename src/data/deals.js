@@ -50,7 +50,31 @@ export const BRANDS = [
     techStack: ["Shopify", "Recharge", "Klaviyo", "Yotpo"],
     pricing: { skuCount: 18, priceRange: "$28 — $145", avgPrice: 72, hasSubscription: true, subDiscount: "15%" },
     seoHealth: { domainAuthority: 42, organicKeywords: 1200, keywordTrend: [2200, 2000, 1800, 1600, 1500, 1400, 1350, 1300, 1280, 1250, 1220, 1200] },
-    hiring: { openRoles: 0, trend: [3, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0] },
+    hiring: {
+      openRoles: 0, trend: [3, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+      departments: [
+        { name: "Marketing", roles: 0, change: -2, was: 2 },
+        { name: "Operations", roles: 0, change: -1, was: 1 },
+        { name: "Customer Service", roles: 0, change: 0, was: 0 },
+        { name: "Product", roles: 0, change: 0, was: 0 },
+      ],
+      recentDepartures: [
+        { role: "Head of EU Operations", seniority: "Senior", date: "2026-01", signal: "red" },
+        { role: "Customer Experience Manager", seniority: "Mid", date: "2025-11", signal: "red" },
+        { role: "Digital Marketing Lead", seniority: "Mid", date: "2025-09", signal: "amber" },
+      ],
+      avgTenure: "1.8 years", tenureChange: "-0.6 years vs 2024",
+      glassdoor: { rating: 2.8, ceoApproval: 35, recommend: 32 },
+    },
+    // Amazon Presence
+    amazon: {
+      isOfficial: false, note: "Unauthorized resellers only — not an official channel",
+      products: [
+        { name: "The Super Elixir Original 300g", bsr: 4250, bsrCategory: "Greens Powders", rating: 4.1, reviews: 342, price: "$145.00", bsrTrend: [3200, 3400, 3600, 3800, 3900, 4000, 4050, 4100, 4150, 4200, 4220, 4250] },
+        { name: "Nourishing Protein Chocolate 500g", bsr: 8900, bsrCategory: "Plant Protein", rating: 3.8, reviews: 128, price: "$65.00", bsrTrend: [6500, 7000, 7400, 7800, 8000, 8200, 8400, 8500, 8600, 8700, 8800, 8900] },
+        { name: "Sleep Welle Calming Tea 50pk", bsr: 12400, bsrCategory: "Herbal Tea", rating: 4.3, reviews: 89, price: "$38.00", bsrTrend: [10000, 10500, 11000, 11200, 11500, 11800, 12000, 12100, 12200, 12300, 12350, 12400] },
+      ],
+    },
     // SEO & Keywords
     keywords: [
       { keyword: "super elixir greens", volume: 8100, cpc: 2.40, competition: "medium", trend: [6500, 6800, 7200, 7500, 7800, 8000, 8100, 8100, 8100, 8000, 7900, 8100], position: 1 },
@@ -81,14 +105,21 @@ export const BRANDS = [
     // Voice of the customer
     customerVoice: {
       positive: [
-        { text: "Wouldn't live without my Super Elixir. Been taking it for 8 years. Nothing else compares.", source: "Trustpilot", date: "2026-01" },
-        { text: "The quality is genuinely superior to AG1. You can feel the difference.", source: "Product review", date: "2025-11" },
+        { text: "Wouldn't live without my Super Elixir. Been taking it for 8 years. Nothing else compares.", source: "Trustpilot", date: "2026-01", stars: 5 },
+        { text: "The quality is genuinely superior to AG1. You can feel the difference.", source: "Product review", date: "2025-11", stars: 5 },
+        { text: "My skin, energy, and digestion all improved within 3 weeks. Worth every penny.", source: "Trustpilot", date: "2025-09", stars: 5 },
+        { text: "PhD-formulated and you can tell. This isn't another greens powder — it's medicine-grade.", source: "Reddit", date: "2025-08", stars: 5 },
+        { text: "Gifted this to my mum and now she's subscribed. Two generations hooked.", source: "Product review", date: "2025-07", stars: 4 },
       ],
       negative: [
-        { text: "Tried to cancel my subscription for 3 months. Still getting charged. No one responds to emails.", source: "Trustpilot", date: "2026-03" },
-        { text: "EU delivery has been broken since last year. My last 2 orders never arrived.", source: "Trustpilot", date: "2026-02" },
+        { text: "Tried to cancel my subscription for 3 months. Still getting charged. No one responds to emails.", source: "Trustpilot", date: "2026-03", stars: 1 },
+        { text: "EU delivery has been broken since last year. My last 2 orders never arrived.", source: "Trustpilot", date: "2026-02", stars: 1 },
+        { text: "Was charged 3 times in one month. Had to dispute with my bank. Absolutely unacceptable.", source: "Trustpilot", date: "2026-02", stars: 1 },
+        { text: "Customer service is non-existent. 5 emails, zero replies. Premium price, zero support.", source: "Trustpilot", date: "2026-01", stars: 1 },
+        { text: "Product arrived expired. Requested a replacement 6 weeks ago. Still waiting.", source: "Product review", date: "2025-12", stars: 1 },
       ],
       trustpilotRating: 2.9, reviewCount: 1200,
+      avgResponseTime: "19 days", reviewGrowth: "-12%", mostRecentReview: "2 days ago",
     },
 
     // Gaps vs best in class
@@ -177,7 +208,26 @@ export const BRANDS = [
     techStack: ["Custom Platform", "Sailthru", "Contentful"],
     pricing: { skuCount: 42, priceRange: "$12 — $36", avgPrice: 22, hasSubscription: false, subDiscount: null },
     seoHealth: { domainAuthority: 68, organicKeywords: 8400, keywordTrend: [9200, 9100, 9000, 8900, 8800, 8700, 8600, 8500, 8450, 8420, 8400, 8400] },
-    hiring: { openRoles: 8, trend: [18, 15, 12, 10, 9, 8, 8, 8, 8, 8, 8, 8] },
+    hiring: {
+      openRoles: 8, trend: [18, 15, 12, 10, 9, 8, 8, 8, 8, 8, 8, 8],
+      departments: [
+        { name: "Retail", roles: 3, change: -5, was: 8 },
+        { name: "Engineering", roles: 2, change: -4, was: 6 },
+        { name: "Marketing", roles: 2, change: -3, was: 5 },
+        { name: "Product", roles: 1, change: -2, was: 3 },
+      ],
+      recentDepartures: [
+        { role: "Chief Commercial Officer", seniority: "C-Suite", date: "2026-01", signal: "red" },
+        { role: "CFO (3rd in 2 years)", seniority: "C-Suite", date: "2025-08", signal: "red" },
+        { role: "VP Retail Strategy", seniority: "Senior", date: "2025-06", signal: "red" },
+      ],
+      avgTenure: "2.4 years", tenureChange: "-0.8 years vs 2024",
+      glassdoor: { rating: 3.4, ceoApproval: 48, recommend: 52 },
+    },
+    amazon: {
+      isOfficial: false, note: "Not sold on Amazon — unauthorized resellers only",
+      products: [],
+    },
     keywords: [
       { keyword: "glossier", volume: 450000, cpc: 1.20, competition: "low", trend: [520000, 500000, 490000, 480000, 475000, 470000, 465000, 460000, 458000, 455000, 452000, 450000], position: 1 },
       { keyword: "boy brow", volume: 74000, cpc: 0.80, competition: "low", trend: [82000, 80000, 78000, 76000, 75000, 74500, 74200, 74000, 74000, 74000, 74000, 74000], position: 1 },
@@ -520,7 +570,30 @@ export const BRANDS = [
     techStack: ["Shopify Plus", "Recharge", "Kustomer", "Segment", "Iterable"],
     pricing: { skuCount: 45, priceRange: "$5 — $45", avgPrice: 28, hasSubscription: true, subDiscount: "40% first box" },
     seoHealth: { domainAuthority: 65, organicKeywords: 6800, keywordTrend: [7500, 7400, 7300, 7200, 7100, 7050, 7000, 6950, 6900, 6850, 6820, 6800] },
-    hiring: { openRoles: 25, trend: [30, 28, 26, 25, 25, 25, 25, 25, 25, 25, 25, 25] },
+    hiring: {
+      openRoles: 25, trend: [30, 28, 26, 25, 25, 25, 25, 25, 25, 25, 25, 25],
+      departments: [
+        { name: "Engineering", roles: 8, change: 0, was: 8 },
+        { name: "Marketing", roles: 6, change: -2, was: 8 },
+        { name: "Product", roles: 5, change: 1, was: 4 },
+        { name: "Operations", roles: 4, change: -1, was: 5 },
+        { name: "Customer Success", roles: 2, change: -2, was: 4 },
+      ],
+      recentDepartures: [
+        { role: "Former CEO (replaced by Chewy VP)", seniority: "C-Suite", date: "2025-09", signal: "amber" },
+        { role: "VP Supply Chain", seniority: "Senior", date: "2025-07", signal: "red" },
+      ],
+      avgTenure: "2.8 years", tenureChange: "-0.4 years vs 2024",
+      glassdoor: { rating: 3.6, ceoApproval: 62, recommend: 58 },
+    },
+    amazon: {
+      isOfficial: true, note: "Official Amazon storefront — significant channel",
+      products: [
+        { name: "BARK Super Chewer Box - Monthly", bsr: 180, bsrCategory: "Dog Toys", rating: 4.4, reviews: 18200, price: "$45.00/mo", bsrTrend: [120, 130, 140, 145, 150, 155, 160, 165, 168, 172, 175, 180] },
+        { name: "BARK Bright Dental Kit", bsr: 420, bsrCategory: "Dog Dental Care", rating: 4.6, reviews: 8400, price: "$30.00", bsrTrend: [350, 360, 370, 375, 380, 385, 390, 395, 400, 408, 415, 420] },
+        { name: "BarkBox Best of Box - Sampler", bsr: 890, bsrCategory: "Dog Treats", rating: 4.3, reviews: 5200, price: "$35.00", bsrTrend: [600, 650, 700, 720, 750, 780, 800, 820, 840, 860, 875, 890] },
+      ],
+    },
 
     brandStory: "Subscription box pioneer for dogs — custom toys, treats, and chews delivered monthly. Built genuine emotional brand connection. Went public via SPAC at $1.6B but market cap collapsed to ~$60M. Revenue at scale but persistent losses.",
     whatTheyBuilt: [

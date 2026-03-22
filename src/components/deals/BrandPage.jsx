@@ -259,7 +259,31 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
         <div className="bp-section-divider">
           <span className="bp-section-label">Growth & Operations</span>
         </div>
-        {/* Social Posts — Visual Previews */}
+        {/* ─── SECTION: Social Media Presence ─── */}
+        <div className="bp-section-divider">
+          <span className="bp-section-label">Social Media Presence</span>
+        </div>
+
+        {/* Platform Velocity */}
+        <div className="bp-row bp-row-2" style={{ marginBottom: 16 }}>
+          {Object.entries(brand.socialVelocity || {}).map(([platform, data]) => (
+            <div className="bp-card" key={platform}>
+              <div className="bp-card-title">{platform} Performance</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 14 }}>
+                <div><span className="dc3-sv" style={{ fontSize: 20 }}>{brand.socialFollowing?.[platform] || "—"}</span><span className="dc3-sl">Followers</span></div>
+                <div><span className="dc3-sv">{data.postsPerWeek}/wk</span><span className="dc3-sl">Post Frequency</span></div>
+                <div><span className="dc3-sv">{data.engagementRate}%</span><span className="dc3-sl">Engagement Rate</span></div>
+              </div>
+              <AnalyticalChart
+                series={[{ name: "Followers", data: data.followerTrend, color: brand.brandColor }]}
+                yLabel={platform === "instagram" ? "Followers (K)" : "Followers (K)"} height={140}
+                formatValue={v => `${v}K`}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Latest Posts */}
         {brand.socialPosts && (
           <>
             {brand.socialPosts.instagram && (
@@ -310,54 +334,6 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
             )}
           </>
         )}
-
-        {/* Velocity Stats */}
-        <div className="bp-row bp-row-3">
-          <div className="bp-card bp-card-wide">
-            <div className="bp-card-title">Social Media Velocity</div>
-            <div className="bp-social-grid">
-              {Object.entries(brand.socialVelocity || {}).map(([platform, data]) => (
-                <div className="bp-social-item" key={platform}>
-                  <div className="bp-social-platform">{platform}</div>
-                  <Sparkline data={data.followerTrend} color={brand.brandColor} w={120} h={30} />
-                  <div className="bp-social-stats">
-                    <span>{data.postsPerWeek}/wk posts</span>
-                    <span>{data.engagementRate}% ER</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="bp-card">
-            <div className="bp-card-title">SEO Health</div>
-            <div style={{ marginBottom: 12 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                <span className="dc3-sl">Domain Authority</span>
-                <span className="dc3-sv" style={{ fontSize: 20 }}>{brand.seoHealth?.domainAuthority || "—"}</span>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
-                <span className="dc3-sl">Organic Keywords</span>
-                <span className="dc3-sv">{brand.seoHealth?.organicKeywords?.toLocaleString() || "—"}</span>
-              </div>
-            </div>
-            {brand.seoHealth?.keywordTrend && (
-              <AreaChart data={brand.seoHealth.keywordTrend} color={brand.seoHealth.keywordTrend[0] > brand.seoHealth.keywordTrend[11] ? "var(--r)" : "var(--g)"} w={220} h={50} filled={true} />
-            )}
-          </div>
-          <div className="bp-card">
-            <div className="bp-card-title">Hiring Activity</div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
-              <span className="dc3-sl">Open Roles</span>
-              <span className="dc3-sv" style={{ fontSize: 24, color: brand.hiring?.openRoles > 0 ? "var(--g)" : "var(--r)" }}>{brand.hiring?.openRoles || 0}</span>
-            </div>
-            {brand.hiring?.trend && (
-              <BarChart bars={brand.hiring.trend.map((v, i) => ({
-                label: ["J","F","M","A","M","J","J","A","S","O","N","D"][i],
-                value: v, color: v > 0 ? brand.brandColor : "var(--bd)",
-              }))} h={80} barWidth={14} gap={3} />
-            )}
-          </div>
-        </div>
 
         {/* ─── SECTION: SEO, Keywords & Search ─── */}
         {brand.keywords && brand.keywords.length > 0 && (
@@ -460,6 +436,130 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
                   </div>
                 ))}
               </div>
+            </div>
+          </>
+        )}
+
+        {/* ─── SECTION: Amazon & Marketplace Intelligence ─── */}
+        {brand.amazon && brand.amazon.products?.length > 0 && (
+          <>
+            <div className="bp-section-divider">
+              <span className="bp-section-label">Amazon & Marketplace Intelligence</span>
+            </div>
+
+            <div className="bp-card" style={{ marginBottom: 16 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                <div className="bp-card-title" style={{ marginBottom: 0 }}>Amazon Product Tracking</div>
+                <span className={`tag ${brand.amazon.isOfficial ? "tg" : "ta"}`}>{brand.amazon.isOfficial ? "Official Seller" : "Unauthorized Resellers"}</span>
+              </div>
+              {brand.amazon.note && <p style={{ fontSize: 12, color: "var(--ink3)", marginBottom: 16, fontWeight: 400 }}>{brand.amazon.note}</p>}
+
+              <div className="bp-amazon-grid">
+                {brand.amazon.products.map((p, i) => (
+                  <div className="bp-amazon-card" key={i}>
+                    <div className="bp-amz-header">
+                      <div className="bp-amz-rank">#{p.bsr}</div>
+                      <div className="bp-amz-category">{p.bsrCategory}</div>
+                    </div>
+                    <div className="bp-amz-name">{p.name}</div>
+                    <div className="bp-amz-chart">
+                      <AnalyticalChart
+                        series={[{ name: "BSR", data: p.bsrTrend, color: p.bsrTrend[0] < p.bsrTrend[11] ? "var(--r)" : "var(--g)" }]}
+                        yLabel="BSR Rank" height={120} showDots={false} showArea={true}
+                        formatValue={v => `#${v.toLocaleString()}`}
+                      />
+                      <div style={{ fontFamily: "var(--mono)", fontSize: 9, color: "var(--ink4)", textAlign: "center", marginTop: 4 }}>
+                        {p.bsrTrend[0] < p.bsrTrend[11] ? "↑ BSR rising = declining sales" : "↓ BSR falling = increasing sales"}
+                      </div>
+                    </div>
+                    <div className="bp-amz-stats">
+                      <div><span className="dc3-sv">{p.price}</span><span className="dc3-sl">Price</span></div>
+                      <div><span className="dc3-sv">{p.rating}/5</span><span className="dc3-sl">Rating</span></div>
+                      <div><span className="dc3-sv">{p.reviews.toLocaleString()}</span><span className="dc3-sl">Reviews</span></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* ─── SECTION: Hiring & Team Intelligence ─── */}
+        {brand.hiring?.departments && (
+          <>
+            <div className="bp-section-divider">
+              <span className="bp-section-label">Hiring & Team Intelligence</span>
+            </div>
+
+            <div className="bp-row bp-row-3" style={{ marginBottom: 16 }}>
+              {/* Department Breakdown */}
+              <div className="bp-card">
+                <div className="bp-card-title">Open Roles by Department</div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                  <span className="dc3-sv" style={{ fontSize: 28, color: brand.hiring.openRoles > 0 ? "var(--g)" : "var(--r)" }}>{brand.hiring.openRoles}</span>
+                  <span className="dc3-sl">Total Open Roles</span>
+                </div>
+                <ComparisonBars items={brand.hiring.departments.map(d => ({
+                  label: d.name,
+                  value: d.roles,
+                  displayValue: `${d.roles} ${d.change !== 0 ? `(${d.change > 0 ? "+" : ""}${d.change})` : ""}`,
+                  color: d.change > 0 ? "var(--g)" : d.change < 0 ? "var(--r)" : "var(--ink3)",
+                }))} />
+                <div style={{ marginTop: 14 }}>
+                  <BarChart bars={brand.hiring.trend.map((v, i) => ({
+                    label: ["J","F","M","A","M","J","J","A","S","O","N","D"][i], value: v,
+                    color: v > 0 ? "var(--b)" : "var(--bd)",
+                  }))} h={70} barWidth={16} gap={3} />
+                </div>
+              </div>
+
+              {/* Key Departures */}
+              <div className="bp-card">
+                <div className="bp-card-title">Key Departures</div>
+                {brand.hiring.recentDepartures?.map((d, i) => (
+                  <div className="bp-departure" key={i}>
+                    <div className="bp-dep-dot" style={{ background: d.signal === "red" ? "var(--r)" : "var(--a)" }} />
+                    <div className="bp-dep-info">
+                      <div className="bp-dep-role">{d.role}</div>
+                      <div className="bp-dep-meta">{d.seniority} · {d.date}</div>
+                    </div>
+                  </div>
+                ))}
+                <div style={{ marginTop: 16, padding: "12px 0", borderTop: "1px solid var(--bd)" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                    <div><span className="dc3-sv">{brand.hiring.avgTenure}</span><span className="dc3-sl">Avg Tenure</span></div>
+                    <div><span className="dc3-sv" style={{ color: brand.hiring.tenureChange?.startsWith("-") ? "var(--r)" : "var(--g)" }}>{brand.hiring.tenureChange}</span><span className="dc3-sl">Tenure Change</span></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Glassdoor / Team Health */}
+              {brand.hiring.glassdoor && (
+                <div className="bp-card">
+                  <div className="bp-card-title">Team Health (Glassdoor)</div>
+                  <div className="bp-glassdoor">
+                    <div className="bp-gd-item">
+                      <div className="bp-gd-score" style={{ color: brand.hiring.glassdoor.rating >= 3.5 ? "var(--g)" : brand.hiring.glassdoor.rating >= 3.0 ? "var(--a)" : "var(--r)" }}>
+                        {brand.hiring.glassdoor.rating}
+                      </div>
+                      <div className="bp-gd-label">Company Rating</div>
+                      <div className="bp-gd-scale">/5.0</div>
+                    </div>
+                    <div className="bp-gd-item">
+                      <div className="bp-gd-score" style={{ color: brand.hiring.glassdoor.ceoApproval >= 60 ? "var(--g)" : brand.hiring.glassdoor.ceoApproval >= 40 ? "var(--a)" : "var(--r)" }}>
+                        {brand.hiring.glassdoor.ceoApproval}%
+                      </div>
+                      <div className="bp-gd-label">CEO Approval</div>
+                    </div>
+                    <div className="bp-gd-item">
+                      <div className="bp-gd-score" style={{ color: brand.hiring.glassdoor.recommend >= 60 ? "var(--g)" : brand.hiring.glassdoor.recommend >= 40 ? "var(--a)" : "var(--r)" }}>
+                        {brand.hiring.glassdoor.recommend}%
+                      </div>
+                      <div className="bp-gd-label">Would Recommend</div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </>
         )}
@@ -637,38 +737,74 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
         <div className="bp-section-divider">
           <span className="bp-section-label">Customer Intelligence</span>
         </div>
-        <div className="bp-row bp-row-2">
+
+        {/* Part 1: Review Analytics */}
+        <div className="bp-row bp-row-2" style={{ marginBottom: 16 }}>
           <div className="bp-card">
-            <div className="bp-card-title">Customer Reviews</div>
+            <div className="bp-card-title">Review Overview</div>
             {brand.starDistribution && (
               <div style={{ display: "flex", gap: 20, alignItems: "center", marginBottom: 20 }}>
                 <div style={{ textAlign: "center", flexShrink: 0 }}>
-                  <div style={{ fontFamily: "var(--mono)", fontSize: 36, fontWeight: 700, color: "var(--ink)" }}>{brand.customerVoice?.trustpilotRating || "—"}</div>
+                  <div style={{ fontFamily: "var(--mono)", fontSize: 40, fontWeight: 800, color: "var(--ink)" }}>{brand.customerVoice?.trustpilotRating || "—"}</div>
                   <div style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--ink4)" }}>/ 5.0 · {brand.customerVoice?.reviewCount?.toLocaleString()} reviews</div>
                 </div>
                 <div style={{ flex: 1 }}><StarDistribution distribution={brand.starDistribution} /></div>
               </div>
             )}
+          </div>
+          <div className="bp-card">
+            <div className="bp-card-title">Review Frequency & Health</div>
             {brand.reviewTrend && (
               <div style={{ marginBottom: 16 }}>
-                <div className="bp-card-subtitle">Review Volume (12mo)</div>
+                <div className="bp-card-subtitle">Monthly Review Volume (12mo)</div>
                 <BarChart bars={brand.reviewTrend.map((v, i) => ({
-                  label: ["J","F","M","A","M","J","J","A","S","O","N","D"][i], value: v, color: "var(--ink3)",
-                }))} h={60} barWidth={18} gap={4} />
+                  label: ["J","F","M","A","M","J","J","A","S","O","N","D"][i], value: v,
+                  color: i >= 10 ? "var(--ink)" : "var(--ink4)",
+                }))} h={80} barWidth={22} gap={4} />
               </div>
             )}
-            <div className="bp-card-subtitle">What Customers Love</div>
-            {brand.customerVoice?.positive?.map((r, i) => (
-              <div key={i} style={{ padding: "8px 0", borderBottom: "1px solid var(--bd)", fontSize: 12 }}>
-                <span style={{ color: "var(--g)", fontWeight: 600, marginRight: 6 }}>{r.source}</span>
-                <span style={{ color: "var(--ink3)", fontWeight: 300, fontStyle: "italic" }}>"{r.text}"</span>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, paddingTop: 12, borderTop: "1px solid var(--bd)" }}>
+              <div>
+                <div className="dc3-sv">{brand.customerVoice?.reviewCount?.toLocaleString() || "—"}</div>
+                <div className="dc3-sl">Total Reviews</div>
+              </div>
+              <div>
+                <div className="dc3-sv" style={{ color: brand.customerVoice?.reviewGrowth?.startsWith("-") ? "var(--r)" : "var(--g)" }}>{brand.customerVoice?.reviewGrowth || "—"}</div>
+                <div className="dc3-sl">YoY Growth</div>
+              </div>
+              <div>
+                <div className="dc3-sv">{brand.customerVoice?.mostRecentReview || "—"}</div>
+                <div className="dc3-sl">Last Review</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Part 2: Actual Reviews */}
+        <div className="bp-row bp-row-2">
+          <div className="bp-card">
+            <div className="bp-card-title" style={{ color: "var(--g)" }}>Top 5 Best Reviews</div>
+            {brand.customerVoice?.positive?.slice(0, 5).map((r, i) => (
+              <div key={i} className="bp-review-item">
+                <div className="bp-review-header">
+                  <div className="bp-review-stars">{"★".repeat(r.stars || 5)}{"☆".repeat(5 - (r.stars || 5))}</div>
+                  <span className="bp-review-source">{r.source}</span>
+                  <span className="bp-review-date">{r.date}</span>
+                </div>
+                <p className="bp-review-text">"{r.text}"</p>
               </div>
             ))}
-            <div className="bp-card-subtitle" style={{ marginTop: 16 }}>What Customers Complain About</div>
-            {brand.customerVoice?.negative?.map((r, i) => (
-              <div key={i} style={{ padding: "8px 0", borderBottom: "1px solid var(--bd)", fontSize: 12 }}>
-                <span style={{ color: "var(--r)", fontWeight: 600, marginRight: 6 }}>{r.source}</span>
-                <span style={{ color: "var(--ink3)", fontWeight: 300, fontStyle: "italic" }}>"{r.text}"</span>
+          </div>
+          <div className="bp-card">
+            <div className="bp-card-title" style={{ color: "var(--r)" }}>Top 5 Worst Reviews</div>
+            {brand.customerVoice?.negative?.slice(0, 5).map((r, i) => (
+              <div key={i} className="bp-review-item">
+                <div className="bp-review-header">
+                  <div className="bp-review-stars" style={{ color: "var(--r)" }}>{"★".repeat(r.stars || 1)}{"☆".repeat(5 - (r.stars || 1))}</div>
+                  <span className="bp-review-source">{r.source}</span>
+                  <span className="bp-review-date">{r.date}</span>
+                </div>
+                <p className="bp-review-text">"{r.text}"</p>
               </div>
             ))}
           </div>
