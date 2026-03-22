@@ -91,8 +91,18 @@ export default function AnalyticalChart({
 
           return (
             <g key={si}>
-              {showArea && <path d={area} fill={s.color || "var(--ink)"} fillOpacity="0.08" />}
-              <path d={line} fill="none" stroke={s.color || "var(--ink)"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              {showArea && (
+                <>
+                  <defs>
+                    <linearGradient id={`acg-${si}`} x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor={s.color || "var(--ink)"} stopOpacity="0.2" />
+                      <stop offset="100%" stopColor={s.color || "var(--ink)"} stopOpacity="0.02" />
+                    </linearGradient>
+                  </defs>
+                  <path d={area} fill={`url(#acg-${si})`} />
+                </>
+              )}
+              <path d={line} fill="none" stroke={s.color || "var(--ink)"} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               {showDots && pts.map(([dx, dy], di) => (
                 <circle
                   key={di} cx={dx} cy={dy} r={hover?.seriesIdx === si && hover?.pointIdx === di ? 5 : 2.5}
