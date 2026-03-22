@@ -144,6 +144,107 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </div>
         </div>
 
+        {/* ─── SECTION: Leadership & Ownership ─── */}
+        {brand.leadership && (
+          <>
+            <div className="bp-section-divider">
+              <span className="bp-section-label">Leadership & Ownership</span>
+            </div>
+            <div className="bp-row bp-row-2" style={{ marginBottom: 16 }}>
+              <div className="bp-card">
+                <div className="bp-card-title">Key People</div>
+                {brand.leadership.map((p, i) => (
+                  <div key={i} style={{ padding: "12px 0", borderBottom: i < brand.leadership.length - 1 ? "1px solid var(--bd)" : "none" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+                      <span style={{ fontWeight: 700, fontSize: 14 }}>{p.name}</span>
+                      <span className={`tag ${p.status === "active" ? "tg" : p.status === "inactive" ? "tr" : "ta"}`}>{p.status}</span>
+                    </div>
+                    <div style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--ink3)", marginBottom: 6 }}>{p.role}</div>
+                    <p style={{ fontSize: 12, color: "var(--ink3)", fontWeight: 400, lineHeight: 1.5 }}>{p.note}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="bp-card">
+                <div className="bp-card-title">Funding & Investors</div>
+                {brand.boardAndInvestors && (
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                    <div><span className="dc3-sv">{brand.boardAndInvestors.fundingRounds}</span><span className="dc3-sl">Funding Rounds</span></div>
+                    <div><span className="dc3-sv">{brand.boardAndInvestors.estimatedTotalRaised}</span><span className="dc3-sl">Est. Total Raised</span></div>
+                  </div>
+                )}
+                <div style={{ fontSize: 13, color: "var(--ink2)", marginBottom: 16 }}>
+                  <span style={{ fontWeight: 600 }}>Known Investors: </span>{brand.boardAndInvestors?.knownInvestors || "Unknown"}
+                </div>
+                {brand.certifications && <>
+                  <div className="bp-card-subtitle">Certifications</div>
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 12 }}>
+                    {brand.certifications.map((c, i) => <span key={i} className="tag tg">{c}</span>)}
+                  </div>
+                </>}
+                {brand.patents && brand.patents.length > 0 && <>
+                  <div className="bp-card-subtitle">IP / Patents</div>
+                  {brand.patents.map((p, i) => (
+                    <div key={i} style={{ padding: "6px 0", fontSize: 12, borderBottom: "1px solid var(--bd)" }}>
+                      <span style={{ fontWeight: 500 }}>{p.title}</span>
+                      <div style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--ink4)", marginTop: 2 }}>
+                        {p.status} · {p.jurisdiction} · {p.year}
+                      </div>
+                    </div>
+                  ))}
+                </>}
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* ─── SECTION: Legal & Regulatory Risk ─── */}
+        {brand.legalRisk && (
+          <>
+            <div className="bp-section-divider">
+              <span className="bp-section-label">Legal & Regulatory Risk</span>
+            </div>
+            <div className="bp-row bp-row-3" style={{ marginBottom: 16 }}>
+              <div className="bp-card">
+                <div className="bp-card-title">Regulatory Status</div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                  <div><span className="dc3-sv" style={{ color: brand.legalRisk.fdaWarnings > 0 ? "var(--r)" : "var(--g)" }}>{brand.legalRisk.fdaWarnings}</span><span className="dc3-sl">FDA Warnings</span></div>
+                  <div><span className="dc3-sv" style={{ color: brand.legalRisk.ftcActions > 0 ? "var(--r)" : "var(--g)" }}>{brand.legalRisk.ftcActions}</span><span className="dc3-sl">FTC Actions</span></div>
+                  <div><span className="dc3-sv" style={{ color: brand.legalRisk.bbbComplaints > 5 ? "var(--r)" : "var(--a)" }}>{brand.legalRisk.bbbComplaints}</span><span className="dc3-sl">BBB Complaints</span></div>
+                  <div><span className="dc3-sv">{brand.legalRisk.bbbRating}</span><span className="dc3-sl">BBB Rating</span></div>
+                </div>
+                {brand.legalRisk.regulatoryNotes && (
+                  <p style={{ fontSize: 12, color: "var(--ink3)", fontWeight: 400, lineHeight: 1.5, padding: "10px 0", borderTop: "1px solid var(--bd)" }}>{brand.legalRisk.regulatoryNotes}</p>
+                )}
+              </div>
+              <div className="bp-card">
+                <div className="bp-card-title">Active Legal Issues</div>
+                {brand.legalRisk.activeLawsuits?.length > 0 ? brand.legalRisk.activeLawsuits.map((l, i) => (
+                  <div key={i} style={{ padding: "10px 0", borderBottom: "1px solid var(--bd)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                      <span className="tag tr">{l.type}</span>
+                      <span style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--ink4)" }}>{l.date}</span>
+                    </div>
+                    <p style={{ fontSize: 12, color: "var(--ink2)", fontWeight: 400, lineHeight: 1.5 }}>{l.description}</p>
+                    <div style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--a)", marginTop: 4 }}>Status: {l.status}</div>
+                  </div>
+                )) : <p style={{ fontSize: 13, color: "var(--g)", fontWeight: 500 }}>No active legal issues found</p>}
+              </div>
+              <div className="bp-card">
+                <div className="bp-card-title">Trademarks</div>
+                {brand.legalRisk.trademarks?.map((t, i) => (
+                  <div key={i} style={{ padding: "8px 0", borderBottom: "1px solid var(--bd)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: 13 }}>{t.name}</div>
+                      <div style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--ink4)" }}>{t.jurisdiction}</div>
+                    </div>
+                    <span className={`tag ${t.status === "active" ? "tg" : "ta"}`}>{t.status}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
         {/* ─── SECTION: Digital Performance ─── */}
         <div className="bp-section-divider">
           <span className="bp-section-label">Digital Performance</span>
@@ -640,6 +741,203 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
                   </div>
                 </div>
               )}
+            </div>
+          </>
+        )}
+
+        {/* ─── SECTION: M&A Comparables ─── */}
+        {brand.maComps && (
+          <>
+            <div className="bp-section-divider">
+              <span className="bp-section-label">M&A Comparables</span>
+            </div>
+            <div className="bp-card" style={{ marginBottom: 16 }}>
+              <div className="bp-card-title">Recent Comparable Transactions</div>
+              <div className="bp-comp-table">
+                <div className="bp-comp-header">
+                  <div className="bp-comp-metric-col" style={{ width: 260 }}>Transaction</div>
+                  <div className="bp-comp-brand-col">Year</div>
+                  <div className="bp-comp-brand-col">Multiple</div>
+                  <div className="bp-comp-brand-col">Deal Size</div>
+                </div>
+                {brand.maComps.map((m, i) => (
+                  <div className="bp-comp-row" key={i}>
+                    <div className="bp-comp-metric-col" style={{ width: 260 }}>
+                      <div style={{ fontWeight: 600 }}>{m.name}</div>
+                      <div style={{ fontSize: 11, color: "var(--ink4)", marginTop: 2 }}>{m.note}</div>
+                    </div>
+                    <div className="bp-comp-brand-col">{m.date}</div>
+                    <div className="bp-comp-brand-col" style={{ fontWeight: 700, color: "var(--ink)" }}>{m.multiple}</div>
+                    <div className="bp-comp-brand-col">{m.dealSize}</div>
+                  </div>
+                ))}
+              </div>
+              {brand.categoryMaActivity && (
+                <p style={{ fontSize: 12, color: "var(--ink3)", fontWeight: 400, lineHeight: 1.6, marginTop: 14, padding: "12px 0 0", borderTop: "1px solid var(--bd)" }}>{brand.categoryMaActivity}</p>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* ─── SECTION: Pricing Power ─── */}
+        {brand.pricingAnalysis && (
+          <>
+            <div className="bp-section-divider">
+              <span className="bp-section-label">Pricing Power</span>
+            </div>
+            <div className="bp-row bp-row-3" style={{ marginBottom: 16 }}>
+              <div className="bp-card">
+                <div className="bp-card-title">Price History</div>
+                <div style={{ marginBottom: 16 }}>
+                  <span className="dc3-sv" style={{ fontSize: 24 }}>{brand.pricingAnalysis.currentAOV}</span>
+                  <span className="dc3-sl">Current AOV</span>
+                </div>
+                {brand.pricingAnalysis.priceHistory?.map((p, i) => (
+                  <div key={i} style={{ padding: "8px 0", borderBottom: "1px solid var(--bd)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div>
+                      <div style={{ fontFamily: "var(--mono)", fontSize: 14, fontWeight: 700 }}>{p.heroPrice}</div>
+                      <div style={{ fontSize: 10, color: "var(--ink4)" }}>{p.note}</div>
+                    </div>
+                    <span style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--ink4)" }}>{p.date}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="bp-card">
+                <div className="bp-card-title">Price vs Competitors</div>
+                {brand.pricingAnalysis.priceVsCompetitors?.map((c, i) => (
+                  <div key={i} style={{ padding: "10px 0", borderBottom: "1px solid var(--bd)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 2 }}>
+                      <span style={{ fontWeight: 600, fontSize: 13 }}>{c.competitor}</span>
+                      <span style={{ fontFamily: "var(--mono)", fontSize: 14, fontWeight: 700 }}>{c.price}</span>
+                    </div>
+                    <div style={{ fontSize: 11, color: "var(--ink4)" }}>{c.positioning}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="bp-card">
+                <div className="bp-card-title">Discount & Promo Analysis</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                  <div style={{ padding: "10px", background: "var(--off)", borderRadius: 6, border: "1px solid var(--bd)" }}>
+                    <div className="dc3-sl" style={{ marginBottom: 4 }}>Discount Frequency</div>
+                    <p style={{ fontSize: 12, color: "var(--ink2)", fontWeight: 400, lineHeight: 1.5 }}>{brand.pricingAnalysis.discountFrequency}</p>
+                  </div>
+                  <div style={{ padding: "10px", background: "var(--off)", borderRadius: 6, border: "1px solid var(--bd)" }}>
+                    <div className="dc3-sl" style={{ marginBottom: 4 }}>Promo Code Proliferation</div>
+                    <p style={{ fontSize: 12, color: "var(--ink2)", fontWeight: 400, lineHeight: 1.5 }}>{brand.pricingAnalysis.promoCodeProliferation}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* ─── SECTION: Channel Dependency ─── */}
+        {brand.channelDependency && (
+          <>
+            <div className="bp-section-divider">
+              <span className="bp-section-label">Channel Dependency & Risk</span>
+            </div>
+            <div className="bp-row bp-row-2" style={{ marginBottom: 16 }}>
+              <div className="bp-card">
+                <div className="bp-card-title">Revenue Channel Breakdown</div>
+                <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 16 }}>
+                  <DonutChart segments={brand.channelDependency.breakdown.map(c => ({
+                    value: c.pct, color: c.risk === "low" ? "var(--g)" : c.risk === "medium" ? "var(--a)" : "var(--r)",
+                  }))} size={90} strokeWidth={12} />
+                  <div style={{ flex: 1 }}>
+                    {brand.channelDependency.breakdown.map((c, i) => (
+                      <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: "1px solid var(--bd)" }}>
+                        <div>
+                          <span style={{ fontWeight: 500, fontSize: 13 }}>{c.channel}</span>
+                          <span className={`tag ${c.risk === "low" ? "tg" : c.risk === "medium" ? "ta" : "tr"}`} style={{ marginLeft: 8 }}>{c.risk} risk</span>
+                        </div>
+                        <span style={{ fontFamily: "var(--mono)", fontWeight: 700, fontSize: 14 }}>{c.pct}%</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="bp-card">
+                <div className="bp-card-title">Platform Risk Assessment</div>
+                <div style={{ marginBottom: 12 }}>
+                  <span className="dc3-sv" style={{ fontSize: 14 }}>{brand.channelDependency.primaryChannel}</span>
+                  <span className="dc3-sl">Primary Channel</span>
+                </div>
+                <p style={{ fontSize: 13, color: "var(--ink2)", fontWeight: 400, lineHeight: 1.6, padding: "12px", background: "var(--off)", borderRadius: 6, border: "1px solid var(--bd)" }}>
+                  {brand.channelDependency.platformRisk}
+                </p>
+                {brand.channelDependency.breakdown.map((c, i) => c.note && (
+                  <div key={i} style={{ fontSize: 11, color: "var(--ink4)", padding: "6px 0", borderBottom: "1px solid var(--bd)" }}>
+                    <span style={{ fontWeight: 600, color: "var(--ink3)" }}>{c.channel}:</span> {c.note}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* ─── SECTION: Press & Media Coverage ─── */}
+        {brand.pressCoverage && (
+          <>
+            <div className="bp-section-divider">
+              <span className="bp-section-label">Press & Media Coverage</span>
+            </div>
+            <div className="bp-row bp-row-2" style={{ marginBottom: 16 }}>
+              <div className="bp-card">
+                <div className="bp-card-title">Recent Press Mentions</div>
+                {brand.pressCoverage.map((p, i) => (
+                  <div key={i} style={{ padding: "10px 0", borderBottom: "1px solid var(--bd)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+                      <span style={{ fontWeight: 700, fontSize: 12, textTransform: "uppercase", letterSpacing: ".04em", color: "var(--ink3)" }}>{p.outlet}</span>
+                      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                        <span className={`tag ${p.sentiment === "positive" ? "tg" : p.sentiment === "negative" ? "tr" : "ta"}`}>{p.sentiment}</span>
+                        <span style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--ink4)" }}>{p.date}</span>
+                      </div>
+                    </div>
+                    <div style={{ fontSize: 13, fontWeight: 500, color: "var(--ink)" }}>{p.headline}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="bp-card">
+                <div className="bp-card-title">Media Mention Trend (12 months)</div>
+                {brand.mediaMentionsTrend && (
+                  <AnalyticalChart
+                    series={[{ name: "Mentions", data: brand.mediaMentionsTrend, color: brand.mediaMentionsTrend[0] > brand.mediaMentionsTrend[11] ? "var(--r)" : "var(--g)" }]}
+                    yLabel="Monthly mentions" height={180}
+                  />
+                )}
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* ─── SECTION: Data Sources ─── */}
+        {brand.dataSources && (
+          <>
+            <div className="bp-section-divider">
+              <span className="bp-section-label">Data Sources</span>
+            </div>
+            <div className="bp-card" style={{ marginBottom: 16 }}>
+              <div className="bp-card-title">Where This Intelligence Comes From</div>
+              <p style={{ fontSize: 12, color: "var(--ink3)", marginBottom: 16 }}>All data on this page is sourced from publicly available information. No private or proprietary data is used.</p>
+              <div className="bp-sources-grid">
+                {brand.dataSources.map((ds, i) => (
+                  <div className="bp-source-card" key={i}>
+                    <div className="bp-source-header">
+                      <span className="bp-source-icon">{ds.icon}</span>
+                      <div>
+                        <div className="bp-source-name">{ds.platform}</div>
+                        <div className="bp-source-count">{ds.count}</div>
+                      </div>
+                    </div>
+                    <div className="bp-source-points">
+                      {ds.dataPoints.map((dp, j) => (
+                        <span className="bp-source-point" key={j}>{dp}</span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </>
         )}

@@ -152,6 +152,97 @@ export const BRANDS = [
         instagram: "2.2M", tiktok: "4.1M", trustpilot: 3.9, reviews: 8200, employees: 150, metaAds: 210, domainAuthority: 55 },
     ],
 
+    // Founder & Leadership
+    leadership: [
+      { name: "Elle Macpherson", role: "Co-Founder & Brand Ambassador", status: "inactive", linkedin: true, previousExits: 0, note: "Stepped back from public role since 2022. Age ~62. Brand association remains valuable but involvement is minimal." },
+      { name: "Andrea Horwood", role: "Co-Founder & CEO", status: "active", linkedin: true, previousExits: 1, note: "Previously founded a wellness consultancy. Has been running WelleCo operationally but showing signs of fatigue." },
+      { name: "Dr. Simone Laubscher", role: "Formulator / CSO", status: "active", linkedin: true, previousExits: 0, note: "PhD in nutritional medicine. Created the Super Elixir formula. Key IP holder — critical to retain in any acquisition." },
+    ],
+    boardAndInvestors: { knownInvestors: "Self-funded / angel", fundingRounds: 0, lastRoundDate: null, estimatedTotalRaised: "<$5M" },
+
+    // Legal & Regulatory
+    legalRisk: {
+      fdaWarnings: 0, ftcActions: 0, bbbComplaints: 12, bbbRating: "B-",
+      activeLawsuits: [
+        { type: "Consumer complaint", description: "Unauthorized recurring billing charges — multiple consumer complaints filed with ACCC (Australian Competition & Consumer Commission)", status: "Under review", date: "2026-02" },
+      ],
+      regulatoryNotes: "Supplements category in Australia regulated by TGA. No adverse findings to date. EU Novel Food regulations may affect some ingredients.",
+      trademarks: [
+        { name: "WELLECO", status: "active", jurisdiction: "AU, US, EU" },
+        { name: "THE SUPER ELIXIR", status: "active", jurisdiction: "AU, US, EU" },
+        { name: "SUPER ELIXIR GREENS", status: "pending", jurisdiction: "US" },
+      ],
+    },
+
+    // M&A Comparables
+    maComps: [
+      { name: "AG1 acquired by private investors", date: "2022", multiple: "3.5x revenue", dealSize: "$1.2B", note: "Premium multiple for high-growth, category-leading brand" },
+      { name: "Vital Proteins acquired by Nestle", date: "2021", multiple: "2.8x revenue", dealSize: "$780M", note: "Strategic acquisition — Nestle wanted wellness portfolio" },
+      { name: "Nutrafol majority stake by Groupe Rocher", date: "2022", multiple: "4.0x revenue", dealSize: "$500M+", note: "Premium paid for clinical differentiation and subscription base" },
+      { name: "Liquid IV acquired by Unilever", date: "2022", multiple: "3.2x revenue", dealSize: "$500M", note: "Functional hydration — similar category dynamics" },
+    ],
+    categoryMaActivity: "Active — 12 wellness supplement acquisitions in past 24 months. Strategic buyers (Nestle, Unilever, P&G) and PE firms (L Catterton, TSG Consumer) both active. Multiples range 1.5-4.0x revenue depending on growth rate and brand strength.",
+
+    // Pricing Power
+    pricingAnalysis: {
+      currentAOV: "$128",
+      priceHistory: [
+        { date: "2024-01", heroPrice: "$135", note: "Original pricing" },
+        { date: "2024-09", heroPrice: "$140", note: "Price increase +3.7%" },
+        { date: "2025-06", heroPrice: "$145", note: "Price increase +3.6%" },
+      ],
+      discountFrequency: "Low — sale section has 8 items (out of 18 SKUs). Black Friday 20% off only major promotion.",
+      promoCodeProliferation: "Low — 2 active codes found on coupon sites vs 15+ for AG1",
+      priceVsCompetitors: [
+        { competitor: "AG1", price: "$99/mo", positioning: "Lower price, mass market positioning" },
+        { competitor: "Zoe", price: "$59.99/mo", positioning: "Significantly lower, science/data angle" },
+        { competitor: "Bloom Nutrition", price: "$39.99", positioning: "Mass market, Gen Z pricing" },
+      ],
+    },
+
+    // Channel Dependency
+    channelDependency: {
+      primaryChannel: "DTC Website (65%)",
+      riskLevel: "medium",
+      breakdown: [
+        { channel: "DTC Website", pct: 65, risk: "low", note: "Owned channel — good" },
+        { channel: "Retail (David Jones, Net-a-Porter)", pct: 20, risk: "medium", note: "Dependent on retail partner decisions" },
+        { channel: "Amazon (unauthorized)", pct: 15, risk: "high", note: "No control over pricing/brand presentation" },
+      ],
+      platformRisk: "Low Meta dependency (8% paid traffic). But zero TikTok = missing fastest-growing discovery channel.",
+    },
+
+    // Press & Media
+    pressCoverage: [
+      { outlet: "Vogue Australia", headline: "Is WelleCo Still Worth It in 2026?", date: "2026-02", sentiment: "mixed" },
+      { outlet: "Business Insider AU", headline: "WelleCo's Subscription Billing Nightmare", date: "2026-01", sentiment: "negative" },
+      { outlet: "The Australian Financial Review", headline: "Elle Macpherson's Wellness Empire Faces Headwinds", date: "2025-11", sentiment: "negative" },
+      { outlet: "Byrdie", headline: "The Super Elixir: 8-Year Review — Still the Best Greens?", date: "2025-08", sentiment: "positive" },
+      { outlet: "Well+Good", headline: "How WelleCo Pioneered Luxury Wellness", date: "2025-03", sentiment: "positive" },
+    ],
+    mediaMentionsTrend: [45, 42, 38, 35, 30, 28, 25, 22, 20, 18, 16, 14],
+
+    // Certifications & IP
+    // Data Sources — where the intelligence comes from
+    dataSources: [
+      { platform: "Trustpilot", icon: "⭐", dataPoints: ["Customer reviews", "Star distribution", "Review volume trend", "Sentiment analysis"], count: "1,200 reviews analyzed" },
+      { platform: "SimilarWeb", icon: "🌐", dataPoints: ["Website traffic", "Traffic sources", "Top countries", "Competitor traffic"], count: "12 months of data" },
+      { platform: "Meta Ad Library", icon: "📢", dataPoints: ["Active ads", "Ad creatives", "Impression estimates", "Run duration"], count: "3 ads tracked" },
+      { platform: "Google Trends", icon: "📈", dataPoints: ["Search interest", "Keyword trends", "Category comparison"], count: "12 months tracked" },
+      { platform: "LinkedIn", icon: "💼", dataPoints: ["Employee count", "Open roles", "Department breakdown", "Key departures"], count: "45 profiles analyzed" },
+      { platform: "Glassdoor", icon: "🏢", dataPoints: ["Company rating", "CEO approval", "Recommend %", "Employee reviews"], count: "Rating: 2.8/5" },
+      { platform: "Amazon", icon: "📦", dataPoints: ["BSR tracking", "Product ratings", "Review counts", "Price monitoring"], count: "3 products tracked" },
+      { platform: "Reddit", icon: "🔴", dataPoints: ["Brand mentions", "Complaint patterns", "Competitor discussions"], count: "342 mentions found" },
+      { platform: "USPTO / IP Australia", icon: "📋", dataPoints: ["Trademark registrations", "Patent filings", "IP status"], count: "3 trademarks, 2 patents" },
+      { platform: "ACCC / BBB", icon: "⚖️", dataPoints: ["Consumer complaints", "Regulatory actions", "Business rating"], count: "12 complaints" },
+    ],
+
+    certifications: ["Vegan Certified", "Non-GMO", "Gluten-Free", "TGA Listed (Australia)"],
+    patents: [
+      { title: "Synergistic superfood composition for daily nutritional support", status: "Granted", jurisdiction: "AU", year: 2018 },
+      { title: "Method of producing alkalizing greens supplement", status: "Pending", jurisdiction: "US", year: 2023 },
+    ],
+
     summary: "Product works. Brand has sleeping equity. Loyal customer base with 10+ year subscribers proves product-market fit. All issues are operational — not product failure. Fixable within 6-12 months with competent operations.",
 
     // Signals
