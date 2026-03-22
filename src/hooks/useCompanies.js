@@ -43,9 +43,9 @@ export default function useCompanies() {
       const coTags = coTagIds.map(tid => tagMap[tid]).filter(Boolean).map(t => ({ l: t.label, t: t.css_class }));
       const coSignals = signals.filter(s => s.company_id === co.id);
 
-      // Extract sort values for hiring and traffic
-      const hiringMet = coMetrics.find(m => m.label === "Hiring Δ");
-      const trafficMet = coMetrics.find(m => m.label === "Traffic Δ");
+      // Extract sort values for social growth and revenue growth
+      const socialMet  = coMetrics.find(m => m.label === "Social Growth");
+      const revenueMet = coMetrics.find(m => m.label === "Revenue Growth");
 
       return {
         id: co.id,
@@ -59,8 +59,10 @@ export default function useCompanies() {
         founded: co.founded,
         employees: co.employees,
         raised: co.raised,
-        hiring_num: hiringMet ? Number(hiringMet.sort_value) : 0,
-        traffic_num: trafficMet ? Number(trafficMet.sort_value) : 0,
+        channels: co.channels,
+        revenue_est: co.revenue_est,
+        social_num:  socialMet  ? Number(socialMet.sort_value)  : 0,
+        revenue_num: revenueMet ? Number(revenueMet.sort_value) : 0,
         metrics: coMetrics.map(m => ({ l: m.label, v: m.value, c: m.css_class })),
         scores: coScores.map(s => ({ n: s.name, s: Number(s.score), c: s.css_class })),
         spark: coSpark.length ? coSpark.map(Number) : [0],
