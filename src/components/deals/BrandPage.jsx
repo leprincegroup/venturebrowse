@@ -45,6 +45,29 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
   const trafficColor = trafficDown ? "var(--r)" : "var(--g)";
   const radar = buildRadar(brand);
 
+  const TABS = [
+    { id: "bp-sec-overview", label: "Overview" },
+    { id: "bp-sec-leadership", label: "Leadership" },
+    { id: "bp-sec-legal", label: "Legal" },
+    { id: "bp-sec-digital", label: "Digital" },
+    { id: "bp-sec-products", label: "Products" },
+    { id: "bp-sec-social", label: "Social" },
+    { id: "bp-sec-seo", label: "SEO" },
+    { id: "bp-sec-competition", label: "Competition" },
+    { id: "bp-sec-hiring", label: "Hiring" },
+    { id: "bp-sec-ma", label: "M&A" },
+    { id: "bp-sec-pricing", label: "Pricing" },
+    { id: "bp-sec-signals", label: "Signals" },
+    { id: "bp-sec-reviews", label: "Reviews" },
+    { id: "bp-sec-intel", label: "Market Intel" },
+    { id: "bp-sec-sources", label: "Sources" },
+  ];
+
+  function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   const trafficSrcSegments = Object.entries(brand.trafficSources || {}).map(([k, v]) => ({
     value: v, color: SRC_COLORS[k] || "var(--ink4)", label: k,
   }));
@@ -89,8 +112,17 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
         </div>
       </div>
 
+      {/* Sticky Section Navigation */}
+      <div className="bp-tabs">
+        {TABS.map(t => (
+          <button key={t.id} className="bp-tab" onClick={() => scrollToSection(t.id)}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
       <div className="bp-body">
-        {/* About the Brand — full width, no box */}
+        {/* About — always visible */}
         <div className="bp-about">
           <h2 className="bp-about-title">About {brand.name}</h2>
           <p className="bp-about-text">{brand.brandStory}</p>
@@ -111,6 +143,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
         </div>
 
         {/* ─── SECTION: Overview ─── */}
+        <div id="bp-sec-overview" />
         <div className="bp-section-divider">
           <span className="bp-section-label">Overview</span>
         </div>
@@ -144,6 +177,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </div>
         </div>
 
+        <div id="bp-sec-leadership" />
         {/* ─── SECTION: Leadership & Ownership ─── */}
         {brand.leadership && (
           <>
@@ -197,6 +231,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </>
         )}
 
+        <div id="bp-sec-legal" />
         {/* ─── SECTION: Legal & Regulatory Risk ─── */}
         {brand.legalRisk && (
           <>
@@ -245,6 +280,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </>
         )}
 
+        <div id="bp-sec-digital" />
         {/* ─── SECTION: Digital Performance ─── */}
         <div className="bp-section-divider">
           <span className="bp-section-label">Digital Performance</span>
@@ -283,6 +319,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </div>
         </div>
 
+        <div id="bp-sec-products" />
         {/* ─── SECTION: Advertising & Products ─── */}
         <div className="bp-section-divider">
           <span className="bp-section-label">Advertising & Products</span>
@@ -360,6 +397,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
         <div className="bp-section-divider">
           <span className="bp-section-label">Growth & Operations</span>
         </div>
+        <div id="bp-sec-social" />
         {/* ─── SECTION: Social Media Presence ─── */}
         <div className="bp-section-divider">
           <span className="bp-section-label">Social Media Presence</span>
@@ -436,6 +474,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </>
         )}
 
+        <div id="bp-sec-seo" />
         {/* ─── SECTION: SEO, Keywords & Search ─── */}
         {brand.keywords && brand.keywords.length > 0 && (
           <>
@@ -585,6 +624,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </>
         )}
 
+        <div id="bp-sec-competition" />
         {/* ─── SECTION: Competitive Analysis ─── */}
         {brand.competitors?.length > 0 && brand.competitors[0].traffic && (
           <>
@@ -665,6 +705,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </>
         )}
 
+        <div id="bp-sec-hiring" />
         {/* ─── SECTION: Hiring & Team Intelligence ─── */}
         {brand.hiring?.departments && (
           <>
@@ -745,6 +786,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </>
         )}
 
+        <div id="bp-sec-ma" />
         {/* ─── SECTION: M&A Comparables ─── */}
         {brand.maComps && (
           <>
@@ -779,6 +821,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </>
         )}
 
+        <div id="bp-sec-pricing" />
         {/* ─── SECTION: Pricing Power ─── */}
         {brand.pricingAnalysis && (
           <>
@@ -911,6 +954,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </>
         )}
 
+        <div id="bp-sec-sources" />
         {/* ─── SECTION: Data Sources ─── */}
         {brand.dataSources && (
           <>
@@ -986,6 +1030,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </div>
         </div>
 
+        <div id="bp-sec-signals" />
         {/* ─── SECTION: Risk & Opportunity Signals ─── */}
         <div className="bp-section-divider">
           <span className="bp-section-label">Risk & Opportunity Signals</span>
@@ -1001,6 +1046,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </div>
         </div>
 
+        <div id="bp-sec-intel" />
         {/* ─── SECTION: Market Intelligence ─── */}
         <div className="bp-section-divider">
           <span className="bp-section-label">Market Intelligence</span>
@@ -1111,6 +1157,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           );
         })()}
 
+        <div id="bp-sec-reviews" />
         {/* ─── SECTION: Customer Intelligence ─── */}
         <div className="bp-section-divider">
           <span className="bp-section-label">Customer Intelligence</span>
