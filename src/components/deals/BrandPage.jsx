@@ -21,7 +21,8 @@ const STATUS_CLASS = {
   "looking-to-sell": "ta", "growth-stalled": "tr", "open-to-consulting": "tb", "growing": "tg",
 };
 const SEV_CLASS = { critical: "tr", high: "ta", medium: "tm", low: "tm" };
-const SRC_COLORS = { organic: "var(--g)", direct: "var(--b)", paid: "var(--a)", social: "#E1306C", referral: "var(--ink3)", email: "#FF9900" };
+const SRC_COLORS = { organic: "#34c759", direct: "#007aff", paid: "#ff9f0a", social: "#af52de", referral: "#86868b", email: "#ff2d55" };
+const SRC_GRADIENTS = { organic: "linear-gradient(90deg,#34c759,#30d158)", direct: "linear-gradient(90deg,#007aff,#5ac8fa)", paid: "linear-gradient(90deg,#ff9f0a,#ffcc02)", social: "linear-gradient(90deg,#af52de,#bf5af2)", referral: "linear-gradient(90deg,#86868b,#aeaeb2)", email: "linear-gradient(90deg,#ff2d55,#ff6482)" };
 
 function buildRadar(brand) {
   const td = brand.trafficTrend ? (brand.trafficTrend[brand.trafficTrend.length - 1] / brand.trafficTrend[0]) * 10 : 5;
@@ -50,6 +51,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
     { id: "bp-sec-leadership", label: "Leadership" },
     { id: "bp-sec-legal", label: "Legal" },
     { id: "bp-sec-digital", label: "Digital" },
+    { id: "bp-sec-advertising", label: "Advertising" },
     { id: "bp-sec-products", label: "Products" },
     { id: "bp-sec-social", label: "Social" },
     { id: "bp-sec-seo", label: "SEO" },
@@ -69,12 +71,12 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
   }
 
   const trafficSrcSegments = Object.entries(brand.trafficSources || {}).map(([k, v]) => ({
-    value: v, color: SRC_COLORS[k] || "var(--ink4)", label: k,
+    value: v, color: SRC_COLORS[k] || "var(--ink4)", gradient: SRC_GRADIENTS[k], label: k,
   }));
 
   const countryBars = (brand.topCountries || []).map(c => ({
     label: c.country.length > 12 ? c.country.slice(0, 10) + "…" : c.country,
-    value: c.pct, displayValue: `${c.pct}%`, color: brand.brandColor,
+    value: c.pct, displayValue: `${c.pct}%`, color: "#5ac8fa", gradient: "linear-gradient(90deg,#5ac8fa,#64d2ff)",
   }));
 
   return (
@@ -286,31 +288,42 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           <span className="bp-section-label">Digital Performance</span>
         </div>
 
-        {/* Row 2: Traffic + Sources + Countries */}
-        <div className="bp-row bp-row-3">
-          <div className="bp-card bp-card-wide">
-            <div className="bp-card-title">Website Traffic (12 months)</div>
-            <AnalyticalChart
-              series={[{ name: brand.name, data: brand.trafficTrend || [], color: trafficColor }]}
-              yLabel="Visits (K)" height={180} showMinMax={true}
-              formatValue={v => `${v}K`}
-            />
+        {/* Traffic Chart — full width */}
+        <div className="bp-card" style={{ marginBottom: 16 }}>
+          <div className="dp-chart-header">
+            <div className="bp-card-title" style={{ marginBottom: 0 }}>Website Traffic</div>
+            <div className="dp-chart-meta">
+              <span className="dp-chart-val">{brand.trafficTrend?.[brand.trafficTrend.length - 1] || "—"}K</span>
+              <span className="dp-chart-label">visits/mo</span>
+              {brand.trafficTrend && (() => {
+                const first = brand.trafficTrend[0], last = brand.trafficTrend[brand.trafficTrend.length - 1];
+                const pct = Math.round(((last - first) / first) * 100);
+                return <span className={`dp-chart-delta ${pct >= 0 ? "up" : "down"}`}>{pct >= 0 ? "+" : ""}{pct}%</span>;
+              })()}
+            </div>
           </div>
+          <AnalyticalChart
+            series={[{ name: brand.name, data: brand.trafficTrend || [], color: trafficColor }]}
+            height={220} showMinMax={true}
+            formatValue={v => `${v}K`}
+          />
+        </div>
+
+        {/* Sources + Countries — side by side */}
+        <div className="bp-row bp-row-2" style={{ marginBottom: 0 }}>
           <div className="bp-card">
             <div className="bp-card-title">Traffic Sources</div>
-            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-              <DonutChart segments={trafficSrcSegments} size={80} strokeWidth={10} />
-              <div style={{ flex: 1 }}>
-                {trafficSrcSegments.map(s => (
-                  <div key={s.label} style={{ display: "flex", justifyContent: "space-between", padding: "3px 0", fontSize: 11 }}>
-                    <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <span style={{ width: 6, height: 6, borderRadius: "50%", background: s.color, flexShrink: 0 }} />
-                      <span style={{ textTransform: "capitalize", color: "var(--ink2)" }}>{s.label}</span>
-                    </span>
-                    <span style={{ fontFamily: "var(--mono)", fontWeight: 600, color: "var(--ink)" }}>{s.value}%</span>
+            <div className="dp-sources">
+              {trafficSrcSegments.sort((a, b) => b.value - a.value).map(s => (
+                <div className="dp-src-row" key={s.label}>
+                  <span className="dp-src-dot" style={{ background: s.color }} />
+                  <span className="dp-src-name">{s.label}</span>
+                  <div className="dp-src-bar-wrap">
+                    <div className="dp-src-bar" style={{ width: `${(s.value / Math.max(...trafficSrcSegments.map(x => x.value))) * 100}%`, background: s.gradient || s.color }} />
                   </div>
-                ))}
-              </div>
+                  <span className="dp-src-pct">{s.value}%</span>
+                </div>
+              ))}
             </div>
           </div>
           <div className="bp-card">
@@ -319,46 +332,137 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </div>
         </div>
 
-        <div id="bp-sec-products" />
-        {/* ─── SECTION: Advertising & Products ─── */}
+        <div id="bp-sec-advertising" />
+        {/* ─── SECTION: Advertising ─── */}
         <div className="bp-section-divider">
-          <span className="bp-section-label">Advertising & Products</span>
+          <span className="bp-section-label">Advertising</span>
         </div>
-        {/* Meta Ads — Visual Ad Previews */}
-        <div className="bp-card-title" style={{ padding: "0 0 12px" }}>Top Meta Ads by Impressions</div>
-        {(brand.metaAds || []).length > 0 ? (
-          <div className="bp-ads-visual">
-            {brand.metaAds.map((ad, i) => (
-              <div className="bp-adv" key={i}>
-                <div className="bp-adv-visual" style={{ background: ad.color || brand.brandColor }}>
-                  <div className="bp-adv-format-badge">{ad.format}</div>
-                  <div className="bp-adv-brand">{brand.name}</div>
-                </div>
-                <div className="bp-adv-content">
-                  <div className="bp-adv-header">
-                    <div className="bp-adv-avatar" style={{ background: brand.brandColor }}>{brand.logo}</div>
-                    <div>
-                      <div className="bp-adv-sponsor">{brand.name} · <span className={`bp-ad-status ${ad.status}`}>{ad.status}</span></div>
-                      <div className="bp-adv-label">Sponsored</div>
+
+        {/* ── Part 1: Ad Analytics Dashboard ── */}
+        {brand.advertising && brand.advertising.totalAds > 0 ? (<>
+          <div className="ad-analytics">
+            {/* KPI Row */}
+            <div className="ad-kpi-row">
+              <div className="ad-kpi">
+                <div className="ad-kpi-val">{brand.advertising.activeAds}</div>
+                <div className="ad-kpi-label">Active Ads</div>
+              </div>
+              <div className="ad-kpi">
+                <div className="ad-kpi-val">{brand.advertising.totalAds}</div>
+                <div className="ad-kpi-label">Total Ads</div>
+              </div>
+              <div className="ad-kpi ad-kpi-formats">
+                <div className="ad-kpi-label" style={{ marginBottom: 8 }}>By Format</div>
+                <div className="ad-format-bars">
+                  {Object.entries(brand.advertising.formats).filter(([,v]) => v > 0).map(([fmt, count]) => (
+                    <div className="ad-format-item" key={fmt}>
+                      <div className="ad-format-icon">{fmt === "video" ? "▶" : fmt === "image" ? "◻" : fmt === "carousel" ? "◫" : "👤"}</div>
+                      <div className="ad-format-bar-wrap">
+                        <div className="ad-format-bar" style={{ width: `${(count / brand.advertising.totalAds) * 100}%` }} />
+                      </div>
+                      <span className="ad-format-count">{count}</span>
+                      <span className="ad-format-name">{fmt}</span>
                     </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Hooks + Landing Pages Row */}
+            <div className="ad-insights-row">
+              <div className="ad-insight-panel">
+                <div className="ad-insight-title">Top Performing Hooks</div>
+                <div className="ad-hooks-list">
+                  {(brand.advertising.topHooks || []).map((h, i) => (
+                    <div className="ad-hook-item" key={i}>
+                      <div className="ad-hook-rank">#{i + 1}</div>
+                      <div className="ad-hook-body">
+                        <div className="ad-hook-text">"{h.hook}"</div>
+                        <div className="ad-hook-stats">
+                          <span>{h.impressions} impr</span>
+                          <span className="ad-hook-ctr">{h.ctr} CTR</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="ad-insight-panel">
+                <div className="ad-insight-title">Top Landing Pages</div>
+                <div className="ad-lp-list">
+                  {(brand.advertising.topLandingPages || []).map((lp, i) => (
+                    <div className="ad-lp-item" key={i}>
+                      <div className="ad-lp-rank">#{i + 1}</div>
+                      <div className="ad-lp-body">
+                        <div className="ad-lp-url">{lp.url}</div>
+                        <div className="ad-lp-stats">
+                          <span>{lp.visits} visits</span>
+                          <span className="ad-lp-conv">{lp.convRate} conv</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Part 2: Top Winning Ads (Foreplay-style content-first) ── */}
+          <div className="ad-winners-header">
+            <div className="bp-card-title" style={{ padding: 0 }}>Top Winning Ads</div>
+            <span className="ad-winners-count">{brand.metaAds?.length || 0} creatives</span>
+          </div>
+          <div className="ad-winners-grid">
+            {(brand.metaAds || []).slice(0, 4).map((ad, i) => (
+              <div className="ad-winner" key={i}>
+                {/* Header bar */}
+                <div className="ad-winner-bar">
+                  <div className="ad-winner-bar-left">
+                    <div className="ad-winner-av" style={{ background: brand.brandColor }}>{brand.logo}</div>
+                    <span className="ad-winner-brand-name">{brand.name}</span>
                   </div>
-                  <div className="bp-adv-body">{ad.body || ad.headline}</div>
-                  <div className="bp-adv-headline">{ad.headline}</div>
-                  <div className="bp-adv-cta">{ad.cta || "Shop Now"}</div>
-                  <div className="bp-adv-metrics">
-                    <span>{ad.impressions} impressions</span>
-                    <span>{ad.daysRunning}d running</span>
+                  <div className="ad-winner-bar-right">
+                    <span className={`bp-ad-status ${ad.status}`}>{ad.status}</span>
+                    <span className="ad-winner-days">{ad.daysRunning}D</span>
                   </div>
+                </div>
+                {/* Visual — content-first, tall aspect ratio */}
+                <div className="ad-winner-creative" style={{ background: ad.color || brand.brandColor }}>
+                  {(ad.format === "Video" || ad.format === "UGC") && (
+                    <div className="ad-winner-play">▶</div>
+                  )}
+                  {ad.format === "Carousel" && (
+                    <div className="ad-winner-carousel-nav">
+                      <span className="ad-winner-arrow">‹</span>
+                      <span className="ad-winner-arrow">›</span>
+                    </div>
+                  )}
+                  {/* Hook text overlay */}
+                  <div className="ad-winner-hook-overlay">
+                    <span>{ad.hook || ad.headline}</span>
+                  </div>
+                  {/* Format pill */}
+                  <div className="ad-winner-format-pill">{ad.format}</div>
+                </div>
+                {/* Footer */}
+                <div className="ad-winner-foot">
+                  <span className="ad-winner-impr">{ad.impressions} impr</span>
+                  {ad.ctr && <span className="ad-winner-ctr">{ad.ctr} CTR</span>}
                 </div>
               </div>
             ))}
           </div>
-        ) : (
+        </>) : (
           <div style={{ padding: 40, textAlign: "center", color: "var(--ink4)", fontSize: 13, border: "1px solid var(--bd)", borderRadius: 14 }}>No active Meta ads detected</div>
         )}
 
+        <div id="bp-sec-products" />
+        {/* ─── SECTION: Products ─── */}
+        <div className="bp-section-divider">
+          <span className="bp-section-label">Products</span>
+        </div>
         {/* Best Sellers — Product Cards */}
-        <div className="bp-row bp-row-2" style={{ marginTop: 16 }}>
+        <div className="bp-row bp-row-2">
           <div className="bp-card">
             <div className="bp-card-title">Best Selling Products</div>
             <div className="bp-prod-grid">

@@ -17,7 +17,7 @@ export default function ComparisonBars({ items, maxValue, unit = "" }) {
                 className="cb-bar-fill"
                 style={{
                   width: `${mx > 0 ? (item.value / mx) * 100 : 0}%`,
-                  background: item.color || "var(--ink)",
+                  background: item.gradient || item.color || "var(--grad-teal)",
                   transition: "width 0.8s cubic-bezier(.22,1,.36,1)",
                 }}
               />

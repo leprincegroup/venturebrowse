@@ -1,7 +1,7 @@
 import { useId } from "react";
 
-const RH_GREEN = "#00C805";
-const RH_RED = "#FF5000";
+const RH_GREEN = "#34c759";
+const RH_RED = "#ff3b30";
 
 export default function AreaChart({ data, color, w = 120, h = 40, filled = true }) {
   if (!data || data.length < 2) return null;

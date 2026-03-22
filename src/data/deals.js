@@ -14,10 +14,27 @@ export const BRANDS = [
     searchInterest: [80, 78, 72, 68, 62, 55, 50, 45, 42, 40, 38, 35],
 
     metaAds: [
-      { headline: "The Super Elixir — Your Daily Greens Ritual", body: "Nourish your body with 45 superfoods in one scoop. Join 500K+ women who start their day with WelleCo.", cta: "Shop Now", impressions: "2.4M", status: "active", daysRunning: 220, format: "Video", color: "#2D5A3D" },
-      { headline: "Elle Macpherson's Wellness Secret", body: "The supermodel's daily greens ritual — now available worldwide. Premium ingredients, real results.", cta: "Learn More", impressions: "1.8M", status: "paused", daysRunning: 180, format: "Carousel", color: "#1a3a28" },
-      { headline: "45 Ingredients. One Scoop. Every Day.", body: "PhD-formulated. No fillers. No compromises. The greens powder trusted by nutritionists.", cta: "Shop Now", impressions: "980K", status: "active", daysRunning: 90, format: "Static", color: "#3d6b4a" },
+      { headline: "The Super Elixir — Your Daily Greens Ritual", body: "Nourish your body with 45 superfoods in one scoop. Join 500K+ women who start their day with WelleCo.", cta: "Shop Now", impressions: "2.4M", status: "active", daysRunning: 220, format: "Video", color: "#2D5A3D", hook: "Join 500K+ women who start their day with WelleCo", landingPage: "welleco.com/super-elixir" },
+      { headline: "Elle Macpherson's Wellness Secret", body: "The supermodel's daily greens ritual — now available worldwide. Premium ingredients, real results.", cta: "Learn More", impressions: "1.8M", status: "paused", daysRunning: 180, format: "Carousel", color: "#1a3a28", hook: "The supermodel's daily greens ritual", landingPage: "welleco.com/elle-wellness" },
+      { headline: "45 Ingredients. One Scoop. Every Day.", body: "PhD-formulated. No fillers. No compromises. The greens powder trusted by nutritionists.", cta: "Shop Now", impressions: "980K", status: "active", daysRunning: 90, format: "Image", color: "#3d6b4a", hook: "The greens powder trusted by nutritionists", landingPage: "welleco.com/shop" },
+      { headline: "WelleCo x Vogue — Editor's Pick", body: "Why Vogue editors can't stop talking about this greens powder. Discover the ritual.", cta: "Shop Now", impressions: "640K", status: "active", daysRunning: 45, format: "Image", color: "#2D5A3D", hook: "Why Vogue editors can't stop talking about this", landingPage: "welleco.com/vogue-pick" },
     ],
+    advertising: {
+      totalAds: 18, activeAds: 6,
+      formats: { video: 5, image: 7, carousel: 4, ugc: 2 },
+      topHooks: [
+        { hook: "Join 500K+ women who start their day with WelleCo", impressions: "2.4M", ctr: "3.2%" },
+        { hook: "The supermodel's daily greens ritual", impressions: "1.8M", ctr: "2.8%" },
+        { hook: "The greens powder trusted by nutritionists", impressions: "980K", ctr: "4.1%" },
+        { hook: "Why Vogue editors can't stop talking about this", impressions: "640K", ctr: "3.6%" },
+      ],
+      topLandingPages: [
+        { url: "welleco.com/super-elixir", visits: "84K", convRate: "3.8%" },
+        { url: "welleco.com/shop", visits: "62K", convRate: "2.9%" },
+        { url: "welleco.com/elle-wellness", visits: "41K", convRate: "2.1%" },
+        { url: "welleco.com/vogue-pick", visits: "28K", convRate: "4.2%" },
+      ],
+    },
     // Traffic sources
     trafficSources: { organic: 35, direct: 28, paid: 8, social: 18, referral: 7, email: 4 },
     topCountries: [
@@ -271,10 +288,27 @@ export const BRANDS = [
     trafficTrend: [2200, 2100, 2000, 1900, 1850, 1800, 1750, 1700, 1680, 1650, 1620, 1600],
     searchInterest: [85, 82, 78, 72, 68, 65, 62, 60, 58, 55, 53, 50],
     metaAds: [
-      { headline: "Boy Brow — The Brow That Started It All", body: "Thick, fluffy brows in one swipe. Our #1 bestseller with 10M+ sold.", cta: "Shop Now", impressions: "8.2M", status: "active", daysRunning: 340, format: "Video", color: "#F5C6C6" },
-      { headline: "Cloud Paint Seamless Blush", body: "A gel-cream blush that looks like skin, not makeup. 8 shades that blend themselves.", cta: "Shop Now", impressions: "5.6M", status: "active", daysRunning: 280, format: "Carousel", color: "#e8a0a0" },
-      { headline: "You Look Good — Glossier Skin Tint", body: "Your skin, but better. Sheer, buildable coverage that lets you through.", cta: "Try Now", impressions: "3.1M", status: "paused", daysRunning: 120, format: "UGC Video", color: "#d4b5a0" },
+      { headline: "Boy Brow — The Brow That Started It All", body: "Thick, fluffy brows in one swipe. Our #1 bestseller with 10M+ sold.", cta: "Shop Now", impressions: "8.2M", status: "active", daysRunning: 340, format: "Video", color: "#F5C6C6", hook: "Our #1 bestseller with 10M+ sold", landingPage: "glossier.com/boy-brow" },
+      { headline: "Cloud Paint Seamless Blush", body: "A gel-cream blush that looks like skin, not makeup. 8 shades that blend themselves.", cta: "Shop Now", impressions: "5.6M", status: "active", daysRunning: 280, format: "Carousel", color: "#e8a0a0", hook: "A gel-cream blush that looks like skin, not makeup", landingPage: "glossier.com/cloud-paint" },
+      { headline: "You Look Good — Glossier Skin Tint", body: "Your skin, but better. Sheer, buildable coverage that lets you through.", cta: "Try Now", impressions: "3.1M", status: "paused", daysRunning: 120, format: "UGC", color: "#d4b5a0", hook: "Your skin, but better", landingPage: "glossier.com/skin-tint" },
+      { headline: "Balm Dotcom — Your Everywhere Skin Salve", body: "Hydrate, soothe, and glow. The cult-favourite multitasker in 10 flavours.", cta: "Shop Now", impressions: "2.8M", status: "active", daysRunning: 200, format: "Image", color: "#F5C6C6", hook: "The cult-favourite multitasker in 10 flavours", landingPage: "glossier.com/balm-dotcom" },
     ],
+    advertising: {
+      totalAds: 42, activeAds: 18,
+      formats: { video: 14, image: 12, carousel: 10, ugc: 6 },
+      topHooks: [
+        { hook: "Our #1 bestseller with 10M+ sold", impressions: "8.2M", ctr: "4.5%" },
+        { hook: "A gel-cream blush that looks like skin, not makeup", impressions: "5.6M", ctr: "3.8%" },
+        { hook: "Your skin, but better", impressions: "3.1M", ctr: "5.2%" },
+        { hook: "The cult-favourite multitasker in 10 flavours", impressions: "2.8M", ctr: "3.4%" },
+      ],
+      topLandingPages: [
+        { url: "glossier.com/boy-brow", visits: "320K", convRate: "4.8%" },
+        { url: "glossier.com/cloud-paint", visits: "210K", convRate: "4.2%" },
+        { url: "glossier.com/balm-dotcom", visits: "180K", convRate: "3.6%" },
+        { url: "glossier.com/skin-tint", visits: "95K", convRate: "2.9%" },
+      ],
+    },
     trafficSources: { organic: 42, direct: 25, paid: 15, social: 12, referral: 4, email: 2 },
     topCountries: [
       { country: "United States", pct: 58 }, { country: "United Kingdom", pct: 14 },
@@ -406,10 +440,27 @@ export const BRANDS = [
     trafficTrend: [1800, 1850, 1900, 1920, 1940, 1960, 1970, 1980, 1990, 2000, 2010, 2020],
     searchInterest: [70, 72, 73, 74, 74, 75, 75, 76, 76, 76, 77, 77],
     metaAds: [
-      { headline: "Complete Nutrition in 60 Seconds", impressions: "12.4M", status: "active", daysRunning: 365, format: "Video" },
-      { headline: "Huel Hot & Savoury — Not Just Shakes", impressions: "8.9M", status: "active", daysRunning: 280, format: "UGC Video" },
-      { headline: "400 Calories. 27 Vitamins. Zero Effort.", impressions: "6.2M", status: "active", daysRunning: 180, format: "Static" },
+      { headline: "Complete Nutrition in 60 Seconds", body: "Everything your body needs in one meal. Balanced macros, 27 vitamins. Just add water.", impressions: "12.4M", status: "active", daysRunning: 365, format: "Video", color: "#1A1A1A", hook: "Everything your body needs in one meal", landingPage: "huel.com/products/powder" },
+      { headline: "Huel Hot & Savoury — Not Just Shakes", body: "Nutritionally complete hot meals. Ready in 5 minutes. From Mac & Cheeze to Thai Green Curry.", impressions: "8.9M", status: "active", daysRunning: 280, format: "UGC", color: "#333", hook: "Nutritionally complete hot meals. Ready in 5 minutes.", landingPage: "huel.com/hot-and-savoury" },
+      { headline: "400 Calories. 27 Vitamins. Zero Effort.", body: "Stop overpaying for lunch. Huel gives you everything you need for less than £2 a meal.", impressions: "6.2M", status: "active", daysRunning: 180, format: "Image", color: "#2a2a2a", hook: "Stop overpaying for lunch", landingPage: "huel.com/shop" },
+      { headline: "What I Eat in a Day — Huel Edition", body: "Watch how busy professionals fuel their entire day with Huel. No meal prep, no stress.", impressions: "4.1M", status: "active", daysRunning: 120, format: "UGC", color: "#1A1A1A", hook: "No meal prep, no stress", landingPage: "huel.com/starter-kit" },
     ],
+    advertising: {
+      totalAds: 86, activeAds: 34,
+      formats: { video: 28, image: 22, carousel: 18, ugc: 18 },
+      topHooks: [
+        { hook: "Everything your body needs in one meal", impressions: "12.4M", ctr: "3.9%" },
+        { hook: "Nutritionally complete hot meals. Ready in 5 minutes.", impressions: "8.9M", ctr: "4.2%" },
+        { hook: "Stop overpaying for lunch", impressions: "6.2M", ctr: "5.1%" },
+        { hook: "No meal prep, no stress", impressions: "4.1M", ctr: "3.6%" },
+      ],
+      topLandingPages: [
+        { url: "huel.com/products/powder", visits: "480K", convRate: "5.2%" },
+        { url: "huel.com/hot-and-savoury", visits: "310K", convRate: "4.8%" },
+        { url: "huel.com/starter-kit", visits: "220K", convRate: "6.1%" },
+        { url: "huel.com/shop", visits: "180K", convRate: "3.2%" },
+      ],
+    },
     trafficSources: { organic: 38, direct: 32, paid: 14, social: 8, referral: 5, email: 3 },
     topCountries: [
       { country: "United Kingdom", pct: 38 }, { country: "United States", pct: 28 },
@@ -492,6 +543,12 @@ export const BRANDS = [
     trafficTrend: [80, 65, 50, 40, 32, 25, 20, 16, 12, 10, 8, 7],
     searchInterest: [45, 38, 30, 24, 18, 14, 10, 8, 6, 5, 4, 3],
     metaAds: [],
+    advertising: {
+      totalAds: 0, activeAds: 0,
+      formats: { video: 0, image: 0, carousel: 0, ugc: 0 },
+      topHooks: [],
+      topLandingPages: [],
+    },
     trafficSources: { organic: 45, direct: 35, paid: 0, social: 12, referral: 5, email: 3 },
     topCountries: [{ country: "United States", pct: 82 }, { country: "Canada", pct: 8 }, { country: "Other", pct: 10 }],
     bestSellers: [
@@ -567,10 +624,27 @@ export const BRANDS = [
     trafficTrend: [900, 920, 930, 940, 945, 950, 950, 955, 955, 960, 960, 960],
     searchInterest: [60, 60, 59, 58, 58, 57, 57, 56, 56, 55, 55, 55],
     metaAds: [
-      { headline: "Natural Deodorant That Actually Works", impressions: "4.8M", status: "active", daysRunning: 300, format: "Video" },
-      { headline: "Switch to Native — Feel the Difference", impressions: "3.2M", status: "active", daysRunning: 180, format: "Carousel" },
-      { headline: "New Seasonal Scents — Limited Edition", impressions: "1.4M", status: "paused", daysRunning: 45, format: "Static" },
+      { headline: "Natural Deodorant That Actually Works", body: "Aluminum-free, long-lasting protection. 10 signature scents. 30-day risk-free trial.", impressions: "4.8M", status: "active", daysRunning: 300, format: "Video", color: "#7B4F3A", hook: "Aluminum-free, long-lasting protection", landingPage: "nativecos.com/deodorant" },
+      { headline: "Switch to Native — Feel the Difference", body: "Thousands of 5-star reviews. Clean ingredients. Made for real people.", impressions: "3.2M", status: "active", daysRunning: 180, format: "Carousel", color: "#A0522D", hook: "Thousands of 5-star reviews. Clean ingredients.", landingPage: "nativecos.com/bundle" },
+      { headline: "New Seasonal Scents — Limited Edition", body: "Spring has arrived at Native. Fresh, light, and gone fast. Shop the collection.", impressions: "1.4M", status: "paused", daysRunning: 45, format: "Image", color: "#8B7355", hook: "Fresh, light, and gone fast", landingPage: "nativecos.com/seasonal" },
+      { headline: "Body Wash + Deo Bundle — Save 20%", body: "Your whole routine, simplified. Bundle and save on bestselling body care.", impressions: "2.1M", status: "active", daysRunning: 120, format: "Image", color: "#7B4F3A", hook: "Your whole routine, simplified", landingPage: "nativecos.com/bundle-save" },
     ],
+    advertising: {
+      totalAds: 52, activeAds: 22,
+      formats: { video: 18, image: 16, carousel: 12, ugc: 6 },
+      topHooks: [
+        { hook: "Aluminum-free, long-lasting protection", impressions: "4.8M", ctr: "3.4%" },
+        { hook: "Thousands of 5-star reviews. Clean ingredients.", impressions: "3.2M", ctr: "2.9%" },
+        { hook: "Your whole routine, simplified", impressions: "2.1M", ctr: "4.0%" },
+        { hook: "Fresh, light, and gone fast", impressions: "1.4M", ctr: "3.1%" },
+      ],
+      topLandingPages: [
+        { url: "nativecos.com/deodorant", visits: "190K", convRate: "5.4%" },
+        { url: "nativecos.com/bundle-save", visits: "120K", convRate: "6.2%" },
+        { url: "nativecos.com/bundle", visits: "88K", convRate: "4.1%" },
+        { url: "nativecos.com/seasonal", visits: "42K", convRate: "3.8%" },
+      ],
+    },
     trafficSources: { organic: 28, direct: 20, paid: 22, social: 10, referral: 8, email: 12 },
     topCountries: [{ country: "United States", pct: 78 }, { country: "Canada", pct: 12 }, { country: "United Kingdom", pct: 4 }, { country: "Other", pct: 6 }],
     bestSellers: [
@@ -649,10 +723,27 @@ export const BRANDS = [
     trafficTrend: [3200, 3100, 3000, 2900, 2800, 2700, 2600, 2500, 2450, 2400, 2350, 2300],
     searchInterest: [75, 72, 70, 68, 65, 62, 60, 58, 56, 54, 52, 50],
     metaAds: [
-      { headline: "Every Month, a New Adventure for Your Pup", impressions: "18.5M", status: "active", daysRunning: 365, format: "UGC Video" },
-      { headline: "Super Chewer Box — Tough Toys for Tough Dogs", impressions: "11.2M", status: "active", daysRunning: 300, format: "Video" },
-      { headline: "First Box for $5 — Treat Your Dog", impressions: "8.8M", status: "active", daysRunning: 240, format: "Carousel" },
+      { headline: "Every Month, a New Adventure for Your Pup", body: "2 toys, 2 bags of treats, and a chew. Delivered to your door. Cancel anytime.", impressions: "18.5M", status: "active", daysRunning: 365, format: "UGC", color: "#1565C0", hook: "Delivered to your door. Cancel anytime.", landingPage: "barkbox.com/subscribe" },
+      { headline: "Super Chewer Box — Tough Toys for Tough Dogs", body: "Guaranteed tough toys for aggressive chewers. If they destroy it, we replace it.", impressions: "11.2M", status: "active", daysRunning: 300, format: "Video", color: "#0D47A1", hook: "If they destroy it, we replace it", landingPage: "barkbox.com/super-chewer" },
+      { headline: "First Box for $5 — Treat Your Dog", body: "Sign up today and get your first BarkBox for just $5. Your dog deserves it.", impressions: "8.8M", status: "active", daysRunning: 240, format: "Carousel", color: "#1976D2", hook: "Your dog deserves it", landingPage: "barkbox.com/offer" },
+      { headline: "Unboxing Day Is the Best Day", body: "Watch real dogs go wild for their BarkBox. Pure joy, every single month.", impressions: "6.4M", status: "active", daysRunning: 180, format: "UGC", color: "#1565C0", hook: "Pure joy, every single month", landingPage: "barkbox.com/gift" },
     ],
+    advertising: {
+      totalAds: 124, activeAds: 48,
+      formats: { video: 32, image: 28, carousel: 24, ugc: 40 },
+      topHooks: [
+        { hook: "Delivered to your door. Cancel anytime.", impressions: "18.5M", ctr: "4.8%" },
+        { hook: "If they destroy it, we replace it", impressions: "11.2M", ctr: "5.2%" },
+        { hook: "Your dog deserves it", impressions: "8.8M", ctr: "6.1%" },
+        { hook: "Pure joy, every single month", impressions: "6.4M", ctr: "4.4%" },
+      ],
+      topLandingPages: [
+        { url: "barkbox.com/subscribe", visits: "820K", convRate: "7.2%" },
+        { url: "barkbox.com/super-chewer", visits: "540K", convRate: "6.8%" },
+        { url: "barkbox.com/offer", visits: "410K", convRate: "8.4%" },
+        { url: "barkbox.com/gift", visits: "220K", convRate: "5.1%" },
+      ],
+    },
     trafficSources: { organic: 30, direct: 25, paid: 28, social: 10, referral: 4, email: 3 },
     topCountries: [{ country: "United States", pct: 88 }, { country: "Canada", pct: 6 }, { country: "United Kingdom", pct: 3 }, { country: "Other", pct: 3 }],
     bestSellers: [
@@ -755,8 +846,27 @@ export const BRANDS = [
     trafficTrend: [350, 320, 280, 250, 220, 200, 180, 165, 150, 140, 130, 120],
     searchInterest: [55, 50, 45, 40, 36, 32, 28, 25, 22, 20, 18, 16],
     metaAds: [
-      { headline: "Triclone Foundation — 51 Shades", impressions: "2.1M", status: "paused", daysRunning: 90, format: "Video" },
+      { headline: "Triclone Foundation — 51 Shades", body: "Find your perfect match. Clinically tested, all-day wear, inclusive shades.", impressions: "2.1M", status: "paused", daysRunning: 90, format: "Video", color: "#2C2C2C", hook: "Find your perfect match", landingPage: "hauslabs.com/triclone" },
+      { headline: "PhD Hybrid Lip Oil — Viral for a Reason", body: "The lip oil TikTok can't stop talking about. Hydrating color in one swipe.", impressions: "1.8M", status: "active", daysRunning: 60, format: "UGC", color: "#3a1f1f", hook: "The lip oil TikTok can't stop talking about", landingPage: "hauslabs.com/phd-lip-oil" },
+      { headline: "Clean Beauty. No Compromises.", body: "Vegan, cruelty-free, dermatologist-tested. Performance beauty that cares.", impressions: "1.2M", status: "active", daysRunning: 150, format: "Image", color: "#1a1a1a", hook: "Performance beauty that cares", landingPage: "hauslabs.com/about" },
+      { headline: "Eye Armor Collection — Smudge Proof", body: "Liner that stays put from morning to night. 12 shades, zero transfer.", impressions: "890K", status: "active", daysRunning: 45, format: "Carousel", color: "#2C2C2C", hook: "12 shades, zero transfer", landingPage: "hauslabs.com/eye-armor" },
     ],
+    advertising: {
+      totalAds: 28, activeAds: 12,
+      formats: { video: 8, image: 10, carousel: 6, ugc: 4 },
+      topHooks: [
+        { hook: "Find your perfect match", impressions: "2.1M", ctr: "2.8%" },
+        { hook: "The lip oil TikTok can't stop talking about", impressions: "1.8M", ctr: "5.4%" },
+        { hook: "Performance beauty that cares", impressions: "1.2M", ctr: "2.2%" },
+        { hook: "12 shades, zero transfer", impressions: "890K", ctr: "3.6%" },
+      ],
+      topLandingPages: [
+        { url: "hauslabs.com/triclone", visits: "68K", convRate: "3.2%" },
+        { url: "hauslabs.com/phd-lip-oil", visits: "52K", convRate: "4.8%" },
+        { url: "hauslabs.com/eye-armor", visits: "34K", convRate: "3.1%" },
+        { url: "hauslabs.com/about", visits: "22K", convRate: "1.8%" },
+      ],
+    },
     trafficSources: { organic: 40, direct: 22, paid: 5, social: 25, referral: 5, email: 3 },
     topCountries: [{ country: "United States", pct: 65 }, { country: "United Kingdom", pct: 12 }, { country: "Canada", pct: 8 }, { country: "Other", pct: 15 }],
     bestSellers: [
@@ -834,10 +944,27 @@ export const BRANDS = [
     trafficTrend: [4500, 4400, 4300, 4200, 4100, 4050, 4000, 3950, 3900, 3850, 3800, 3750],
     searchInterest: [80, 78, 76, 74, 72, 70, 68, 66, 65, 64, 63, 62],
     metaAds: [
-      { headline: "It's Like Milk But Made for Humans", impressions: "22.1M", status: "active", daysRunning: 400, format: "Video" },
-      { headline: "Oatly Barista Edition — Foam Perfected", impressions: "14.8M", status: "active", daysRunning: 350, format: "Video" },
-      { headline: "Post-Post-Milk Generation", impressions: "9.4M", status: "active", daysRunning: 200, format: "Static" },
+      { headline: "It's Like Milk But Made for Humans", body: "Oat milk for your coffee, cereal, and everything else. No cows involved.", impressions: "22.1M", status: "active", daysRunning: 400, format: "Video", color: "#1B365D", hook: "No cows involved", landingPage: "oatly.com/products" },
+      { headline: "Oatly Barista Edition — Foam Perfected", body: "The oat milk baristas swear by. Full foam, rich texture, incredible taste.", impressions: "14.8M", status: "active", daysRunning: 350, format: "Video", color: "#2A4A7F", hook: "The oat milk baristas swear by", landingPage: "oatly.com/barista" },
+      { headline: "Post-Post-Milk Generation", body: "We're not even trying to be milk anymore. We're just oats and water doing our thing.", impressions: "9.4M", status: "active", daysRunning: 200, format: "Image", color: "#1B365D", hook: "We're just oats and water doing our thing", landingPage: "oatly.com/about" },
+      { headline: "Ditch Dairy. It's Easier Than You Think.", body: "Swap one thing this week. Start with your morning coffee. Your planet says thanks.", impressions: "7.2M", status: "active", daysRunning: 140, format: "Carousel", color: "#2A4A7F", hook: "Your planet says thanks", landingPage: "oatly.com/sustainability" },
     ],
+    advertising: {
+      totalAds: 64, activeAds: 28,
+      formats: { video: 24, image: 18, carousel: 14, ugc: 8 },
+      topHooks: [
+        { hook: "No cows involved", impressions: "22.1M", ctr: "4.2%" },
+        { hook: "The oat milk baristas swear by", impressions: "14.8M", ctr: "3.8%" },
+        { hook: "We're just oats and water doing our thing", impressions: "9.4M", ctr: "3.1%" },
+        { hook: "Your planet says thanks", impressions: "7.2M", ctr: "4.6%" },
+      ],
+      topLandingPages: [
+        { url: "oatly.com/products", visits: "640K", convRate: "3.4%" },
+        { url: "oatly.com/barista", visits: "420K", convRate: "5.8%" },
+        { url: "oatly.com/sustainability", visits: "180K", convRate: "2.2%" },
+        { url: "oatly.com/about", visits: "120K", convRate: "1.4%" },
+      ],
+    },
     trafficSources: { organic: 45, direct: 30, paid: 10, social: 8, referral: 4, email: 3 },
     topCountries: [{ country: "United States", pct: 35 }, { country: "United Kingdom", pct: 18 }, { country: "Sweden", pct: 15 }, { country: "Germany", pct: 12 }, { country: "China", pct: 8 }, { country: "Other", pct: 12 }],
     bestSellers: [
@@ -918,10 +1045,27 @@ export const BRANDS = [
     trafficTrend: [2800, 2600, 2400, 2200, 2050, 1900, 1800, 1700, 1600, 1550, 1500, 1450],
     searchInterest: [70, 65, 60, 55, 50, 46, 42, 40, 38, 36, 34, 32],
     metaAds: [
-      { headline: "FabFitFun Spring Box — $200+ Value for $49.99", impressions: "14.2M", status: "active", daysRunning: 320, format: "Video" },
-      { headline: "Customize Your Box — Choose What You Love", impressions: "8.6M", status: "active", daysRunning: 250, format: "UGC Video" },
-      { headline: "Annual Members Get First Pick", impressions: "5.1M", status: "active", daysRunning: 180, format: "Carousel" },
+      { headline: "FabFitFun Spring Box — $200+ Value for $49.99", body: "Full-size beauty, wellness, and lifestyle products. Curated just for you.", impressions: "14.2M", status: "active", daysRunning: 320, format: "Video", color: "#E91E63", hook: "Curated just for you", landingPage: "fabfitfun.com/spring" },
+      { headline: "Customize Your Box — Choose What You Love", body: "Pick exactly what goes in your box. No surprises, all favourites.", impressions: "8.6M", status: "active", daysRunning: 250, format: "UGC", color: "#C2185B", hook: "No surprises, all favourites", landingPage: "fabfitfun.com/customize" },
+      { headline: "Annual Members Get First Pick", body: "Join annual and get 4 boxes per year, early access to sales, and full customization.", impressions: "5.1M", status: "active", daysRunning: 180, format: "Carousel", color: "#AD1457", hook: "Early access to sales, and full customization", landingPage: "fabfitfun.com/annual" },
+      { headline: "Unboxing the $200 FabFitFun Box", body: "Watch me unbox everything inside. Is it really worth it? Spoiler: absolutely.", impressions: "3.8M", status: "active", daysRunning: 90, format: "UGC", color: "#E91E63", hook: "Is it really worth it? Spoiler: absolutely.", landingPage: "fabfitfun.com/starter" },
     ],
+    advertising: {
+      totalAds: 96, activeAds: 42,
+      formats: { video: 22, image: 18, carousel: 20, ugc: 36 },
+      topHooks: [
+        { hook: "Curated just for you", impressions: "14.2M", ctr: "4.1%" },
+        { hook: "No surprises, all favourites", impressions: "8.6M", ctr: "5.4%" },
+        { hook: "Early access to sales, and full customization", impressions: "5.1M", ctr: "3.8%" },
+        { hook: "Is it really worth it? Spoiler: absolutely.", impressions: "3.8M", ctr: "6.2%" },
+      ],
+      topLandingPages: [
+        { url: "fabfitfun.com/spring", visits: "520K", convRate: "6.8%" },
+        { url: "fabfitfun.com/customize", visits: "380K", convRate: "5.2%" },
+        { url: "fabfitfun.com/annual", visits: "210K", convRate: "4.6%" },
+        { url: "fabfitfun.com/starter", visits: "160K", convRate: "7.1%" },
+      ],
+    },
     trafficSources: { organic: 22, direct: 18, paid: 35, social: 15, referral: 6, email: 4 },
     topCountries: [{ country: "United States", pct: 82 }, { country: "Canada", pct: 10 }, { country: "United Kingdom", pct: 4 }, { country: "Other", pct: 4 }],
     bestSellers: [
@@ -1001,10 +1145,27 @@ export const BRANDS = [
     trafficTrend: [800, 820, 850, 880, 900, 920, 940, 950, 960, 970, 980, 990],
     searchInterest: [50, 52, 54, 56, 58, 60, 61, 62, 63, 64, 65, 66],
     metaAds: [
-      { headline: "Whiter Teeth in 10 Minutes — See Real Results", impressions: "28.4M", status: "active", daysRunning: 400, format: "UGC Video" },
-      { headline: "The Toothpaste Your Dentist Wishes They Made", impressions: "16.2M", status: "active", daysRunning: 280, format: "Video" },
-      { headline: "PAP+ Whitening Kit — As Seen on TikTok", impressions: "11.8M", status: "active", daysRunning: 200, format: "Carousel" },
+      { headline: "Whiter Teeth in 10 Minutes — See Real Results", body: "Peroxide-free whitening that works. 1M+ kits sold. Before & after pics don't lie.", impressions: "28.4M", status: "active", daysRunning: 400, format: "UGC", color: "#6C63FF", hook: "Before & after pics don't lie", landingPage: "hismileteeth.com/whitening-kit" },
+      { headline: "The Toothpaste Your Dentist Wishes They Made", body: "Clinically proven ingredients. Purple formula cancels yellow tones instantly.", impressions: "16.2M", status: "active", daysRunning: 280, format: "Video", color: "#5A52D5", hook: "Purple formula cancels yellow tones instantly", landingPage: "hismileteeth.com/toothpaste" },
+      { headline: "PAP+ Whitening Kit — As Seen on TikTok", body: "The kit that broke TikTok. 50M+ views. Zero sensitivity. Maximum results.", impressions: "11.8M", status: "active", daysRunning: 200, format: "Carousel", color: "#4A42C0", hook: "50M+ views. Zero sensitivity. Maximum results.", landingPage: "hismileteeth.com/pap-plus" },
+      { headline: "I Tried HiSmile for 30 Days", body: "Real people. Real results. No filters, no editing. See the transformation.", impressions: "8.2M", status: "active", daysRunning: 150, format: "UGC", color: "#6C63FF", hook: "Real people. Real results. No filters, no editing.", landingPage: "hismileteeth.com/results" },
     ],
+    advertising: {
+      totalAds: 156, activeAds: 68,
+      formats: { video: 38, image: 24, carousel: 32, ugc: 62 },
+      topHooks: [
+        { hook: "Before & after pics don't lie", impressions: "28.4M", ctr: "5.8%" },
+        { hook: "Purple formula cancels yellow tones instantly", impressions: "16.2M", ctr: "4.6%" },
+        { hook: "50M+ views. Zero sensitivity. Maximum results.", impressions: "11.8M", ctr: "5.2%" },
+        { hook: "Real people. Real results. No filters, no editing.", impressions: "8.2M", ctr: "6.4%" },
+      ],
+      topLandingPages: [
+        { url: "hismileteeth.com/whitening-kit", visits: "1.2M", convRate: "8.4%" },
+        { url: "hismileteeth.com/toothpaste", visits: "680K", convRate: "6.2%" },
+        { url: "hismileteeth.com/pap-plus", visits: "420K", convRate: "7.8%" },
+        { url: "hismileteeth.com/results", visits: "310K", convRate: "5.1%" },
+      ],
+    },
     trafficSources: { organic: 25, direct: 20, paid: 30, social: 18, referral: 4, email: 3 },
     topCountries: [{ country: "Australia", pct: 30 }, { country: "United States", pct: 28 }, { country: "United Kingdom", pct: 18 }, { country: "Germany", pct: 8 }, { country: "Canada", pct: 6 }, { country: "Other", pct: 10 }],
     bestSellers: [

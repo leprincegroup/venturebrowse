@@ -2,9 +2,11 @@ import { useState, useId } from "react";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-// Robinhood-style colors
-const RH_GREEN = "#00C805";
-const RH_RED = "#FF5000";
+// Apple-style colors + gradients
+const RH_GREEN = "#34c759";
+const RH_GREEN2 = "#30d158";
+const RH_RED = "#ff3b30";
+const RH_RED2 = "#ff6961";
 
 export default function AnalyticalChart({
   series = [], xLabels, yLabel = "", height = 200,
@@ -80,21 +82,23 @@ export default function AnalyticalChart({
 
           return (
             <g key={si}>
-              {/* Gradient fill — Robinhood style */}
-              {showArea && (
-                <>
-                  <defs>
-                    <linearGradient id={`rh-${uid}-${si}`} x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor={color} stopOpacity="0.25" />
-                      <stop offset="60%" stopColor={color} stopOpacity="0.08" />
-                      <stop offset="100%" stopColor={color} stopOpacity="0" />
-                    </linearGradient>
-                  </defs>
-                  <path d={area} fill={`url(#rh-${uid}-${si})`} />
-                </>
-              )}
-              {/* Line — thick, smooth */}
-              <path d={line} fill="none" stroke={color} strokeWidth={series.length > 1 ? "2" : "2.5"} strokeLinecap="round" strokeLinejoin="round" />
+              {/* Gradient fill + line gradient */}
+              <defs>
+                {showArea && (
+                  <linearGradient id={`rh-${uid}-${si}`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={color} stopOpacity="0.2" />
+                    <stop offset="50%" stopColor={color} stopOpacity="0.06" />
+                    <stop offset="100%" stopColor={color} stopOpacity="0" />
+                  </linearGradient>
+                )}
+                <linearGradient id={`line-${uid}-${si}`} x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor={color} />
+                  <stop offset="100%" stopColor={color === RH_RED ? RH_RED2 : color === RH_GREEN ? RH_GREEN2 : color} />
+                </linearGradient>
+              </defs>
+              {showArea && <path d={area} fill={`url(#rh-${uid}-${si})`} />}
+              {/* Line — gradient stroke */}
+              <path d={line} fill="none" stroke={`url(#line-${uid}-${si})`} strokeWidth={series.length > 1 ? "2" : "2.5"} strokeLinecap="round" strokeLinejoin="round" />
               {/* End dot only */}
               {showDots ? (
                 pts.map(([dx, dy], di) => (
@@ -122,15 +126,39 @@ export default function AnalyticalChart({
           );
         })}
 
+        {/* Invisible hit areas for hover detection */}
+        {series[0].data.map((_, i) => {
+          const colW = plotW / (n - 1);
+          const rx = px(i) - colW / 2;
+          return (
+            <rect key={`hit-${i}`} x={Math.max(padL, rx)} y={padT} width={i === 0 || i === n - 1 ? colW / 2 : colW} height={plotH}
+              fill="transparent" style={{ cursor: "crosshair" }}
+              onMouseEnter={() => {
+                const ptY = py(series[0].data[i]);
+                setHover({ seriesIdx: 0, pointIdx: i, x: px(i), y: ptY, value: series[0].data[i], label: labels[i] });
+              }}
+            />
+          );
+        })}
+
         {/* Hover crosshair + tooltip */}
         {hover && (
-          <g>
-            <line x1={hover.x} y1={padT} x2={hover.x} y2={padT + plotH} stroke="#52525b" strokeWidth="1" />
-            <circle cx={hover.x} cy={hover.y} r="5" fill={seriesColor(series[hover.seriesIdx], hover.seriesIdx)} stroke="#fff" strokeWidth="2" />
-            <rect x={hover.x - 44} y={hover.y - 30} width="88" height="22" rx="0" fill="#09090b" />
-            <text x={hover.x} y={hover.y - 16} textAnchor="middle" fontSize="10" fontFamily="var(--mono)" fill="#fff" fontWeight="600">
-              {fmt(hover.value)}
+          <g style={{ pointerEvents: "none" }}>
+            <line x1={hover.x} y1={padT} x2={hover.x} y2={padT + plotH} stroke="#52525b" strokeWidth="1" strokeDasharray="3,3" />
+            {series.map((s, si) => {
+              const ptY = py(s.data[hover.pointIdx]);
+              const color = seriesColor(s, si);
+              return <circle key={si} cx={hover.x} cy={ptY} r="5" fill={color} stroke="#fff" strokeWidth="2" />;
+            })}
+            <rect x={hover.x - 52} y={Math.max(4, hover.y - 38)} width="104" height={series.length > 1 ? 18 + series.length * 16 : 28} rx="4" fill="#09090b" />
+            <text x={hover.x} y={Math.max(4, hover.y - 38) + 14} textAnchor="middle" fontSize="9" fontFamily="var(--mono)" fill="#a1a1aa" fontWeight="500">
+              {hover.label}
             </text>
+            {series.map((s, si) => (
+              <text key={si} x={hover.x} y={Math.max(4, hover.y - 38) + (series.length > 1 ? 28 + si * 16 : 24)} textAnchor="middle" fontSize="11" fontFamily="var(--mono)" fill="#fff" fontWeight="700">
+                {fmt(s.data[hover.pointIdx])}
+              </text>
+            ))}
           </g>
         )}
       </svg>
