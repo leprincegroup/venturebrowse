@@ -793,6 +793,19 @@ nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid va
 @media(max-width:1100px){.bp-row-3{grid-template-columns:1fr 1fr}.bp-hdr-stats{flex-wrap:wrap;gap:20px}.bp-ads-visual{grid-template-columns:repeat(2,1fr)}.bp-post-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){.bp-row-3,.bp-row-2{grid-template-columns:1fr}.bp-header{padding:20px}.bp-body{padding:0 20px 60px}.bp-hdr-name{font-size:24px}.bp-hdr-stats{gap:14px}.bp-social-grid{flex-direction:column}.bp-ads-visual,.bp-post-grid,.bp-prod-grid{grid-template-columns:1fr}.bp-about-title{font-size:22px}.bp-exec-text{font-size:18px}}
 
+/* Competitive Comparison Table */
+.bp-comp-table{border:1px solid var(--bd);border-radius:6px;overflow:hidden}
+.bp-comp-header{display:flex;background:var(--off);border-bottom:2px solid var(--bd);font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink3)}
+.bp-comp-row{display:flex;border-bottom:1px solid var(--bd);transition:background .1s}
+.bp-comp-row:last-child{border-bottom:none}
+.bp-comp-row:hover{background:var(--off)}
+.bp-comp-metric-col{width:140px;padding:10px 14px;font-size:12px;font-weight:500;color:var(--ink);flex-shrink:0;border-right:1px solid var(--bd)}
+.bp-comp-brand-col{flex:1;padding:10px 14px;font-family:var(--mono);font-size:12px;font-weight:500;color:var(--ink2);text-align:center;border-right:1px solid var(--bd)}
+.bp-comp-brand-col:last-child{border-right:none}
+.bp-comp-highlight{background:rgba(37,99,235,.04);font-weight:700;color:var(--ink)}
+.bp-comp-header .bp-comp-metric-col{font-weight:600}
+.bp-comp-header .bp-comp-brand-col{font-weight:600;color:var(--ink2)}
+
 /* Amazon BSR Cards */
 .bp-amazon-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .bp-amazon-card{border:1px solid var(--bd);border-radius:6px;padding:16px;background:var(--w)}

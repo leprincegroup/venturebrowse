@@ -141,9 +141,15 @@ export const BRANDS = [
 
     // Competitor benchmarks
     competitors: [
-      { name: "AG1 (Athletic Greens)", metric: "Market leader", strength: "Massive marketing spend, strong brand, global distribution" },
-      { name: "Zoe", metric: "Science-led", strength: "Personalization, clinical backing, UK/EU focused" },
-      { name: "Bloom Nutrition", metric: "TikTok-native", strength: "Gen Z appeal, viral content, 4M+ TikTok followers" },
+      { name: "AG1 (Athletic Greens)", metric: "Market leader", strength: "Massive marketing spend, strong brand, global distribution",
+        traffic: 4200, trafficTrend: [3000, 3200, 3400, 3500, 3700, 3800, 3900, 4000, 4050, 4100, 4150, 4200],
+        instagram: "1.8M", tiktok: "420K", trustpilot: 4.2, reviews: 18400, employees: 800, metaAds: 145, domainAuthority: 78 },
+      { name: "Zoe", metric: "Science-led", strength: "Personalization, clinical backing, UK/EU focused",
+        traffic: 1800, trafficTrend: [800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1750, 1800],
+        instagram: "380K", tiktok: "85K", trustpilot: 4.0, reviews: 5200, employees: 220, metaAds: 68, domainAuthority: 62 },
+      { name: "Bloom Nutrition", metric: "TikTok-native", strength: "Gen Z appeal, viral content, 4M+ TikTok followers",
+        traffic: 2800, trafficTrend: [1200, 1400, 1600, 1800, 2000, 2200, 2300, 2400, 2500, 2600, 2700, 2800],
+        instagram: "2.2M", tiktok: "4.1M", trustpilot: 3.9, reviews: 8200, employees: 150, metaAds: 210, domainAuthority: 55 },
     ],
 
     summary: "Product works. Brand has sleeping equity. Loyal customer base with 10+ year subscribers proves product-market fit. All issues are operational — not product failure. Fixable within 6-12 months with competent operations.",

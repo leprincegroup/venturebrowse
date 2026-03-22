@@ -484,6 +484,86 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </>
         )}
 
+        {/* ─── SECTION: Competitive Analysis ─── */}
+        {brand.competitors?.length > 0 && brand.competitors[0].traffic && (
+          <>
+            <div className="bp-section-divider">
+              <span className="bp-section-label">Competitive Analysis</span>
+            </div>
+
+            {/* Traffic Comparison Chart */}
+            <div className="bp-card" style={{ marginBottom: 16 }}>
+              <div className="bp-card-title">Web Traffic Comparison (12 months)</div>
+              <AnalyticalChart
+                series={[
+                  { name: brand.name, data: brand.trafficTrend || [], color: brand.brandColor },
+                  ...brand.competitors.filter(c => c.trafficTrend).map((c, i) => ({
+                    name: c.name.length > 20 ? c.name.slice(0, 18) + "…" : c.name,
+                    data: c.trafficTrend,
+                    color: ["#2563eb", "#059669", "#d97706"][i] || "var(--ink3)",
+                  })),
+                ]}
+                yLabel="Monthly Visits (K)" height={220}
+                formatValue={v => `${v}K`}
+              />
+            </div>
+
+            {/* Side-by-Side Comparison Table */}
+            <div className="bp-card" style={{ marginBottom: 16 }}>
+              <div className="bp-card-title">Head-to-Head Comparison</div>
+              <div className="bp-comp-table">
+                <div className="bp-comp-header">
+                  <div className="bp-comp-metric-col">Metric</div>
+                  <div className="bp-comp-brand-col" style={{ color: brand.brandColor, fontWeight: 700 }}>{brand.name}</div>
+                  {brand.competitors.map((c, i) => (
+                    <div className="bp-comp-brand-col" key={i}>{c.name.length > 16 ? c.name.slice(0, 14) + "…" : c.name}</div>
+                  ))}
+                </div>
+
+                {[
+                  { label: "Monthly Traffic", brandVal: `${brand.trafficTrend?.[brand.trafficTrend.length - 1]}K`, compVals: brand.competitors.map(c => `${c.traffic}K`) },
+                  { label: "Instagram", brandVal: brand.socialFollowing?.instagram || "—", compVals: brand.competitors.map(c => c.instagram || "—") },
+                  { label: "TikTok", brandVal: brand.socialFollowing?.tiktok || "—", compVals: brand.competitors.map(c => c.tiktok || "—") },
+                  { label: "Trustpilot", brandVal: `${brand.customerVoice?.trustpilotRating || "—"}/5`, compVals: brand.competitors.map(c => c.trustpilot ? `${c.trustpilot}/5` : "—") },
+                  { label: "Reviews", brandVal: brand.customerVoice?.reviewCount?.toLocaleString() || "—", compVals: brand.competitors.map(c => c.reviews?.toLocaleString() || "—") },
+                  { label: "Team Size", brandVal: String(brand.employees), compVals: brand.competitors.map(c => c.employees ? String(c.employees) : "—") },
+                  { label: "Active Meta Ads", brandVal: String(brand.metaAds?.length || 0), compVals: brand.competitors.map(c => c.metaAds ? String(c.metaAds) : "—") },
+                  { label: "Domain Authority", brandVal: String(brand.seoHealth?.domainAuthority || "—"), compVals: brand.competitors.map(c => c.domainAuthority ? String(c.domainAuthority) : "—") },
+                ].map((row, ri) => (
+                  <div className="bp-comp-row" key={ri}>
+                    <div className="bp-comp-metric-col">{row.label}</div>
+                    <div className="bp-comp-brand-col bp-comp-highlight">{row.brandVal}</div>
+                    {row.compVals.map((v, ci) => (
+                      <div className="bp-comp-brand-col" key={ci}>{v}</div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Competitor Summaries */}
+            <div className="bp-row bp-row-3" style={{ marginBottom: 16 }}>
+              {brand.competitors.map((c, i) => (
+                <div className="bp-card" key={i}>
+                  <div className="bp-card-title">{c.name}</div>
+                  <div style={{ fontSize: 12, color: "var(--ink3)", marginBottom: 12 }}>{c.strength}</div>
+                  {c.trafficTrend && (
+                    <div style={{ marginBottom: 10 }}>
+                      <Sparkline data={c.trafficTrend} color={["#2563eb", "#059669", "#d97706"][i]} w={180} h={30} />
+                    </div>
+                  )}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                    <div><span className="dc3-sv" style={{ fontSize: 14 }}>{c.traffic}K</span><span className="dc3-sl">Traffic</span></div>
+                    <div><span className="dc3-sv" style={{ fontSize: 14 }}>{c.instagram}</span><span className="dc3-sl">Instagram</span></div>
+                    <div><span className="dc3-sv" style={{ fontSize: 14 }}>{c.trustpilot}/5</span><span className="dc3-sl">Trustpilot</span></div>
+                    <div><span className="dc3-sv" style={{ fontSize: 14 }}>{c.metaAds}</span><span className="dc3-sl">Meta Ads</span></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
         {/* ─── SECTION: Hiring & Team Intelligence ─── */}
         {brand.hiring?.departments && (
           <>
