@@ -290,7 +290,7 @@ CREATE POLICY "Community summaries are viewable by everyone" ON community_summar
 CREATE TABLE api_token_budgets (
   id              SERIAL PRIMARY KEY,
   source          TEXT NOT NULL,
-  period          TEXT NOT NULL CHECK (period IN ('daily','monthly')),
+  period          TEXT NOT NULL CHECK (period IN ('daily','weekly','monthly')),
   budget_limit    INT NOT NULL,
   used            INT DEFAULT 0,
   period_start    DATE NOT NULL DEFAULT CURRENT_DATE,
