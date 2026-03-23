@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { BRANDS } from "../data";
 
-export default function useDeals({ statusFilter = "All", categoryFilter = "All", sort = "name", search = "" } = {}) {
+export default function useDeals({ statusFilter = "All", categoryFilter = "All", claimFilter = "All", sort = "name", search = "" } = {}) {
   const brands = useMemo(() => {
     let out = BRANDS;
     if (statusFilter === "Looking to Sell") out = out.filter(b => b.status === "looking-to-sell");
@@ -9,7 +9,20 @@ export default function useDeals({ statusFilter = "All", categoryFilter = "All",
     else if (statusFilter === "Open to Consulting") out = out.filter(b => b.status === "open-to-consulting");
     else if (statusFilter === "Growing") out = out.filter(b => b.status === "growing");
     if (categoryFilter !== "All") out = out.filter(b => b.category === categoryFilter);
-    if (search) out = out.filter(b => b.name.toLowerCase().includes(search.toLowerCase()) || b.category.toLowerCase().includes(search.toLowerCase()));
+    if (claimFilter === "Claimed") out = out.filter(b => b.verification === "claimed" || b.verification === "verified");
+    else if (claimFilter === "Unclaimed") out = out.filter(b => b.verification === "unverified");
+    if (search) {
+      const q = search.toLowerCase();
+      out = out.filter(b =>
+        b.name.toLowerCase().includes(q) ||
+        b.category.toLowerCase().includes(q) ||
+        b.hq.toLowerCase().includes(q) ||
+        b.summary?.toLowerCase().includes(q) ||
+        b.brandStory?.toLowerCase().includes(q) ||
+        (b.relatedCategories || []).some(c => c.toLowerCase().includes(q)) ||
+        (b.relatedTrendKeywords || []).some(k => k.toLowerCase().includes(q))
+      );
+    }
     return out.sort((a, b) => {
       if (sort === "name") return a.name.localeCompare(b.name);
       if (sort === "red") return (b.redFlags?.length || 0) - (a.redFlags?.length || 0);
@@ -19,7 +32,7 @@ export default function useDeals({ statusFilter = "All", categoryFilter = "All",
       if (sort === "recent") return new Date(b.lastActivity || 0) - new Date(a.lastActivity || 0);
       return 0;
     });
-  }, [statusFilter, categoryFilter, sort, search]);
+  }, [statusFilter, categoryFilter, claimFilter, sort, search]);
 
   return { brands, loading: false };
 }

@@ -1,29 +1,23 @@
-import { useState } from "react";
-import { IDEAS_TABS, IDEA_CATEGORIES_FILTER, IDEA_SOURCES } from "../../lib/constants";
+import { useState, useEffect } from "react";
+import { IDEA_CATEGORIES_FILTER, IDEA_SORTS } from "../../lib/constants";
 import useIdeas from "../../hooks/useIdeas";
-import CategoryCard from "./CategoryCard";
-import ProblemCard from "./ProblemCard";
-import OpportunityCard from "./OpportunityCard";
+import IdeaCard from "./IdeaCard";
 import IdeaDetailPanel from "./IdeaDetailPanel";
 
-export default function IdeasView() {
-  const [subTab, setSubTab] = useState("Trending");
+export default function IdeasView({ initialIdea, onClearInitialIdea }) {
   const [catFilter, setCatFilter] = useState("All");
-  const [srcFilter, setSrcFilter] = useState("All");
+  const [sort, setSort] = useState("validation");
   const [search, setSearch] = useState("");
-  const [selected, setSelected] = useState(null);
-  const [selType, setSelType] = useState(null);
+  const [selected, setSelected] = useState(initialIdea || null);
 
-  const { categories, problems, opportunities } = useIdeas({
-    categoryFilter: catFilter,
-    sourceFilter: srcFilter,
-    search,
-  });
+  useEffect(() => {
+    if (initialIdea) {
+      setSelected(initialIdea);
+      onClearInitialIdea?.();
+    }
+  }, [initialIdea]);
 
-  function select(item, type) {
-    setSelected(item);
-    setSelType(type);
-  }
+  const { ideas } = useIdeas({ categoryFilter: catFilter, search, sort });
 
   return (
     <div className="feed">
@@ -31,7 +25,7 @@ export default function IdeasView() {
         <div>
           <h2 className="sec-title">Find Ideas</h2>
           <p style={{ color: "var(--ink3)", fontSize: 14, marginTop: 6, fontWeight: 300 }}>
-            Discover trending consumer brand categories, unmet problems, and validated product opportunities.
+            Business ideas worth building — validated with market data, execution plans, and community signals.
           </p>
         </div>
         <div className="srch">
@@ -40,65 +34,33 @@ export default function IdeasView() {
         </div>
       </div>
 
-      {/* Sub-tabs */}
-      <div className="idea-sub-tabs">
-        {IDEAS_TABS.map(t => (
-          <button key={t} className={`ist-btn${subTab === t ? " on" : ""}`} onClick={() => setSubTab(t)}>
-            {t}
-            <span className="ist-count">
-              {t === "Trending" ? categories.length : t === "Problems" ? problems.length : opportunities.length}
-            </span>
-          </button>
+      {/* Sort */}
+      <div className="filters">
+        {IDEA_SORTS.map(s => (
+          <button key={s.k} className={`sbtn${sort === s.k ? " on" : ""}`} onClick={() => setSort(s.k)}>{s.l}</button>
         ))}
       </div>
 
-      {/* Filters */}
-      <div className="filters">
-        {subTab !== "Trending" && IDEA_CATEGORIES_FILTER.slice(0, 7).map(f => (
-          <button key={f} className={`fchip${catFilter === f ? " on" : ""}`} onClick={() => setCatFilter(f)}>{f}</button>
+      {/* Category Filter */}
+      <div className="filters" style={{ marginTop: -8 }}>
+        {IDEA_CATEGORIES_FILTER.slice(0, 8).map(f => (
+          <button key={f} className={`fchip sm${catFilter === f ? " on" : ""}`} onClick={() => setCatFilter(f)}>{f}</button>
         ))}
-        {subTab === "Problems" && <>
-          <div className="sort-sep" />
-          {IDEA_SOURCES.map(s => (
-            <button key={s} className={`sbtn${srcFilter === s ? " on" : ""}`} onClick={() => setSrcFilter(s)}>{s}</button>
-          ))}
-        </>}
       </div>
 
       {/* Grid */}
-      {subTab === "Trending" && (
-        <div className="cgrid">
-          {categories.map(c => <CategoryCard key={c.id} cat={c} onSelect={item => select(item, "category")} />)}
+      {ideas.length > 0 ? (
+        <div className="cgrid ideas-grid">
+          {ideas.map(idea => <IdeaCard key={idea.id} idea={idea} onSelect={setSelected} />)}
+        </div>
+      ) : (
+        <div style={{ padding: 60, textAlign: "center", border: "1px solid var(--bd)" }}>
+          <div style={{ fontSize: 15, color: "var(--ink3)", fontWeight: 300 }}>No ideas match your filters.</div>
+          <button className="fchip" style={{ marginTop: 14 }} onClick={() => { setCatFilter("All"); setTypeFilter("All"); setSearch(""); }}>Clear filters</button>
         </div>
       )}
-      {subTab === "Problems" && (
-        problems.length > 0 ? (
-          <div className="cgrid">
-            {problems.map(p => <ProblemCard key={p.id} problem={p} onSelect={item => select(item, "problem")} />)}
-          </div>
-        ) : (
-          <div style={{ padding: 60, textAlign: "center", border: "1px solid var(--bd)", borderRadius: 14 }}>
-            <div style={{ fontSize: 22, color: "var(--ink4)", marginBottom: 10 }}>◇</div>
-            <div style={{ fontSize: 15, color: "var(--ink3)", fontWeight: 300 }}>No problems match your filters.</div>
-            <button className="fchip" style={{ marginTop: 14 }} onClick={() => { setCatFilter("All"); setSrcFilter("All"); }}>Clear filters</button>
-          </div>
-        )
-      )}
-      {subTab === "Opportunities" && (
-        opportunities.length > 0 ? (
-          <div className="cgrid">
-            {opportunities.map(o => <OpportunityCard key={o.id} opp={o} onSelect={item => select(item, "opportunity")} />)}
-          </div>
-        ) : (
-          <div style={{ padding: 60, textAlign: "center", border: "1px solid var(--bd)", borderRadius: 14 }}>
-            <div style={{ fontSize: 22, color: "var(--ink4)", marginBottom: 10 }}>◇</div>
-            <div style={{ fontSize: 15, color: "var(--ink3)", fontWeight: 300 }}>No opportunities match your filters.</div>
-            <button className="fchip" style={{ marginTop: 14 }} onClick={() => setCatFilter("All")}>Clear filters</button>
-          </div>
-        )
-      )}
 
-      {selected && <IdeaDetailPanel item={selected} type={selType} onClose={() => setSelected(null)} />}
+      {selected && <IdeaDetailPanel idea={selected} onClose={() => setSelected(null)} />}
     </div>
   );
 }

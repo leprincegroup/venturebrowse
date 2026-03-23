@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { IDEA_CATEGORIES, IDEA_PROBLEMS, IDEA_OPPORTUNITIES } from "../../data";
+import { useState, useLayoutEffect, useRef } from "react";
+import { IDEA_CATEGORIES, VALIDATED_IDEAS } from "../../data";
+import { COMMUNITY_SIGNALS } from "../../data/trends";
 import { MARKET_TRENDS } from "../../data/trends";
 import AreaChart from "../common/charts/AreaChart";
 import AnalyticalChart from "../common/charts/AnalyticalChart";
@@ -7,7 +8,6 @@ import BarChart from "../common/charts/BarChart";
 import RadarChart from "../common/charts/RadarChart";
 import ComparisonBars from "../common/charts/ComparisonBars";
 import DonutChart from "../common/charts/DonutChart";
-import MatrixQuadrant from "../common/charts/MatrixQuadrant";
 import SignalTimeline from "../common/charts/SignalTimeline";
 import FlagList from "../common/charts/FlagList";
 import StarDistribution from "../common/charts/StarDistribution";
@@ -42,12 +42,21 @@ function buildRadar(brand) {
 }
 
 export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
+  const topRef = useRef(null);
+  const headerRef = useRef(null);
+  useLayoutEffect(() => {
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [brand]);
+
   const trafficDown = brand.trafficTrend && brand.trafficTrend[0] > brand.trafficTrend[brand.trafficTrend.length - 1];
   const trafficColor = trafficDown ? "var(--r)" : "var(--g)";
   const radar = buildRadar(brand);
 
   const TABS = [
     { id: "bp-sec-overview", label: "Overview" },
+    { id: "bp-sec-analysis", label: "Analysis" },
+    { id: "bp-sec-signals", label: "Signals" },
     { id: "bp-sec-leadership", label: "Leadership" },
     { id: "bp-sec-legal", label: "Legal" },
     { id: "bp-sec-digital", label: "Digital" },
@@ -59,7 +68,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
     { id: "bp-sec-hiring", label: "Hiring" },
     { id: "bp-sec-ma", label: "M&A" },
     { id: "bp-sec-pricing", label: "Pricing" },
-    { id: "bp-sec-signals", label: "Signals" },
+    { id: "bp-sec-financial", label: "Financial" },
     { id: "bp-sec-reviews", label: "Reviews" },
     { id: "bp-sec-intel", label: "Market Intel" },
     { id: "bp-sec-sources", label: "Sources" },
@@ -80,69 +89,86 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
   }));
 
   return (
-    <div className="bp">
+    <div className="bp" ref={topRef}>
       {/* Header */}
-      <div className="bp-header" style={{ background: brand.bgGradient || brand.brandColor }}>
-        <div className="bp-hdr-top">
-          <button className="bp-back" onClick={onBack}>← Back</button>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button className={`dc2-wl${watched ? " on" : ""}`} onClick={() => onToggleWatch(brand.id)}>{watched ? "♥" : "♡"}</button>
-          </div>
-        </div>
-        <div className="bp-hdr-main">
-          <div className="bp-logo">{brand.logo}</div>
-          <div className="bp-hdr-info">
-            <div className="bp-hdr-name">
-              {brand.name}
-              {brand.verification === "verified" && <span className="vb-badge verified" style={{ marginLeft: 10 }}>✓ Verified</span>}
-              {brand.verification === "claimed" && <span className="vb-badge claimed" style={{ marginLeft: 10 }}>Claimed</span>}
+      <div className="bp-header-z" ref={headerRef}>
+        <button className="bp-back-z" onClick={onBack}>← Back</button>
+
+        {/* Two-column split */}
+        <div className="bp-split">
+          {/* LEFT — identity + thesis */}
+          <div className="bp-split-left">
+            <span style={{ fontSize: 11, color: "var(--ink4)", letterSpacing: ".06em", textTransform: "uppercase", display: "block", marginBottom: 16 }}>{brand.category} · {STATUS_LABEL[brand.status]}</span>
+
+            <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 20 }}>
+              <div className="bp-logo-z" style={{ overflow: "hidden" }}>
+                {brand.logoUrl
+                  ? <img src={brand.logoUrl} alt={brand.name} style={{ width: "100%", height: "100%", objectFit: "contain" }} onError={e => { e.target.style.display = "none"; e.target.parentNode.textContent = brand.logo; }} />
+                  : brand.logo
+                }
+              </div>
+              <div>
+                <h1 style={{ fontSize: 32, fontWeight: 500, letterSpacing: "-.03em", color: "var(--ink)", margin: 0 }}>{brand.name}</h1>
+                <div style={{ fontSize: 13, color: "var(--ink4)", marginTop: 4 }}>{brand.hq} · Est. {brand.founded} · {brand.website}</div>
+              </div>
+              {(brand.verification === "verified" || brand.verification === "claimed") && (
+                <span className="bp-verified-z">Verified</span>
+              )}
+              {!(brand.verification === "verified" || brand.verification === "claimed") && (
+                <button style={{ fontSize: 11, fontWeight: 500, padding: "5px 14px", background: "var(--w)", border: "1px solid var(--bd)", color: "var(--ink)", cursor: "pointer", marginLeft: "auto" }}>Claim brand</button>
+              )}
             </div>
-            <div className="bp-hdr-meta">{brand.category} · {brand.hq} · Est. {brand.founded} · {brand.website}</div>
+
+            <p style={{ fontSize: 14, color: "var(--ink3)", lineHeight: 1.7, fontWeight: 400 }}>
+              {brand.brandStory}
+            </p>
           </div>
-        </div>
-        <div className="bp-hdr-stats">
-          <div><span className="bp-hs-v">{brand.employees}</span><span className="bp-hs-l">Team</span></div>
-          <div><span className="bp-hs-v">{brand.socialFollowing?.instagram || "—"}</span><span className="bp-hs-l">Instagram</span></div>
-          <div><span className="bp-hs-v">{brand.socialFollowing?.tiktok || "—"}</span><span className="bp-hs-l">TikTok</span></div>
-          {brand.verifiedRevenue && <div><span className="bp-hs-v">{brand.verifiedRevenue}</span><span className="bp-hs-l">Revenue ✓</span></div>}
-          <div><span className="bp-hs-v">{brand.customerVoice?.trustpilotRating || "—"}/5</span><span className="bp-hs-l">Trustpilot</span></div>
-          <div><span className="bp-hs-v">{brand.hiring?.openRoles || 0}</span><span className="bp-hs-l">Open Roles</span></div>
-        </div>
-        <div className="bp-hdr-tags">
-          <span className={`tag ${STATUS_CLASS[brand.status]}`} style={{ background: "rgba(255,255,255,.15)", borderColor: "rgba(255,255,255,.25)" }}>{STATUS_LABEL[brand.status]}</span>
-          {brand.techStack?.map(t => <span key={t} className="bp-tech">{t}</span>)}
+
+          {/* RIGHT — chart + data */}
+          <div className="bp-split-right">
+            {brand.trafficTrend && (
+              <>
+                <div style={{ fontSize: 36, fontWeight: 500, color: trafficDown ? "var(--r)" : "var(--g)", letterSpacing: "-.04em", lineHeight: 1, marginBottom: 8 }}>
+                  {brand.trafficTrend[brand.trafficTrend.length - 1]}K<span style={{ fontSize: 14, fontWeight: 400, color: "var(--ink4)" }}>/mo</span>
+                </div>
+                <div className="z-chart-area" style={{ margin: "0 -16px" }}>
+                  <AreaChart data={brand.trafficTrend} color={trafficDown ? "var(--r)" : "var(--g)"} w={600} h={180} filled={true} interactive={true} />
+                </div>
+              </>
+            )}
+
+            <div className="bp-split-metrics">
+              <div><span className="bp-sm-v">{brand.employees}</span><span className="bp-sm-l">team</span></div>
+              <div><span className="bp-sm-v">{brand.socialFollowing?.instagram || "—"}</span><span className="bp-sm-l">instagram</span></div>
+              <div><span className="bp-sm-v">{brand.socialFollowing?.tiktok || "—"}</span><span className="bp-sm-l">tiktok</span></div>
+              {brand.verifiedRevenue && <div><span className="bp-sm-v">{brand.verifiedRevenue}</span><span className="bp-sm-l">revenue</span></div>}
+              <div><span className="bp-sm-v">{brand.customerVoice?.trustpilotRating || "—"}/5</span><span className="bp-sm-l">trustpilot</span></div>
+              <div><span className="bp-sm-v">{brand.advertising?.activeAds || 0}</span><span className="bp-sm-l">ads live</span></div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Sticky Section Navigation */}
-      <div className="bp-tabs">
-        {TABS.map(t => (
-          <button key={t.id} className="bp-tab" onClick={() => scrollToSection(t.id)}>
-            {t.label}
-          </button>
-        ))}
+      {/* Sticky brand bar + tabs */}
+      <div className="bp-sticky-bar">
+        <div className="bp-tabs-inner">
+          {TABS.map(t => (
+            <button key={t.id} className="bp-tab" onClick={() => scrollToSection(t.id)}>
+              {t.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="bp-body">
-        {/* About — always visible */}
-        <div className="bp-about">
-          <h2 className="bp-about-title">About {brand.name}</h2>
-          <p className="bp-about-text">{brand.brandStory}</p>
-          <div className="bp-about-built">
-            {brand.whatTheyBuilt.map((w, i) => (
-              <div key={i} className="bp-about-item">
-                <span className="bp-about-check">✓</span>
-                <span>{w}</span>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Executive Summary — full width, no box */}
-        <div className="bp-exec">
-          <h3 className="bp-exec-label">Executive Summary</h3>
-          <p className="bp-exec-text">{brand.summary}</p>
-        </div>
+        {/* Executive Summary */}
+        {brand.summary && (
+          <div className="bp-exec">
+            <h3 className="bp-exec-label">Executive Summary</h3>
+            <p className="bp-exec-text">{brand.summary}</p>
+          </div>
+        )}
 
         {/* ─── SECTION: Overview ─── */}
         <div id="bp-sec-overview" />
@@ -176,6 +202,70 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
                 <p style={{ fontSize: 11, color: "var(--ink4)", fontWeight: 300 }}>{c.strength}</p>
               </div>
             ))}
+          </div>
+        </div>
+
+        <div id="bp-sec-analysis" />
+        {/* ─── SECTION: Analysis & Opportunities ─── */}
+        <div className="bp-section-divider">
+          <span className="bp-section-label">Analysis & Opportunities</span>
+        </div>
+        <div className="bp-row bp-row-2">
+          <div className="bp-card">
+            <div className="bp-card-title">Gap Analysis</div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1px", background: "var(--bd)", border: "1px solid var(--bd)", marginBottom: 16 }}>
+              <div style={{ background: "var(--w)", padding: "10px", textAlign: "center" }}>
+                <span className="dc3-sv" style={{ color: "var(--r)" }}>{brand.gaps.filter(g => g.severity === "critical").length}</span>
+                <span className="dc3-sl">Critical</span>
+              </div>
+              <div style={{ background: "var(--w)", padding: "10px", textAlign: "center" }}>
+                <span className="dc3-sv" style={{ color: "var(--a)" }}>{brand.gaps.filter(g => g.severity === "high").length}</span>
+                <span className="dc3-sl">High</span>
+              </div>
+              <div style={{ background: "var(--w)", padding: "10px", textAlign: "center" }}>
+                <span className="dc3-sv" style={{ color: "var(--ink4)" }}>{brand.gaps.filter(g => g.severity === "medium" || g.severity === "low").length}</span>
+                <span className="dc3-sl">Medium/Low</span>
+              </div>
+            </div>
+            {brand.gaps.map((g, i) => (
+              <div key={i} style={{ padding: "10px 0", borderTop: "1px solid var(--bd)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                  <span style={{ fontWeight: 600, fontSize: 13 }}>{g.area}</span>
+                  <span className={`tag ${SEV_CLASS[g.severity]}`} style={{ fontSize: 10, padding: "2px 8px" }}>{g.severity}</span>
+                </div>
+                <p style={{ fontSize: 12, color: "var(--ink3)", fontWeight: 300, lineHeight: 1.5 }}>{g.description}</p>
+                {g.competitor && <div style={{ fontSize: 11, color: "var(--ink4)", marginTop: 4 }}>Benchmark: {g.competitor}</div>}
+              </div>
+            ))}
+          </div>
+          <div className="bp-card">
+            <div className="bp-card-title">White Space Opportunities</div>
+            {brand.whiteSpace.map((o, i) => (
+              <div key={i} style={{ padding: 14, background: "var(--off)", borderRadius: 8, border: "1px solid var(--bd)", marginBottom: 10 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                  <span style={{ fontWeight: 600, fontSize: 13 }}>{o.opportunity}</span>
+                  <span className={`tag ${o.impact === "High" ? "tg" : "ta"}`} style={{ fontSize: 10, padding: "2px 8px" }}>{o.impact}</span>
+                </div>
+                <p style={{ fontSize: 12, color: "var(--ink3)", fontWeight: 300, lineHeight: 1.5, marginBottom: 6 }}>{o.description}</p>
+                <span style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--ink4)" }}>Timeframe: {o.timeframe}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div id="bp-sec-signals" />
+        {/* ─── SECTION: Risk & Opportunity Signals ─── */}
+        <div className="bp-section-divider">
+          <span className="bp-section-label">Risk & Opportunity Signals</span>
+        </div>
+        <div className="bp-row bp-row-2">
+          <div className="bp-card">
+            <div className="bp-card-title">Red Flags ({brand.redFlags?.length || 0})</div>
+            <FlagList flags={brand.redFlags || []} type="red" />
+          </div>
+          <div className="bp-card">
+            <div className="bp-card-title">Green Flags ({brand.greenFlags?.length || 0})</div>
+            <FlagList flags={brand.greenFlags || []} type="green" />
           </div>
         </div>
 
@@ -288,29 +378,27 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           <span className="bp-section-label">Digital Performance</span>
         </div>
 
-        {/* Traffic Chart — full width */}
-        <div className="bp-card" style={{ marginBottom: 16 }}>
-          <div className="dp-chart-header">
-            <div className="bp-card-title" style={{ marginBottom: 0 }}>Website Traffic</div>
-            <div className="dp-chart-meta">
-              <span className="dp-chart-val">{brand.trafficTrend?.[brand.trafficTrend.length - 1] || "—"}K</span>
-              <span className="dp-chart-label">visits/mo</span>
-              {brand.trafficTrend && (() => {
-                const first = brand.trafficTrend[0], last = brand.trafficTrend[brand.trafficTrend.length - 1];
-                const pct = Math.round(((last - first) / first) * 100);
-                return <span className={`dp-chart-delta ${pct >= 0 ? "up" : "down"}`}>{pct >= 0 ? "+" : ""}{pct}%</span>;
-              })()}
+        {/* Traffic Chart + Sources — side by side */}
+        <div className="bp-row bp-row-2">
+          <div className="bp-card">
+            <div className="dp-chart-header">
+              <div className="bp-card-title" style={{ marginBottom: 0 }}>Website Traffic</div>
+              <div className="dp-chart-meta">
+                <span className="dp-chart-val">{brand.trafficTrend?.[brand.trafficTrend.length - 1] || "—"}K</span>
+                <span className="dp-chart-label">visits/mo</span>
+                {brand.trafficTrend && (() => {
+                  const first = brand.trafficTrend[0], last = brand.trafficTrend[brand.trafficTrend.length - 1];
+                  const pct = Math.round(((last - first) / first) * 100);
+                  return <span className={`dp-chart-delta ${pct >= 0 ? "up" : "down"}`}>{pct >= 0 ? "+" : ""}{pct}%</span>;
+                })()}
+              </div>
             </div>
+            <AnalyticalChart
+              series={[{ name: brand.name, data: brand.trafficTrend || [], color: trafficColor }]}
+              height={160} showMinMax={true}
+              formatValue={v => `${v}K`}
+            />
           </div>
-          <AnalyticalChart
-            series={[{ name: brand.name, data: brand.trafficTrend || [], color: trafficColor }]}
-            height={220} showMinMax={true}
-            formatValue={v => `${v}K`}
-          />
-        </div>
-
-        {/* Sources + Countries — side by side */}
-        <div className="bp-row bp-row-2" style={{ marginBottom: 0 }}>
           <div className="bp-card">
             <div className="bp-card-title">Traffic Sources</div>
             <div className="dp-sources">
@@ -326,9 +414,22 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Countries */}
+        <div className="bp-row bp-row-2">
           <div className="bp-card">
             <div className="bp-card-title">Top Countries</div>
             <ComparisonBars items={countryBars} unit="%" />
+          </div>
+          <div className="bp-card">
+            <div className="bp-card-title">Email & Retention</div>
+            <div className="bp-pricing-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
+              <div><span className="dc3-sv">{brand.trafficSources?.email || "—"}%</span><span className="dc3-sl">Email Traffic Share</span></div>
+              <div><span className="dc3-sv">{brand.pricing?.hasSubscription ? "Active" : "None"}</span><span className="dc3-sl">Subscription Model</span></div>
+              <div><span className="dc3-sv">{brand.techStack?.includes("Klaviyo") ? "Klaviyo" : brand.techStack?.includes("Mailchimp") ? "Mailchimp" : "—"}</span><span className="dc3-sl">Email Platform</span></div>
+              <div><span className="dc3-sv">{brand.pricing?.subDiscount || "—"}</span><span className="dc3-sl">Sub Discount</span></div>
+            </div>
           </div>
         </div>
 
@@ -461,46 +562,71 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
         <div className="bp-section-divider">
           <span className="bp-section-label">Products</span>
         </div>
-        {/* Best Sellers — Product Cards */}
-        <div className="bp-row bp-row-2">
-          <div className="bp-card">
-            <div className="bp-card-title">Best Selling Products</div>
-            <div className="bp-prod-grid">
-              {(brand.bestSellers || []).map((p, i) => (
-                <div className="bp-prodv" key={i}>
-                  <div className="bp-prodv-img" style={{ background: p.color || brand.brandColor }}>
-                    <span className="bp-prodv-icon">{p.icon || "📦"}</span>
-                    <span className="bp-prodv-badge">#{i + 1}</span>
-                  </div>
-                  <div className="bp-prodv-info">
-                    <div className="bp-prodv-name">{p.name}</div>
-                    <div className="bp-prodv-cat">{p.category}</div>
-                    <div className="bp-prodv-price">{p.price}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* Pricing Overview */}
+        <div className="bp-row bp-row-2" style={{ marginBottom: 16 }}>
           <div className="bp-card">
             <div className="bp-card-title">Pricing Architecture</div>
-            <div className="bp-pricing-grid">
-              <div><span className="dc3-sv">{brand.pricing?.skuCount || "—"}</span><span className="dc3-sl">SKUs</span></div>
-              <div><span className="dc3-sv">{brand.pricing?.priceRange || "—"}</span><span className="dc3-sl">Range</span></div>
+            <div className="bp-pricing-grid" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+              <div><span className="dc3-sv">{brand.pricing?.skuCount || "—"}</span><span className="dc3-sl">Total SKUs</span></div>
+              <div><span className="dc3-sv">{brand.pricing?.priceRange || "—"}</span><span className="dc3-sl">Price Range</span></div>
               <div><span className="dc3-sv">${brand.pricing?.avgPrice || "—"}</span><span className="dc3-sl">Avg Price</span></div>
               <div><span className="dc3-sv">{brand.pricing?.hasSubscription ? "Yes" : "No"}</span><span className="dc3-sl">Subscription</span></div>
             </div>
             {brand.pricing?.hasSubscription && brand.pricing?.subDiscount && (
-              <div style={{ marginTop: 12, padding: "8px 10px", background: "var(--gl)", borderRadius: 6, fontSize: 12, color: "var(--g)", fontWeight: 500, textAlign: "center" }}>
+              <div style={{ marginTop: 12, padding: "8px 10px", background: "var(--gl)", fontSize: 12, color: "var(--g)", fontWeight: 500, textAlign: "center" }}>
                 Subscription discount: {brand.pricing.subDiscount}
               </div>
             )}
           </div>
+          <div className="bp-card">
+            <div className="bp-card-title">Production & Supply</div>
+            <div className="bp-pricing-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
+              <div><span className="dc3-sv">{brand.production?.location || brand.hq.split(",").pop().trim()}</span><span className="dc3-sl">Manufacturing</span></div>
+              <div><span className="dc3-sv">{brand.production?.type || "Contract"}</span><span className="dc3-sl">Type</span></div>
+              <div><span className="dc3-sv">{brand.production?.certifications || "—"}</span><span className="dc3-sl">Certifications</span></div>
+              <div><span className="dc3-sv">{brand.techStack?.[0] || "—"}</span><span className="dc3-sl">Platform</span></div>
+            </div>
+          </div>
         </div>
 
-        {/* ─── SECTION: Growth & Operations ─── */}
-        <div className="bp-section-divider">
-          <span className="bp-section-label">Growth & Operations</span>
+        {/* Best Sellers — Detailed Product Cards */}
+        <div className="bp-card" style={{ marginBottom: 16 }}>
+          <div className="bp-card-title">Best Selling Products</div>
+          <div className="bp-prod-detail-grid">
+            {(brand.bestSellers || []).map((p, i) => (
+              <div className="bp-prod-detail" key={i}>
+                <div className="bp-prod-detail-hdr" style={{ background: p.color || brand.brandColor }}>
+                  <span className="bp-prod-detail-icon">{p.icon || "📦"}</span>
+                  <span className="bp-prod-detail-rank">#{i + 1}</span>
+                </div>
+                <div className="bp-prod-detail-body">
+                  <div className="bp-prod-detail-name">{p.name}</div>
+                  <div className="bp-prod-detail-cat">{p.category}</div>
+                  <div className="bp-prod-detail-price">{p.price}</div>
+                  <div className="bp-prod-detail-meta">
+                    {brand.amazon?.products?.[i] && (
+                      <>
+                        <div className="bp-prod-meta-row">
+                          <span className="bp-prod-meta-label">Amazon BSR</span>
+                          <span className="bp-prod-meta-val">#{brand.amazon.products[i].bsr.toLocaleString()}</span>
+                        </div>
+                        <div className="bp-prod-meta-row">
+                          <span className="bp-prod-meta-label">Rating</span>
+                          <span className="bp-prod-meta-val">{brand.amazon.products[i].rating}/5 ({brand.amazon.products[i].reviews} reviews)</span>
+                        </div>
+                      </>
+                    )}
+                    <div className="bp-prod-meta-row">
+                      <span className="bp-prod-meta-label">Made in</span>
+                      <span className="bp-prod-meta-val">{p.madeIn || brand.production?.location || brand.hq.split(",").pop().trim()}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
+
         <div id="bp-sec-social" />
         {/* ─── SECTION: Social Media Presence ─── */}
         <div className="bp-section-divider">
@@ -586,20 +712,19 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
               <span className="bp-section-label">SEO, Keywords & Search</span>
             </div>
 
-            {/* Keyword trend chart — top 3 keywords */}
-            <div className="bp-card" style={{ marginBottom: 16 }}>
-              <div className="bp-card-title">Keyword Search Volume Trends (12 months)</div>
+            {/* Keyword trend chart + table — side by side */}
+            <div className="bp-row bp-row-2" style={{ marginBottom: 16 }}>
+            <div className="bp-card">
+              <div className="bp-card-title">Keyword Volume Trends</div>
               <AnalyticalChart
                 series={brand.keywords.slice(0, 3).map(k => ({
                   name: k.keyword, data: k.trend, color: k.position <= 3 ? "var(--g)" : k.position <= 10 ? "var(--a)" : "var(--r)",
                 }))}
-                yLabel="Monthly searches" height={220} showMinMax={false}
+                yLabel="Monthly searches" height={160} showMinMax={false}
                 formatValue={v => v >= 1000 ? `${(v / 1000).toFixed(1)}K` : v}
               />
             </div>
-
-            {/* Keyword table */}
-            <div className="bp-card" style={{ marginBottom: 16 }}>
+            <div className="bp-card">
               <div className="bp-card-title">Top Keywords</div>
               <div className="bp-kw-table">
                 <div className="bp-kw-header">
@@ -628,6 +753,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
                 ))}
               </div>
             </div>
+            </div>
 
             {/* SEO metrics */}
             <div className="bp-row bp-row-2" style={{ marginBottom: 16 }}>
@@ -650,6 +776,34 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
                   { label: "Top 10 positions", value: brand.keywords.filter(k => k.position <= 10).length, displayValue: String(brand.keywords.filter(k => k.position <= 10).length), color: "var(--a)" },
                   { label: "Page 1 (top 20)", value: brand.keywords.filter(k => k.position <= 20).length, displayValue: String(brand.keywords.filter(k => k.position <= 20).length), color: "var(--b)" },
                 ]} maxValue={brand.keywords.length} />
+              </div>
+            </div>
+
+            <div className="bp-card" style={{ marginBottom: 16 }}>
+              <div className="bp-card-title">AI Engine Optimization (AEO)</div>
+              <p style={{ fontSize: 13, color: "var(--ink3)", fontWeight: 300, lineHeight: 1.6, marginBottom: 16 }}>
+                How this brand appears in AI-generated answers (ChatGPT, Perplexity, Google AI Overviews).
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1px", background: "var(--bd)", border: "1px solid var(--bd)", marginBottom: 16 }}>
+                <div style={{ background: "var(--w)", padding: "10px", textAlign: "center" }}>
+                  <span className="dc3-sv">{brand.aeo?.mentionRate || "Low"}</span>
+                  <span className="dc3-sl">AI Mention Rate</span>
+                </div>
+                <div style={{ background: "var(--w)", padding: "10px", textAlign: "center" }}>
+                  <span className="dc3-sv">{brand.aeo?.sentimentInAI || "Neutral"}</span>
+                  <span className="dc3-sl">AI Sentiment</span>
+                </div>
+                <div style={{ background: "var(--w)", padding: "10px", textAlign: "center" }}>
+                  <span className="dc3-sv">{brand.aeo?.recommendRate || "—"}</span>
+                  <span className="dc3-sl">AI Recommend Rate</span>
+                </div>
+                <div style={{ background: "var(--w)", padding: "10px", textAlign: "center" }}>
+                  <span className="dc3-sv">{brand.aeo?.competitorMentions || "—"}</span>
+                  <span className="dc3-sl">vs Competitors</span>
+                </div>
+              </div>
+              <div style={{ padding: "10px", background: "var(--off)", border: "1px solid var(--bd)", fontSize: 12, color: "var(--ink3)", fontWeight: 300, lineHeight: 1.5 }}>
+                <strong style={{ color: "var(--ink)", fontWeight: 600 }}>AI Overview:</strong> When users ask AI assistants about {brand.category.toLowerCase()}, {brand.name} is {brand.aeo?.summary || "not consistently mentioned. Opportunity to improve AI visibility through structured content, FAQ optimization, and authoritative backlinks."}
               </div>
             </div>
           </>
@@ -736,9 +890,10 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
               <span className="bp-section-label">Competitive Analysis</span>
             </div>
 
-            {/* Traffic Comparison Chart */}
-            <div className="bp-card" style={{ marginBottom: 16 }}>
-              <div className="bp-card-title">Web Traffic Comparison (12 months)</div>
+            {/* Traffic Comparison + Head-to-Head — side by side */}
+            <div className="bp-row bp-row-2" style={{ marginBottom: 16 }}>
+            <div className="bp-card">
+              <div className="bp-card-title">Web Traffic Comparison</div>
               <AnalyticalChart
                 series={[
                   { name: brand.name, data: brand.trafficTrend || [], color: brand.brandColor },
@@ -748,13 +903,11 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
                     color: ["#2563eb", "#059669", "#d97706"][i] || "var(--ink3)",
                   })),
                 ]}
-                yLabel="Monthly Visits (K)" height={220}
+                yLabel="Monthly Visits (K)" height={160}
                 formatValue={v => `${v}K`}
               />
             </div>
-
-            {/* Side-by-Side Comparison Table */}
-            <div className="bp-card" style={{ marginBottom: 16 }}>
+            <div className="bp-card">
               <div className="bp-card-title">Head-to-Head Comparison</div>
               <div className="bp-comp-table">
                 <div className="bp-comp-header">
@@ -783,6 +936,45 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
                     ))}
                   </div>
                 ))}
+              </div>
+            </div>
+            </div>
+
+            <div className="bp-row bp-row-2" style={{ marginBottom: 16 }}>
+              <div className="bp-card">
+                <div className="bp-card-title">Why People Buy {brand.name}</div>
+                <p style={{ fontSize: 13, color: "var(--ink3)", fontWeight: 300, lineHeight: 1.6, marginBottom: 12 }}>
+                  {brand.differentiator || `${brand.name} differentiates through ${brand.whatTheyBuilt?.[0]?.toLowerCase() || "unique brand positioning"}.`}
+                </p>
+                <div className="bp-card-title" style={{ fontSize: 11, marginTop: 12 }}>Key Differentiators</div>
+                {(brand.whatTheyBuilt || []).map((item, i) => (
+                  <div key={i} style={{ display: "flex", gap: 8, padding: "8px 0", borderBottom: "1px solid var(--bd)", fontSize: 12, alignItems: "flex-start" }}>
+                    <span style={{ color: "var(--g)", fontFamily: "var(--mono)", flexShrink: 0 }}>✓</span>
+                    <span style={{ color: "var(--ink2)", fontWeight: 300 }}>{item}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="bp-card">
+                <div className="bp-card-title">Product Pricing Comparison</div>
+                {brand.competitors?.filter(c => c.price || c.heroPrice).length > 0 ? (
+                  <div>
+                    <div style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid var(--bd)", fontSize: 11, fontFamily: "var(--mono)", color: "var(--ink4)", textTransform: "uppercase", letterSpacing: ".06em" }}>
+                      <span>Brand</span><span>Hero Price</span>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderBottom: "1px solid var(--bd)" }}>
+                      <span style={{ fontWeight: 700, fontSize: 13, color: brand.brandColor }}>{brand.name}</span>
+                      <span style={{ fontFamily: "var(--mono)", fontWeight: 700, fontSize: 14 }}>{brand.bestSellers?.[0]?.price || "—"}</span>
+                    </div>
+                    {brand.competitors?.map((c, i) => (
+                      <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderBottom: "1px solid var(--bd)" }}>
+                        <span style={{ fontSize: 13, fontWeight: 500 }}>{c.name}</span>
+                        <span style={{ fontFamily: "var(--mono)", fontSize: 14, color: "var(--ink3)" }}>{c.heroPrice || c.price || "—"}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p style={{ fontSize: 12, color: "var(--ink4)", fontWeight: 300 }}>Competitor pricing data not available.</p>
+                )}
               </div>
             </div>
 
@@ -978,6 +1170,36 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </>
         )}
 
+        {/* ─── SECTION: Financial Data ─── */}
+        <div id="bp-sec-financial" />
+        {(brand.verifiedRevenue || brand.financials) && (
+          <>
+            <div className="bp-section-divider">
+              <span className="bp-section-label">Financial Data</span>
+            </div>
+            <div className="bp-row bp-row-2" style={{ marginBottom: 16 }}>
+              <div className="bp-card">
+                <div className="bp-card-title">Revenue & Growth</div>
+                <div className="bp-pricing-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
+                  <div><span className="dc3-sv" style={{ fontSize: 24, color: brand.verifiedRevenue ? "var(--g)" : "var(--ink)" }}>{brand.verifiedRevenue || brand.financials?.estimatedRevenue || "Not disclosed"}</span><span className="dc3-sl">{brand.verifiedRevenue ? "Verified Revenue ✓" : "Est. Revenue"}</span></div>
+                  <div><span className="dc3-sv" style={{ fontSize: 24 }}>{brand.financials?.revenueGrowth || "—"}</span><span className="dc3-sl">YoY Growth</span></div>
+                  <div><span className="dc3-sv">{brand.financials?.grossMargin || "—"}</span><span className="dc3-sl">Est. Gross Margin</span></div>
+                  <div><span className="dc3-sv">{brand.financials?.burnRate || "—"}</span><span className="dc3-sl">Burn Indicator</span></div>
+                </div>
+              </div>
+              <div className="bp-card">
+                <div className="bp-card-title">Funding & Valuation</div>
+                <div className="bp-pricing-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
+                  <div><span className="dc3-sv">{brand.financials?.totalFunding || "—"}</span><span className="dc3-sl">Total Funding</span></div>
+                  <div><span className="dc3-sv">{brand.financials?.lastRound || "—"}</span><span className="dc3-sl">Last Round</span></div>
+                  <div><span className="dc3-sv">{brand.financials?.valuation || "—"}</span><span className="dc3-sl">Last Valuation</span></div>
+                  <div><span className="dc3-sv">{brand.financials?.investors || "—"}</span><span className="dc3-sl">Key Investors</span></div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
         {/* ─── SECTION: Channel Dependency ─── */}
         {brand.channelDependency && (
           <>
@@ -1090,66 +1312,6 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
           </>
         )}
 
-        {/* ─── SECTION: Analysis & Opportunities ─── */}
-        <div className="bp-section-divider">
-          <span className="bp-section-label">Analysis & Opportunities</span>
-        </div>
-        <div className="bp-row bp-row-2">
-          <div className="bp-card">
-            <div className="bp-card-title">Gap Analysis</div>
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
-              <MatrixQuadrant
-                items={brand.gaps.map((g, i) => ({
-                  name: g.area,
-                  x: g.severity === "critical" ? 9 : g.severity === "high" ? 7 : g.severity === "medium" ? 4 : 2,
-                  y: 3 + i * 1.5,
-                  color: g.severity === "critical" ? "var(--r)" : g.severity === "high" ? "var(--a)" : "var(--ink3)",
-                }))}
-                xLabel="Severity →" yLabel="Impact →" size={240}
-              />
-            </div>
-            {brand.gaps.map((g, i) => (
-              <div key={i} style={{ padding: "10px 0", borderTop: "1px solid var(--bd)" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                  <span style={{ fontWeight: 600, fontSize: 13 }}>{g.area}</span>
-                  <span className={`tag ${SEV_CLASS[g.severity]}`} style={{ fontSize: 10, padding: "2px 8px" }}>{g.severity}</span>
-                </div>
-                <p style={{ fontSize: 12, color: "var(--ink3)", fontWeight: 300, lineHeight: 1.5 }}>{g.description}</p>
-                {g.competitor && <div style={{ fontSize: 11, color: "var(--ink4)", marginTop: 4 }}>Benchmark: {g.competitor}</div>}
-              </div>
-            ))}
-          </div>
-          <div className="bp-card">
-            <div className="bp-card-title">White Space Opportunities</div>
-            {brand.whiteSpace.map((o, i) => (
-              <div key={i} style={{ padding: 14, background: "var(--off)", borderRadius: 8, border: "1px solid var(--bd)", marginBottom: 10 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                  <span style={{ fontWeight: 600, fontSize: 13 }}>{o.opportunity}</span>
-                  <span className={`tag ${o.impact === "High" ? "tg" : "ta"}`} style={{ fontSize: 10, padding: "2px 8px" }}>{o.impact}</span>
-                </div>
-                <p style={{ fontSize: 12, color: "var(--ink3)", fontWeight: 300, lineHeight: 1.5, marginBottom: 6 }}>{o.description}</p>
-                <span style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--ink4)" }}>Timeframe: {o.timeframe}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div id="bp-sec-signals" />
-        {/* ─── SECTION: Risk & Opportunity Signals ─── */}
-        <div className="bp-section-divider">
-          <span className="bp-section-label">Risk & Opportunity Signals</span>
-        </div>
-        <div className="bp-row bp-row-2">
-          <div className="bp-card">
-            <div className="bp-card-title">Red Flags ({brand.redFlags?.length || 0})</div>
-            <FlagList flags={brand.redFlags || []} type="red" />
-          </div>
-          <div className="bp-card">
-            <div className="bp-card-title">Green Flags ({brand.greenFlags?.length || 0})</div>
-            <FlagList flags={brand.greenFlags || []} type="green" />
-          </div>
-        </div>
-
         <div id="bp-sec-intel" />
         {/* ─── SECTION: Market Intelligence ─── */}
         <div className="bp-section-divider">
@@ -1168,7 +1330,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
                   return cats.slice(0, 2).map(c => ({ name: c.name, data: c.sparkData, color: c.growthRate >= 40 ? "var(--g)" : "var(--a)" }));
                 })()),
               ]}
-              yLabel="Relative Interest" height={220} showMinMax={false}
+              yLabel="Relative Interest" height={160} showMinMax={false}
             />
           )}
         </div>
@@ -1242,7 +1404,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
         {/* Related Problems from Find Ideas */}
         {(() => {
           const catIds = (brand.relatedCategories || []).map(cn => IDEA_CATEGORIES.find(c => c.name === cn)?.id).filter(Boolean);
-          const problems = IDEA_PROBLEMS.filter(p => catIds.includes(p.categoryId)).slice(0, 3);
+          const problems = COMMUNITY_SIGNALS.filter(p => catIds.includes(p.categoryId)).slice(0, 3);
           if (!problems.length) return null;
           return (
             <div className="bp-card" style={{ marginBottom: 16 }}>

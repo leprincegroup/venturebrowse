@@ -1,10 +1,10 @@
-// Dummy data for Market Intelligence — emerging consumer trends
+// Market Intelligence — keyword trends and community signals
 
 export const MARKET_TRENDS = [
   {
     id: "trend-1", keyword: "Ozempic alternatives", category: "Health & Wellness",
     source: "tiktok", volume: 2400000, growth: 340, sentiment: 6.2,
-    trendScore: 97, isBreaking: true,
+    trendScore: 97, isBreaking: true, firstSeen: "2026-01-15",
     sparkData: [5, 8, 12, 18, 28, 42, 58, 72, 85, 92, 95, 97],
     summary: "Massive demand for GLP-1 alternatives without prescriptions. Natural appetite suppressants, berberine, and fiber-based products seeing explosive growth.",
     signals: [
@@ -15,7 +15,7 @@ export const MARKET_TRENDS = [
   {
     id: "trend-2", keyword: "Mouth taping", category: "Sleep & Wellness",
     source: "tiktok", volume: 1800000, growth: 280, sentiment: 5.8,
-    trendScore: 91, isBreaking: true,
+    trendScore: 91, isBreaking: true, firstSeen: "2026-02-01",
     sparkData: [3, 5, 8, 14, 22, 35, 48, 62, 74, 82, 88, 91],
     summary: "Sleep optimization trend — taping mouth shut during sleep for better nasal breathing. Medical tape and branded products emerging rapidly.",
     signals: [
@@ -26,7 +26,7 @@ export const MARKET_TRENDS = [
   {
     id: "trend-3", keyword: "Beef tallow skincare", category: "Beauty",
     source: "tiktok", volume: 890000, growth: 520, sentiment: 7.4,
-    trendScore: 94, isBreaking: true,
+    trendScore: 94, isBreaking: true, firstSeen: "2026-02-10",
     sparkData: [2, 3, 5, 8, 15, 25, 40, 58, 72, 84, 90, 94],
     summary: "Animal-fat-based skincare movement rejecting synthetic ingredients. Tallow balms, whipped tallow moisturizers, and ancestral beauty positioning.",
     signals: [
@@ -37,7 +37,7 @@ export const MARKET_TRENDS = [
   {
     id: "trend-4", keyword: "Protein water", category: "Food & Beverage",
     source: "amazon", volume: 680000, growth: 190, sentiment: 7.0,
-    trendScore: 82, isBreaking: false,
+    trendScore: 82, isBreaking: false, firstSeen: "2025-11-20",
     sparkData: [10, 14, 18, 24, 32, 40, 48, 55, 62, 70, 76, 82],
     summary: "Clear protein drinks replacing shakes for everyday hydration. 20g protein in water format appealing to non-gym consumers.",
     signals: [
@@ -48,7 +48,7 @@ export const MARKET_TRENDS = [
   {
     id: "trend-5", keyword: "Magnesium spray", category: "Supplements",
     source: "tiktok", volume: 1200000, growth: 210, sentiment: 7.8,
-    trendScore: 86, isBreaking: false,
+    trendScore: 86, isBreaking: false, firstSeen: "2025-12-05",
     sparkData: [8, 12, 16, 22, 30, 38, 48, 58, 66, 74, 80, 86],
     summary: "Topical magnesium bypassing digestive absorption issues. Sprays, lotions, and bath flakes for sleep, muscle recovery, and anxiety.",
     signals: [
@@ -59,7 +59,7 @@ export const MARKET_TRENDS = [
   {
     id: "trend-6", keyword: "Raw milk", category: "Food & Beverage",
     source: "reddit", volume: 560000, growth: 160, sentiment: 5.2,
-    trendScore: 78, isBreaking: false,
+    trendScore: 78, isBreaking: false, firstSeen: "2025-10-15",
     sparkData: [12, 15, 18, 22, 28, 34, 42, 50, 58, 66, 72, 78],
     summary: "Unpasteurized dairy movement growing despite regulatory pushback. Driven by anti-processed food sentiment and 'ancestral eating' philosophy.",
     signals: [
@@ -70,7 +70,7 @@ export const MARKET_TRENDS = [
   {
     id: "trend-7", keyword: "Red light therapy", category: "Health & Wellness",
     source: "google", volume: 3200000, growth: 85, sentiment: 7.6,
-    trendScore: 84, isBreaking: false,
+    trendScore: 84, isBreaking: false, firstSeen: "2025-06-01",
     sparkData: [30, 34, 38, 44, 50, 56, 62, 66, 72, 76, 80, 84],
     summary: "LED red/NIR light therapy for skin, joints, and recovery gaining mainstream adoption. Home devices democratizing clinical treatments.",
     signals: [
@@ -81,7 +81,7 @@ export const MARKET_TRENDS = [
   {
     id: "trend-8", keyword: "Seed cycling", category: "Women's Health",
     source: "instagram", volume: 420000, growth: 145, sentiment: 6.8,
-    trendScore: 76, isBreaking: false,
+    trendScore: 76, isBreaking: false, firstSeen: "2025-09-10",
     sparkData: [8, 10, 14, 18, 24, 32, 40, 48, 56, 64, 70, 76],
     summary: "Rotating seed intake (flax, pumpkin, sesame, sunflower) aligned with menstrual phases. Pre-made seed cycling blends and subscription kits emerging.",
     signals: [
@@ -92,7 +92,7 @@ export const MARKET_TRENDS = [
   {
     id: "trend-9", keyword: "Sourdough everything", category: "Food & Beverage",
     source: "tiktok", volume: 740000, growth: 120, sentiment: 8.2,
-    trendScore: 80, isBreaking: false,
+    trendScore: 80, isBreaking: false, firstSeen: "2025-08-20",
     sparkData: [15, 18, 22, 28, 34, 42, 50, 56, 62, 68, 74, 80],
     summary: "Sourdough expanding beyond bread into crackers, pasta, pizza bases, and pancake mixes. Fermented flour as a health positioning.",
     signals: [
@@ -103,7 +103,7 @@ export const MARKET_TRENDS = [
   {
     id: "trend-10", keyword: "Electrolyte drinks", category: "Food & Beverage",
     source: "amazon", volume: 4100000, growth: 65, sentiment: 7.4,
-    trendScore: 74, isBreaking: false,
+    trendScore: 74, isBreaking: false, firstSeen: "2025-05-01",
     sparkData: [32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 74],
     summary: "Daily electrolyte supplementation becoming mainstream habit beyond athletes. LMNT and Drip Drop leading but massive white space in flavors and formats.",
     signals: [
@@ -114,7 +114,7 @@ export const MARKET_TRENDS = [
   {
     id: "trend-11", keyword: "Peptide supplements", category: "Supplements",
     source: "reddit", volume: 320000, growth: 290, sentiment: 6.4,
-    trendScore: 88, isBreaking: true,
+    trendScore: 88, isBreaking: true, firstSeen: "2026-03-01",
     sparkData: [4, 6, 10, 16, 24, 35, 48, 60, 72, 80, 85, 88],
     summary: "Oral peptides (BPC-157, TB-500) moving from bodybuilding niche to mainstream wellness. Regulatory gray area creating both risk and opportunity.",
     signals: [
@@ -125,12 +125,264 @@ export const MARKET_TRENDS = [
   {
     id: "trend-12", keyword: "Castor oil packs", category: "Wellness",
     source: "tiktok", volume: 980000, growth: 175, sentiment: 6.6,
-    trendScore: 79, isBreaking: false,
+    trendScore: 79, isBreaking: false, firstSeen: "2025-11-01",
     sparkData: [8, 12, 16, 22, 30, 38, 48, 56, 64, 70, 76, 79],
     summary: "Traditional castor oil packs for liver detox, inflammation, and fertility. Pre-made wrap products simplifying the application process.",
     signals: [
       { platform: "tiktok", text: "'Castor oil pack results' content averaging 200K views per video", date: "2026-03" },
       { platform: "amazon", text: "Queen of the Thrones castor oil packs — category leader at $35M ARR", date: "2026-02" },
     ],
+  },
+];
+
+// Market news — transactions, acquisitions, and industry moves
+export const MARKET_NEWS = [
+  { id: "news-1", date: "2026-03-22", type: "acquisition", title: "Huel acquired by Nestl\u00e9 Health Science", description: "Nestl\u00e9 acquires Huel for an estimated $1.2B, marking the largest meal replacement acquisition in 2026. The deal gives Nestl\u00e9 a DTC footprint in the growing complete nutrition category.", brands: ["Huel", "Nestl\u00e9"], linkedBrandIds: ["brand-3"], category: "Meal Replacement", value: "$1.2B" },
+  { id: "news-2", date: "2026-03-20", type: "acquisition", title: "Breathe Right brand sold by Haleon to private equity", description: "Haleon divests Breathe Right nasal strips to a PE consortium for $410M. The 30-year-old brand has seen renewed interest from the mouth-taping and sleep optimization community.", brands: ["Breathe Right", "Haleon"], linkedBrandIds: [], category: "Sleep & Wellness", value: "$410M" },
+  { id: "news-3", date: "2026-03-18", type: "funding", title: "Seed cycling startup Beeya raises $12M Series A", description: "Beeya, the seed cycling supplement brand, closes $12M Series A led by Forerunner Ventures. The round will fund retail expansion into Whole Foods and Sprouts.", brands: ["Beeya"], linkedBrandIds: [], category: "Women's Health", value: "$12M" },
+  { id: "news-4", date: "2026-03-15", type: "acquisition", title: "Church & Dwight acquires Native deodorant competitor", description: "Church & Dwight expands its natural personal care portfolio with the acquisition of Saltair, a clean body care brand, for an undisclosed sum. Native's success inspired a wave of natural deodorant startups.", brands: ["Saltair", "Church & Dwight"], linkedBrandIds: ["brand-5"], category: "Personal Care", value: "Undisclosed" },
+  { id: "news-5", date: "2026-03-12", type: "ipo", title: "Oatly explores strategic alternatives amid declining sales", description: "Oatly AB hires Goldman Sachs to explore strategic options including a potential take-private deal. The oat milk pioneer has seen its stock decline 80% from IPO highs.", brands: ["Oatly"], linkedBrandIds: ["brand-8"], category: "Plant-Based Dairy", value: "~$800M mkt cap" },
+  { id: "news-6", date: "2026-03-10", type: "funding", title: "Mushroom coffee brand MUD\\WTR raises $60M", description: "MUD\\WTR closes $60M Series B to expand into functional mushroom supplements beyond coffee. The brand has reached $100M ARR driven by TikTok virality.", brands: ["MUD\\WTR"], linkedBrandIds: [], category: "Mushroom Coffee", value: "$60M" },
+  { id: "news-7", date: "2026-03-08", type: "acquisition", title: "Unilever acquires high-growth peptide skincare brand", description: "Unilever adds to its prestige beauty portfolio with the acquisition of Naturium, a peptide-forward skincare brand popular on TikTok, for approximately $350M.", brands: ["Naturium", "Unilever"], linkedBrandIds: ["brand-2"], category: "Peptide Skincare", value: "$350M" },
+  { id: "news-8", date: "2026-03-05", type: "launch", title: "Amazon launches private-label electrolyte brand", description: "Amazon enters the electrolyte drink market with 'Solstice', a house brand priced 40% below LMNT. The move signals category maturation and threatens DTC brands.", brands: ["Amazon", "Solstice"], linkedBrandIds: [], category: "Food & Beverage", value: "N/A" },
+  { id: "news-9", date: "2026-03-01", type: "funding", title: "Postpartum wellness platform Needed raises $20M", description: "Needed, the postpartum nutrition brand, raises $20M Series B. The round will fund clinical trials and doula partnership program expansion.", brands: ["Needed"], linkedBrandIds: [], category: "Postpartum Recovery", value: "$20M" },
+  { id: "news-10", date: "2026-02-25", type: "acquisition", title: "Procter & Gamble acquires waterless beauty startup", description: "P&G acquires Ethique, the New Zealand-based solid beauty bar company, for an estimated $200M. The deal accelerates P&G's sustainability commitments.", brands: ["Ethique", "P&G"], linkedBrandIds: [], category: "Waterless Beauty", value: "$200M" },
+];
+
+// Community signals — pain points and unmet needs from consumer communities
+export const COMMUNITY_SIGNALS = [
+  {
+    id: "sig-1", categoryId: "cat-1", type: "pain_point", firstSeen: "2025-12-10",
+    title: "Subscription fatigue in supplement space",
+    description: "Consumers are overwhelmed by auto-ship models that are hard to cancel, with unexpected charges eroding trust across the entire supplements category.",
+    severity: "high", mentionCount: 14200, growthRate: 45, sentiment: 3.2,
+    sources: [
+      { platform: "reddit", postCount: 4800, avgEngagement: 342, sampleQuote: "Tried to cancel my gut health subscription for 3 months. Still getting charged." },
+      { platform: "tiktok", postCount: 6200, avgEngagement: 18500, sampleQuote: "POV: you forgot about that probiotic subscription and now you have 8 bottles" },
+      { platform: "amazon", postCount: 3200, avgEngagement: 45, sampleQuote: "Subscribe & Save keeps changing the delivery interval without telling me" },
+    ],
+    relatedKeywords: ["cancel subscription", "auto-ship scam", "recurring charge", "subscription trap"],
+    searchVolume: 74000, searchGrowth: 38,
+  },
+  {
+    id: "sig-2", categoryId: "cat-1", type: "pain_point", firstSeen: "2025-11-05",
+    title: "Clean label confusion",
+    description: "Consumers can't distinguish genuinely clean-label products from greenwashed alternatives. Third-party certifications are fragmented and confusing.",
+    severity: "high", mentionCount: 8900, growthRate: 32, sentiment: 4.1,
+    sources: [
+      { platform: "reddit", postCount: 3200, avgEngagement: 256, sampleQuote: "What does 'clean' even mean? Every brand claims it but ingredients lists are still sketchy" },
+      { platform: "google", postCount: 2800, avgEngagement: 0, sampleQuote: "" },
+      { platform: "instagram", postCount: 2900, avgEngagement: 890, sampleQuote: "Brands need to stop hiding behind 'proprietary blends'" },
+    ],
+    relatedKeywords: ["clean label", "proprietary blend", "third party tested", "transparent ingredients"],
+    searchVolume: 52000, searchGrowth: 28,
+  },
+  {
+    id: "sig-3", categoryId: "cat-11", type: "pain_point", firstSeen: "2025-08-15",
+    title: "Protein taste and texture complaints",
+    description: "Plant-based proteins still struggle with chalky texture and artificial aftertaste, preventing mass adoption despite health benefits.",
+    severity: "medium", mentionCount: 22300, growthRate: 15, sentiment: 4.8,
+    sources: [
+      { platform: "reddit", postCount: 8100, avgEngagement: 198, sampleQuote: "Every pea protein I've tried tastes like dirt mixed with chalk. When will someone fix this?" },
+      { platform: "amazon", postCount: 12000, avgEngagement: 32, sampleQuote: "Grainy texture. Doesn't mix well. Aftertaste is awful." },
+      { platform: "tiktok", postCount: 2200, avgEngagement: 12400, sampleQuote: "Plant protein smoothie challenge but actually making it taste good" },
+    ],
+    relatedKeywords: ["protein taste", "chalky protein", "plant protein review", "best tasting protein"],
+    searchVolume: 128000, searchGrowth: 12,
+  },
+  {
+    id: "sig-4", categoryId: "cat-2", type: "pain_point", firstSeen: "2026-01-20",
+    title: "Mushroom coffee dosage transparency",
+    description: "Most mushroom coffee brands don't disclose actual milligrams of active compounds, making it impossible to evaluate efficacy.",
+    severity: "medium", mentionCount: 5600, growthRate: 62, sentiment: 4.5,
+    sources: [
+      { platform: "reddit", postCount: 2800, avgEngagement: 312, sampleQuote: "How much lion's mane am I actually getting? No brand tells you mg per serving." },
+      { platform: "tiktok", postCount: 1800, avgEngagement: 22000, sampleQuote: "I asked 5 mushroom coffee brands for their lab certs. Only 1 responded." },
+      { platform: "google", postCount: 1000, avgEngagement: 0, sampleQuote: "" },
+    ],
+    relatedKeywords: ["mushroom coffee dosage", "lion's mane mg", "functional mushroom efficacy", "adaptogen dosing"],
+    searchVolume: 31000, searchGrowth: 55,
+  },
+  {
+    id: "sig-5", categoryId: "cat-3", type: "pain_point", firstSeen: "2025-10-01",
+    title: "Skincare ingredient overload",
+    description: "10-step routines and ingredient stacking causing sensitization. Consumers seeking simplified, efficacious routines with fewer products.",
+    severity: "high", mentionCount: 31200, growthRate: 28, sentiment: 5.2,
+    sources: [
+      { platform: "reddit", postCount: 12400, avgEngagement: 445, sampleQuote: "My skin was better when I just used soap and water. 8 products later and I have acne again." },
+      { platform: "tiktok", postCount: 14800, avgEngagement: 28000, sampleQuote: "Dermatologist reacts: why your 10-step routine is destroying your skin barrier" },
+      { platform: "instagram", postCount: 4000, avgEngagement: 1200, sampleQuote: "Skinimalism is the only trend that actually works" },
+    ],
+    relatedKeywords: ["skin barrier damage", "skinimalism", "simplified skincare", "too many products"],
+    searchVolume: 186000, searchGrowth: 22,
+  },
+  {
+    id: "sig-6", categoryId: "cat-6", type: "pain_point", firstSeen: "2026-02-15",
+    title: "Postpartum nutrition gap",
+    description: "Prenatal vitamins widely available but postpartum-specific formulations nearly absent. New mothers left without targeted nutritional support during recovery.",
+    severity: "high", mentionCount: 7800, growthRate: 68, sentiment: 3.8,
+    sources: [
+      { platform: "reddit", postCount: 3600, avgEngagement: 520, sampleQuote: "Why does everyone care about prenatal vitamins but nobody makes a proper postnatal formula?" },
+      { platform: "tiktok", postCount: 2200, avgEngagement: 35000, sampleQuote: "6 weeks postpartum and my doctor just said 'keep taking your prenatal.' That's it??" },
+      { platform: "instagram", postCount: 2000, avgEngagement: 1800, sampleQuote: "The 4th trimester is completely ignored by the supplement industry" },
+    ],
+    relatedKeywords: ["postnatal vitamins", "postpartum recovery", "breastfeeding nutrition", "4th trimester"],
+    searchVolume: 42000, searchGrowth: 58,
+  },
+  {
+    id: "sig-7", categoryId: "cat-4", type: "pain_point", firstSeen: "2025-12-20",
+    title: "Alcohol alternative taste expectations",
+    description: "Non-alcoholic functional beverages fail to meet taste expectations of adult drinkers. Too sweet, too herbal, or missing the 'bite' of alcohol.",
+    severity: "medium", mentionCount: 9400, growthRate: 35, sentiment: 5.5,
+    sources: [
+      { platform: "reddit", postCount: 4200, avgEngagement: 278, sampleQuote: "I want something that feels like a cocktail, not a glorified juice box with adaptogens" },
+      { platform: "tiktok", postCount: 3600, avgEngagement: 15000, sampleQuote: "Honest review of every 'alcohol alternative' — most taste like medicine" },
+      { platform: "amazon", postCount: 1600, avgEngagement: 38, sampleQuote: "Great concept but tastes nothing like the cocktail it's supposed to replace" },
+    ],
+    relatedKeywords: ["non alcoholic drinks taste", "alcohol alternative review", "sober curious drinks", "mocktail brands"],
+    searchVolume: 68000, searchGrowth: 40,
+  },
+  {
+    id: "sig-8", categoryId: "cat-9", type: "pain_point", firstSeen: "2026-01-05",
+    title: "Waterless beauty performance skepticism",
+    description: "Consumers doubt waterless products deliver equal performance to traditional formulations. Barrier to trial despite sustainability appeal.",
+    severity: "medium", mentionCount: 4200, growthRate: 42, sentiment: 5.8,
+    sources: [
+      { platform: "reddit", postCount: 1800, avgEngagement: 345, sampleQuote: "Solid shampoo leaves my hair feeling waxy. I want to be eco-friendly but not at the cost of my hair" },
+      { platform: "instagram", postCount: 1600, avgEngagement: 980, sampleQuote: "The gap between waterless beauty marketing and reality is huge" },
+      { platform: "tiktok", postCount: 800, avgEngagement: 8500, sampleQuote: "Day 30 of only using shampoo bars — honest update" },
+    ],
+    relatedKeywords: ["shampoo bar review", "waterless skincare", "solid beauty products", "eco beauty performance"],
+    searchVolume: 28000, searchGrowth: 36,
+  },
+  {
+    id: "sig-9", categoryId: "cat-10", type: "pain_point", firstSeen: "2025-11-15",
+    title: "Sleep supplement dependency concerns",
+    description: "Growing anxiety about melatonin dependency and long-term effects of nightly sleep supplement use. Consumers seeking non-habit-forming alternatives.",
+    severity: "high", mentionCount: 18600, growthRate: 38, sentiment: 4.2,
+    sources: [
+      { platform: "reddit", postCount: 8200, avgEngagement: 380, sampleQuote: "Been taking melatonin for 2 years and now I literally cannot sleep without it. Is this normal?" },
+      { platform: "google", postCount: 5400, avgEngagement: 0, sampleQuote: "" },
+      { platform: "tiktok", postCount: 5000, avgEngagement: 24000, sampleQuote: "Doctor explains why you should stop taking melatonin every night" },
+    ],
+    relatedKeywords: ["melatonin dependency", "natural sleep aid", "non habit forming sleep", "magnesium for sleep"],
+    searchVolume: 142000, searchGrowth: 32,
+  },
+  {
+    id: "sig-10", categoryId: "cat-7", type: "pain_point", firstSeen: "2025-09-20",
+    title: "Pet supplement quality uncertainty",
+    description: "Pet owners can't verify supplement quality or dosing accuracy for animal products. No equivalent of USP verification for pet supplements.",
+    severity: "medium", mentionCount: 6100, growthRate: 28, sentiment: 4.6,
+    sources: [
+      { platform: "reddit", postCount: 2800, avgEngagement: 210, sampleQuote: "How do I know this joint supplement actually has glucosamine in it? There's no third-party testing for pet stuff" },
+      { platform: "amazon", postCount: 2400, avgEngagement: 28, sampleQuote: "Vet said most pet supplements are unregulated. Now I don't trust any of them." },
+      { platform: "google", postCount: 900, avgEngagement: 0, sampleQuote: "" },
+    ],
+    relatedKeywords: ["pet supplement safety", "dog supplement quality", "vet approved supplements", "pet vitamin regulation"],
+    searchVolume: 35000, searchGrowth: 22,
+  },
+  {
+    id: "sig-11", categoryId: "cat-5", type: "pain_point", firstSeen: "2026-02-01",
+    title: "At-home test result interpretation",
+    description: "Consumers receive complex lab results from DTC testing kits but lack actionable guidance on what to do next. Results without context create anxiety.",
+    severity: "high", mentionCount: 5400, growthRate: 52, sentiment: 3.6,
+    sources: [
+      { platform: "reddit", postCount: 2600, avgEngagement: 420, sampleQuote: "Got my microbiome results back and it's just a list of bacteria. What am I supposed to do with this?" },
+      { platform: "tiktok", postCount: 1800, avgEngagement: 16000, sampleQuote: "Spent $300 on a hormone panel. Got results. Still have no idea what's wrong." },
+      { platform: "google", postCount: 1000, avgEngagement: 0, sampleQuote: "" },
+    ],
+    relatedKeywords: ["at home test results meaning", "how to read lab results", "DTC health test worth it", "microbiome results explained"],
+    searchVolume: 48000, searchGrowth: 45,
+  },
+  {
+    id: "sig-12", categoryId: "cat-8", type: "pain_point", firstSeen: "2025-10-10",
+    title: "Gummy supplement sugar content",
+    description: "Health-conscious consumers torn between convenient gummy format and high sugar content per serving. Keto and diabetic consumers excluded.",
+    severity: "medium", mentionCount: 7200, growthRate: 20, sentiment: 5.0,
+    sources: [
+      { platform: "reddit", postCount: 3000, avgEngagement: 185, sampleQuote: "My 'healthy' gummy vitamins have more sugar than a candy bar per serving" },
+      { platform: "amazon", postCount: 3200, avgEngagement: 35, sampleQuote: "8g sugar per serving for 2 gummies. That's not a health product." },
+      { platform: "tiktok", postCount: 1000, avgEngagement: 9800, sampleQuote: "Sugar in your gummy vitamins vs actual candy — the comparison will shock you" },
+    ],
+    relatedKeywords: ["sugar free gummies", "keto gummy vitamins", "low sugar supplements", "gummy vitamin sugar"],
+    searchVolume: 52000, searchGrowth: 18,
+  },
+  {
+    id: "sig-13", categoryId: "cat-12", type: "pain_point", firstSeen: "2025-12-01",
+    title: "Refill packaging inconvenience",
+    description: "Refill systems require effort consumers won't sustain — remembering to reorder, cleaning containers, dealing with messy transfers.",
+    severity: "medium", mentionCount: 3800, growthRate: 35, sentiment: 5.4,
+    sources: [
+      { platform: "reddit", postCount: 1600, avgEngagement: 290, sampleQuote: "I love the idea of refills but I've been using the same crusty bottle for 6 months because it's too annoying to clean" },
+      { platform: "instagram", postCount: 1200, avgEngagement: 750, sampleQuote: "Refill pouches always leak. The mess defeats the purpose." },
+      { platform: "tiktok", postCount: 1000, avgEngagement: 7200, sampleQuote: "Why every refill system I've tried has failed me" },
+    ],
+    relatedKeywords: ["refill system review", "sustainable packaging hassle", "eco refill problems", "refillable products"],
+    searchVolume: 22000, searchGrowth: 30,
+  },
+  {
+    id: "sig-14", categoryId: "cat-4", type: "pain_point", firstSeen: "2026-03-05",
+    title: "Adaptogen regulation concerns",
+    description: "Growing awareness that adaptogens are unregulated, with no standardized dosing or interaction warnings. Safety questions mount as usage expands.",
+    severity: "high", mentionCount: 4800, growthRate: 55, sentiment: 4.0,
+    sources: [
+      { platform: "reddit", postCount: 2200, avgEngagement: 380, sampleQuote: "My ashwagandha was giving me thyroid problems. Nobody warned me about interactions." },
+      { platform: "google", postCount: 1600, avgEngagement: 0, sampleQuote: "" },
+      { platform: "tiktok", postCount: 1000, avgEngagement: 18000, sampleQuote: "Pharmacist explains why you should talk to your doctor before taking adaptogens" },
+    ],
+    relatedKeywords: ["adaptogen safety", "ashwagandha side effects", "adaptogen interactions", "herbal supplement regulation"],
+    searchVolume: 38000, searchGrowth: 48,
+  },
+  {
+    id: "sig-15", categoryId: "cat-3", type: "pain_point", firstSeen: "2025-07-15",
+    title: "Skincare price-to-performance gap",
+    description: "Luxury skincare pricing poorly correlated with ingredient quality. Consumers discovering drugstore dupes with identical formulations.",
+    severity: "medium", mentionCount: 28400, growthRate: 18, sentiment: 5.8,
+    sources: [
+      { platform: "reddit", postCount: 10200, avgEngagement: 520, sampleQuote: "The $12 CeraVe has the same peptides as the $180 La Prairie. It's all marketing." },
+      { platform: "tiktok", postCount: 14000, avgEngagement: 32000, sampleQuote: "Derm breaks down the $200 serum vs $15 dupe — same exact ingredients" },
+      { platform: "instagram", postCount: 4200, avgEngagement: 1400, sampleQuote: "Ingredient decoding series: why your luxury cream is 90% water" },
+    ],
+    relatedKeywords: ["skincare dupes", "luxury skincare worth it", "ingredient comparison", "drugstore vs luxury"],
+    searchVolume: 210000, searchGrowth: 15,
+  },
+  {
+    id: "sig-16", categoryId: "cat-6", type: "pain_point", firstSeen: "2026-03-10",
+    title: "Postpartum mental health stigma in products",
+    description: "Products addressing postpartum mental health are either too clinical or too 'wellness-washed.' Mothers want practical, stigma-free solutions.",
+    severity: "high", mentionCount: 4200, growthRate: 58, sentiment: 3.4,
+    sources: [
+      { platform: "reddit", postCount: 2000, avgEngagement: 620, sampleQuote: "Every postpartum product is either anti-depressants or essential oils. Where's the middle ground?" },
+      { platform: "tiktok", postCount: 1400, avgEngagement: 42000, sampleQuote: "Nobody talks about what postpartum really feels like because there's nothing to buy for it" },
+      { platform: "instagram", postCount: 800, avgEngagement: 2200, sampleQuote: "We need functional products for postpartum mood support, not just 'self-care' candles" },
+    ],
+    relatedKeywords: ["postpartum mood support", "postpartum anxiety products", "new mom mental health", "postpartum depression natural"],
+    searchVolume: 36000, searchGrowth: 52,
+  },
+  {
+    id: "sig-17", categoryId: "cat-5", type: "pain_point", firstSeen: "2026-01-10",
+    title: "Health test privacy concerns",
+    description: "Consumers worried about genetic and health data being sold or shared by DTC testing companies. HIPAA doesn't cover most consumer tests.",
+    severity: "high", mentionCount: 6800, growthRate: 42, sentiment: 3.2,
+    sources: [
+      { platform: "reddit", postCount: 3400, avgEngagement: 450, sampleQuote: "23andMe got hacked. Now my genetic data is on the dark web. Never trusting another health test company." },
+      { platform: "google", postCount: 2200, avgEngagement: 0, sampleQuote: "" },
+      { platform: "tiktok", postCount: 1200, avgEngagement: 14000, sampleQuote: "What DTC health companies actually do with your data (it's not what you think)" },
+    ],
+    relatedKeywords: ["health test data privacy", "DTC genetic data sold", "microbiome test privacy", "consumer health data security"],
+    searchVolume: 56000, searchGrowth: 38,
+  },
+  {
+    id: "sig-18", categoryId: "cat-2", type: "pain_point", firstSeen: "2026-02-20",
+    title: "Caffeine sensitivity with functional coffee",
+    description: "Functional coffee consumers want cognitive benefits of mushrooms without caffeine anxiety. Half-caf and decaf options are limited.",
+    severity: "low", mentionCount: 3200, growthRate: 40, sentiment: 5.6,
+    sources: [
+      { platform: "reddit", postCount: 1400, avgEngagement: 190, sampleQuote: "Love lion's mane but hate caffeine. Why does every mushroom brand pair them together?" },
+      { platform: "amazon", postCount: 1200, avgEngagement: 30, sampleQuote: "Wish this came in decaf. The mushrooms are great but I can't do caffeine after noon." },
+      { platform: "tiktok", postCount: 600, avgEngagement: 8000, sampleQuote: "For my anxious girlies — caffeine-free mushroom alternatives" },
+    ],
+    relatedKeywords: ["caffeine free mushroom", "decaf functional coffee", "lion's mane no caffeine", "adaptogen drinks no caffeine"],
+    searchVolume: 18000, searchGrowth: 42,
   },
 ];
