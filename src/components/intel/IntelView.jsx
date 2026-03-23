@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { INTEL_TABS, IDEA_SOURCES, IDEA_CATEGORIES_FILTER, SIGNAL_SORTS, TIME_RANGES } from "../../lib/constants";
 import useTrends from "../../hooks/useTrends";
+import { useNewsArticles, useCompanies } from "../../hooks/useSupabaseData";
 import TrendCard from "./TrendCard";
 import SignalCard from "./SignalCard";
 import AreaChart from "../common/charts/AreaChart";
@@ -44,6 +45,10 @@ export default function IntelView({ onSelectDeal }) {
   const isSignals = subTab === "Community Signals";
   const isNews = subTab === "Market News";
   const activeSorts = isKeywords ? TREND_SORTS : SIGNAL_SORTS;
+
+  // Real news from Supabase (with fallback to dummy data)
+  const { articles: realNews, loading: newsLoading } = useNewsArticles(30);
+  const { companies: dbCompanies } = useCompanies();
 
   return (
     <div className="feed">
@@ -199,9 +204,42 @@ export default function IntelView({ onSelectDeal }) {
       {/* ── Market News Tab ── */}
       {isNews && <>
         <div style={{ marginTop: 24 }}>
-          {MARKET_NEWS.filter(n => !search || n.title.toLowerCase().includes(search.toLowerCase()) || n.category.toLowerCase().includes(search.toLowerCase())).map(n => {
-            const linked = (n.linkedBrandIds || []).map(id => BRANDS.find(b => b.id === id)).filter(Boolean);
-            return (
+          {newsLoading && <div style={{ padding: 40, textAlign: "center", color: "var(--ink4)" }}>Loading news...</div>}
+
+          {/* Real news from Supabase */}
+          {!newsLoading && realNews.length > 0 && realNews
+            .filter(n => !search || n.title.toLowerCase().includes(search.toLowerCase()))
+            .map(n => {
+              const company = dbCompanies.find(c => c.id === n.company_id);
+              return (
+                <div className="z-card" key={n.id} style={{ marginBottom: 16 }}>
+                  <div className="z-card-header">
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{ fontSize: 16 }}>{"\u{1F4F0}"}</span>
+                      <span className="z-badge">{n.source_name || "News"}</span>
+                    </div>
+                    <span className="z-date-sm">{n.published_at ? new Date(n.published_at).toLocaleDateString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : ""}</span>
+                  </div>
+                  <h3 className="z-card-title">
+                    <a href={n.source_url} target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "none" }}>
+                      {n.title}
+                    </a>
+                  </h3>
+                  {n.description && <p className="z-card-desc">{n.description.length > 200 ? n.description.slice(0, 200) + "..." : n.description}</p>}
+                  <div className="z-mini-stats">
+                    {company && <span className="z-ms" style={{ fontWeight: 500 }}>{company.name}</span>}
+                    {company?.cat && <span className="z-ms">{company.cat}</span>}
+                    <span className="z-ms">{n.source_name}</span>
+                  </div>
+                </div>
+              );
+            })
+          }
+
+          {/* Fallback to dummy data if no real news */}
+          {!newsLoading && realNews.length === 0 && MARKET_NEWS
+            .filter(n => !search || n.title.toLowerCase().includes(search.toLowerCase()))
+            .map(n => (
               <div className="z-card" key={n.id} style={{ marginBottom: 16 }}>
                 <div className="z-card-header">
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -216,32 +254,9 @@ export default function IntelView({ onSelectDeal }) {
                   <span className="z-ms">{n.category}</span>
                   {n.value !== "N/A" && <span className="z-ms" style={{ fontWeight: 600, color: "var(--g)" }}>{n.value}</span>}
                 </div>
-                {linked.length > 0 && (
-                  <div style={{ display: "flex", gap: 10, marginTop: 4 }}>
-                    {linked.map(brand => (
-                      <button
-                        key={brand.id}
-                        className="z-tag"
-                        style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}
-                        onClick={() => onSelectDeal?.(brand)}
-                      >
-                        {brand.logoUrl
-                          ? <img src={brand.logoUrl} alt="" style={{ width: 14, height: 14, objectFit: "contain" }} onError={e => { e.target.style.display = "none"; }} />
-                          : <span style={{ fontSize: 10, fontWeight: 700 }}>{brand.logo}</span>
-                        }
-                        {brand.name} &rarr;
-                      </button>
-                    ))}
-                  </div>
-                )}
-                {n.brands.filter(b => !linked.some(l => l.name === b)).length > 0 && (
-                  <div className="z-mini-stats" style={{ marginTop: 4 }}>
-                    {n.brands.filter(b => !linked.some(l => l.name === b)).map((b, i) => <span className="z-ms" key={i}>{b}</span>)}
-                  </div>
-                )}
               </div>
-            );
-          })}
+            ))
+          }
         </div>
       </>}
     </div>
