@@ -53,35 +53,29 @@ export default function App() {
     setTimeout(() => setToast(null), 2200);
   }
 
-  // 3-tier gated navigation
+  // 3-tier gated navigation (disabled during development)
   function gatedNav(p) {
-    // Pro-only pages
-    if (PRO_GATED.has(p)) {
-      if (!user) { setShowAuth(true); return; }
-      if (!isPro) { setShowUpgrade(true); return; }
-    }
-    // Free-account pages (browse lists)
-    if (FREE_GATED.has(p) && !user) {
-      setShowAuth(true);
-      return;
-    }
-    // Pro check for browse lists
-    if (FREE_GATED.has(p) && !isPro) {
-      setShowUpgrade(true);
-      return;
-    }
+    // TODO: Re-enable auth gates before launch
+    // if (PRO_GATED.has(p)) {
+    //   if (!user) { setShowAuth(true); return; }
+    //   if (!isPro) { setShowUpgrade(true); return; }
+    // }
+    // if (FREE_GATED.has(p) && !user) { setShowAuth(true); return; }
+    // if (FREE_GATED.has(p) && !isPro) { setShowUpgrade(true); return; }
     setPillar(p);
   }
 
-  // Deep links from homepage — free users can access individual items
+  // Deep links from homepage
   function handleSelectDeal(brand) {
-    if (!user) { setShowAuth(true); return; }
+    // TODO: Re-enable auth gate before launch
+    // if (!user) { setShowAuth(true); return; }
     setPendingDeal(brand);
     setPillar("deals");
   }
 
   function handleSelectIdea(idea) {
-    if (!user) { setShowAuth(true); return; }
+    // TODO: Re-enable auth gate before launch
+    // if (!user) { setShowAuth(true); return; }
     setPendingIdea(idea);
     setPillar("ideas");
   }
