@@ -100,7 +100,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
         <div className="bp-split">
           {/* LEFT — identity + thesis */}
           <div className="bp-split-left">
-            <span style={{ fontSize: 11, color: "var(--ink4)", letterSpacing: ".06em", textTransform: "uppercase", display: "block", marginBottom: 16 }}>{brand.category} · {STATUS_LABEL[brand.status]}</span>
+            <span style={{ fontSize: 11, color: "var(--ink4)", letterSpacing: ".06em", textTransform: "uppercase", display: "block", marginBottom: 16 }}>{brand.category}</span>
 
             <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 20 }}>
               <div className="bp-logo-z" style={{ overflow: "hidden" }}>

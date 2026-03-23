@@ -2,7 +2,7 @@
 
 export const BRANDS = [
   {
-    id: "brand-1", name: "WelleCo", logo: "WC", logoUrl: "https://unavatar.io/welleco.com", category: "Wellness Supplements", hq: "Sydney, Australia",
+    id: "brand-1", name: "WelleCo", logo: "WC", logoUrl: "https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=http://welleco.com", category: "Wellness Supplements", hq: "Sydney, Australia",
     founded: 2014, employees: 45, website: "welleco.com",
     relatedCategories: ["Gut Health Supplements", "Clean Protein", "Functional Gummies"],
     relatedTrendKeywords: ["Ozempic alternatives", "Magnesium spray", "Electrolyte drinks"],
@@ -277,7 +277,7 @@ export const BRANDS = [
     reviewTrend: [60, 65, 70, 80, 95, 110, 130, 140, 135, 120, 105, 95],
   },
   {
-    id: "brand-2", name: "Glossier", logo: "GL", logoUrl: "https://unavatar.io/glossier.com", category: "Beauty & Skincare", hq: "New York, USA",
+    id: "brand-2", name: "Glossier", logo: "GL", logoUrl: "https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=http://glossier.com", category: "Beauty & Skincare", hq: "New York, USA",
     founded: 2014, employees: 280, website: "glossier.com",
     relatedCategories: ["Peptide Skincare", "Waterless Beauty"],
     relatedTrendKeywords: ["Beef tallow skincare", "Seed cycling"],
@@ -430,7 +430,7 @@ export const BRANDS = [
     reviewTrend: [320, 310, 290, 280, 270, 260, 250, 245, 240, 235, 230, 225],
   },
   {
-    id: "brand-3", name: "Huel", logo: "HU", logoUrl: "https://unavatar.io/huel.com", category: "Meal Replacement", hq: "Tring, UK",
+    id: "brand-3", name: "Huel", logo: "HU", logoUrl: "https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=http://huel.com", category: "Meal Replacement", hq: "Tring, UK",
     founded: 2015, employees: 320, website: "huel.com",
     brandColor: "#000000", bgGradient: "linear-gradient(135deg, #1a1a1a 0%, #333 100%)",
     verification: "verified",
@@ -534,7 +534,7 @@ export const BRANDS = [
     reviewTrend: [680, 690, 700, 710, 720, 730, 740, 750, 755, 760, 765, 770],
   },
   {
-    id: "brand-4", name: "Brandless", logo: "BL", logoUrl: "https://unavatar.io/brandless.com", category: "CPG / Essentials", hq: "San Francisco, USA",
+    id: "brand-4", name: "Brandless", logo: "BL", logoUrl: "https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=http://brandless.com", category: "CPG / Essentials", hq: "San Francisco, USA",
     founded: 2017, employees: 12, website: "brandless.com",
     brandColor: "#E8673C", bgGradient: "linear-gradient(135deg, #E8673C 0%, #c44e28 100%)",
     verification: "unverified",
@@ -614,7 +614,7 @@ export const BRANDS = [
     reviewTrend: [45, 40, 35, 30, 25, 20, 18, 15, 12, 10, 8, 6],
   },
   {
-    id: "brand-5", name: "Native", logo: "ND", logoUrl: "https://unavatar.io/nativecos.com", category: "Personal Care", hq: "San Francisco, USA",
+    id: "brand-5", name: "Native", logo: "ND", logoUrl: "https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=http://nativecos.com", category: "Personal Care", hq: "San Francisco, USA",
     founded: 2015, employees: 65, website: "nativecos.com",
     brandColor: "#5B8A72", bgGradient: "linear-gradient(135deg, #5B8A72 0%, #3d6b55 100%)",
     verification: "claimed",
@@ -713,7 +713,7 @@ export const BRANDS = [
     reviewTrend: [160, 165, 170, 175, 178, 180, 182, 184, 185, 186, 187, 188],
   },
   {
-    id: "brand-6", name: "Barkbox", logo: "BB", logoUrl: "https://unavatar.io/barkbox.com", category: "Pet Products", hq: "New York, USA",
+    id: "brand-6", name: "Barkbox", logo: "BB", logoUrl: "https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=http://barkbox.com", category: "Pet Products", hq: "New York, USA",
     founded: 2011, employees: 380, website: "barkbox.com",
     brandColor: "#4A90D9", bgGradient: "linear-gradient(135deg, #4A90D9 0%, #2d6cb5 100%)",
     verification: "verified",
@@ -837,7 +837,7 @@ export const BRANDS = [
     reviewTrend: [1100, 1080, 1060, 1040, 1020, 1000, 990, 980, 970, 960, 950, 940],
   },
   {
-    id: "brand-7", name: "Haus Labs", logo: "HL", logoUrl: "https://unavatar.io/hauslabs.com", category: "Color Cosmetics", hq: "Los Angeles, USA",
+    id: "brand-7", name: "Haus Labs", logo: "HL", logoUrl: "https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=http://hauslabs.com", category: "Color Cosmetics", hq: "Los Angeles, USA",
     founded: 2019, employees: 25, website: "hauslabs.com",
     brandColor: "#8B5CF6", bgGradient: "linear-gradient(135deg, #8B5CF6 0%, #6d3fd4 100%)",
     verification: "unverified",
@@ -935,7 +935,7 @@ export const BRANDS = [
     reviewTrend: [80, 75, 70, 65, 55, 50, 45, 40, 38, 35, 32, 30],
   },
   {
-    id: "brand-8", name: "Oatly", logo: "OT", logoUrl: "https://unavatar.io/oatly.com", category: "Plant-Based Dairy", hq: "Malmo, Sweden",
+    id: "brand-8", name: "Oatly", logo: "OT", logoUrl: "https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=http://oatly.com", category: "Plant-Based Dairy", hq: "Malmo, Sweden",
     founded: 1994, employees: 1200, website: "oatly.com",
     brandColor: "#1B365D", bgGradient: "linear-gradient(135deg, #1B365D 0%, #0f2240 100%)",
     verification: "unverified",
@@ -1035,7 +1035,7 @@ export const BRANDS = [
     reviewTrend: [140, 145, 150, 155, 158, 160, 162, 163, 164, 165, 165, 166],
   },
   {
-    id: "brand-9", name: "FabFitFun", logo: "FF", logoUrl: "https://unavatar.io/fabfitfun.com", category: "Subscription Box", hq: "Los Angeles, USA",
+    id: "brand-9", name: "FabFitFun", logo: "FF", logoUrl: "https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=http://fabfitfun.com", category: "Subscription Box", hq: "Los Angeles, USA",
     founded: 2010, employees: 180, website: "fabfitfun.com",
     brandColor: "#E91E8C", bgGradient: "linear-gradient(135deg, #E91E8C 0%, #c4186f 100%)",
     verification: "claimed",
@@ -1135,7 +1135,7 @@ export const BRANDS = [
     reviewTrend: [520, 500, 480, 460, 440, 420, 400, 390, 380, 370, 360, 350],
   },
   {
-    id: "brand-10", name: "HiSmile", logo: "HS", logoUrl: "https://unavatar.io/hismileteeth.com", category: "Oral Care", hq: "Gold Coast, Australia",
+    id: "brand-10", name: "HiSmile", logo: "HS", logoUrl: "https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=http://hismileteeth.com", category: "Oral Care", hq: "Gold Coast, Australia",
     founded: 2014, employees: 55, website: "hismile.com",
     brandColor: "#00C2CB", bgGradient: "linear-gradient(135deg, #00C2CB 0%, #009da5 100%)",
     verification: "verified",

@@ -51,9 +51,8 @@ export default function DealCard({ brand, onSelect }) {
       {/* Traffic chart */}
       {brand.trafficTrend && (
         <div>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
+          <div style={{ marginBottom: 6 }}>
             <span style={{ fontSize: 11, color: "var(--ink4)" }}>Web traffic (12mo)</span>
-            <span style={{ fontSize: 11, color: "var(--ink4)" }}>{STATUS_LABEL[brand.status]}</span>
           </div>
           <div style={{ margin: "0 -12px" }}>
             <AreaChart data={brand.trafficTrend} color={trafficColor} w={500} h={80} filled={true} />
