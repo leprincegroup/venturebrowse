@@ -3,6 +3,7 @@ import { IDEA_CATEGORIES, VALIDATED_IDEAS } from "../../data";
 import { COMMUNITY_SIGNALS } from "../../data/trends";
 import { MARKET_TRENDS } from "../../data/trends";
 import AreaChart from "../common/charts/AreaChart";
+import { computeBrandScore, scoreColor, scoreLabel } from "../../lib/brandScore";
 import AnalyticalChart from "../common/charts/AnalyticalChart";
 import BarChart from "../common/charts/BarChart";
 import RadarChart from "../common/charts/RadarChart";
@@ -50,6 +51,7 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
   }, [brand]);
 
   const trafficDown = brand.trafficTrend && brand.trafficTrend[0] > brand.trafficTrend[brand.trafficTrend.length - 1];
+  const brandScore = computeBrandScore(brand);
   const trafficColor = trafficDown ? "var(--r)" : "var(--g)";
   const radar = buildRadar(brand);
 
@@ -108,7 +110,12 @@ export default function BrandPage({ brand, onBack, watched, onToggleWatch }) {
                 }
               </div>
               <div>
-                <h1 style={{ fontSize: 32, fontWeight: 500, letterSpacing: "-.03em", color: "var(--ink)", margin: 0 }}>{brand.name}</h1>
+                <h1 style={{ fontSize: 32, fontWeight: 500, letterSpacing: "-.03em", color: "var(--ink)", margin: 0 }}>
+                  {brand.name}
+                  <span style={{ fontSize: 14, fontWeight: 500, color: scoreColor(brandScore.overall), marginLeft: 12, verticalAlign: "middle" }}>
+                    {brandScore.overall}/100 · {scoreLabel(brandScore.overall)}
+                  </span>
+                </h1>
                 <div style={{ fontSize: 13, color: "var(--ink4)", marginTop: 4 }}>{brand.hq} · Est. {brand.founded} · {brand.website}</div>
               </div>
               {(brand.verification === "verified" || brand.verification === "claimed") && (

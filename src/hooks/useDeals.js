@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { BRANDS } from "../data";
+import { computeBrandScore } from "../lib/brandScore";
 
 export default function useDeals({ statusFilter = "All", categoryFilter = "All", claimFilter = "All", sort = "name", search = "" } = {}) {
   const brands = useMemo(() => {
@@ -24,6 +25,7 @@ export default function useDeals({ statusFilter = "All", categoryFilter = "All",
       );
     }
     return out.sort((a, b) => {
+      if (sort === "score") return computeBrandScore(b).overall - computeBrandScore(a).overall;
       if (sort === "name") return a.name.localeCompare(b.name);
       if (sort === "red") return (b.redFlags?.length || 0) - (a.redFlags?.length || 0);
       if (sort === "green") return (b.greenFlags?.length || 0) - (a.greenFlags?.length || 0);

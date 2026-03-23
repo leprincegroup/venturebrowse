@@ -1,4 +1,5 @@
 import AreaChart from "../common/charts/AreaChart";
+import { computeBrandScore, scoreColor, scoreLabel } from "../../lib/brandScore";
 
 const STATUS_LABEL = {
   "looking-to-sell": "Looking to sell", "growth-stalled": "Growth stalled",
@@ -13,10 +14,11 @@ export default function DealCard({ brand, onSelect }) {
   const lastTraffic = brand.trafficTrend?.[brand.trafficTrend.length - 1];
   const trustpilot = brand.customerVoice?.trustpilotRating;
   const topOpp = brand.whiteSpace?.[0];
+  const score = computeBrandScore(brand);
 
   return (
     <div className="z-card" onClick={() => onSelect(brand)} style={{ gap: 16 }}>
-      {/* Top row — identity + verified */}
+      {/* Top row — identity + score */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <div style={{ display: "flex", gap: 14, alignItems: "center", flex: 1, minWidth: 0 }}>
           <div className="z-brand-avatar" style={{ overflow: "hidden", width: 48, height: 48, flexShrink: 0 }}>
@@ -30,9 +32,13 @@ export default function DealCard({ brand, onSelect }) {
             <div className="z-brand-meta">{brand.category} &middot; {brand.hq.split(",")[0]} &middot; Est. {brand.founded}</div>
           </div>
         </div>
-        {isClaimed && (
-          <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: ".04em", padding: "3px 8px", background: "var(--off)", border: "1px solid var(--bd)", color: "var(--ink3)", flexShrink: 0, textTransform: "uppercase" }}>Verified</span>
-        )}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4, flexShrink: 0 }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
+            <span style={{ fontSize: 28, fontWeight: 500, color: scoreColor(score.overall), letterSpacing: "-.03em", lineHeight: 1 }}>{score.overall}</span>
+            <span style={{ fontSize: 10, color: "var(--ink4)" }}>/100</span>
+          </div>
+          <span style={{ fontSize: 10, color: scoreColor(score.overall), fontWeight: 500 }}>{scoreLabel(score.overall)}</span>
+        </div>
       </div>
 
       {/* Thesis — the TLDR */}

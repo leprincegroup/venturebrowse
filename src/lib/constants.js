@@ -42,6 +42,7 @@ export const SIGNAL_SORTS = [
   { k: "name", l: "A → Z" },
 ];
 export const BRAND_SORTS = [
+  { k: "score", l: "Brand Score" },
   { k: "name", l: "A → Z" },
   { k: "red", l: "Red Flags" },
   { k: "green", l: "Green Flags" },
