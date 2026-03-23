@@ -14,38 +14,94 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
 
-    // Check if hugo@creedmedia.com exists in auth
-    const { data: users } = await supabase.auth.admin.listUsers({ perPage: 100 });
-    const hugo = users?.users?.find((u: any) => u.email === "hugo@creedmedia.com");
+    const body = await req.json().catch(() => ({}));
+    const action = body.action || "fix_trigger";
 
-    let result = "no_auth_user";
+    if (action === "fix_trigger") {
+      // Fix the handle_new_user trigger to be simpler and not fail
+      // The issue is the trigger tries to insert columns that may not exist
+      // Use a simpler version that only inserts core fields
+      const sql = `
+        CREATE OR REPLACE FUNCTION handle_new_user()
+        RETURNS trigger AS $$
+        BEGIN
+          INSERT INTO public.profiles (id, email, name, avatar_url)
+          VALUES (
+            NEW.id,
+            NEW.email,
+            COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'name', split_part(NEW.email, '@', 1)),
+            NEW.raw_user_meta_data->>'avatar_url'
+          )
+          ON CONFLICT (id) DO UPDATE SET
+            email = EXCLUDED.email,
+            name = COALESCE(EXCLUDED.name, profiles.name),
+            avatar_url = COALESCE(EXCLUDED.avatar_url, profiles.avatar_url);
 
-    if (hugo) {
-      // User exists — make admin
-      const { error } = await supabase.from("profiles").upsert({
-        id: hugo.id,
-        email: "hugo@creedmedia.com",
-        name: "Hugo",
-        role: "admin",
-        subscription_tier: "pro",
-        is_admin: true,
-      }, { onConflict: "id" });
-      result = error ? `error: ${error.message}` : "admin_set";
+          -- Auto-admin for hugo@creedmedia.com
+          IF NEW.email = 'hugo@creedmedia.com' THEN
+            UPDATE public.profiles SET is_admin = true, role = 'admin', subscription_tier = 'pro'
+            WHERE id = NEW.id;
+          END IF;
+
+          RETURN NEW;
+        END;
+        $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+        -- Recreate trigger
+        DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+        CREATE TRIGGER on_auth_user_created
+          AFTER INSERT ON auth.users
+          FOR EACH ROW EXECUTE FUNCTION handle_new_user();
+      `;
+
+      // Execute via raw postgres connection through supabase-js
+      // Since we can't run raw SQL via PostgREST, we use a workaround:
+      // Create a temporary function, call it, then drop it
+      const { error: e1 } = await supabase.rpc("exec_sql", { sql_text: sql });
+
+      if (e1) {
+        // If exec_sql doesn't exist, try creating the function directly
+        // by using the auth admin API to create a user and letting the old trigger fail,
+        // then manually creating the profile
+        return new Response(JSON.stringify({
+          ok: false,
+          error: e1.message,
+          hint: "Run the SQL manually in Supabase SQL Editor",
+          sql: sql,
+        }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+
+      return new Response(JSON.stringify({ ok: true, msg: "Trigger fixed" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    // List all profiles
-    const { data: profiles } = await supabase
-      .from("profiles")
-      .select("id, email, role, subscription_tier, is_admin")
-      .limit(20);
+    if (action === "make_admin") {
+      const email = body.email || "hugo@creedmedia.com";
 
-    return new Response(JSON.stringify({
-      ok: true,
-      hugo_in_auth: !!hugo,
-      result,
-      total_auth_users: users?.users?.length || 0,
-      profiles: profiles || [],
-    }), {
+      // Find auth user
+      const { data: users } = await supabase.auth.admin.listUsers({ perPage: 100 });
+      const target = users?.users?.find((u: any) => u.email === email);
+
+      if (target) {
+        await supabase.from("profiles").upsert({
+          id: target.id,
+          email: email,
+          role: "admin",
+          subscription_tier: "pro",
+          is_admin: true,
+        }, { onConflict: "id" });
+        return new Response(JSON.stringify({ ok: true, msg: `${email} is now admin` }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      return new Response(JSON.stringify({ ok: false, msg: "User not found in auth" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    return new Response(JSON.stringify({ ok: false, msg: "Unknown action" }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
