@@ -12,6 +12,7 @@ import DealsView from "./components/deals/DealsView";
 import IntelView from "./components/intel/IntelView";
 import TerminalView from "./components/terminal/TerminalView";
 import AdminView from "./components/admin/AdminView";
+import DashboardView from "./components/user/DashboardView";
 import { useProfile } from "./hooks/useAdmin";
 
 // Access tiers: public (no account), free (signed in), pro (paid)
@@ -119,13 +120,8 @@ export default function App() {
           </button>
         </div>
         <div className="nav-r">
-          {isAdmin && (
-            <button className={`pillar-btn${pillar === "admin" ? " on" : ""}`} onClick={() => setPillar("admin")} style={{ color: pillar === "admin" ? "#fff" : "rgba(255,255,255,.35)" }}>
-              Admin
-            </button>
-          )}
           {user ? (
-            <UserMenu />
+            <UserMenu onNavigate={setPillar} />
           ) : (
             <>
               <button className="ghost" onClick={() => setShowAuth(true)}>Sign in</button>
@@ -174,6 +170,13 @@ export default function App() {
         )}
         {pillar === "intel" && <IntelView onSelectDeal={handleSelectDeal} />}
         {pillar === "terminal" && <TerminalView />}
+        {pillar === "dashboard" && user && (
+          <DashboardView
+            watchlist={watchlist}
+            onToggleWatch={toggleWatch}
+            onSelectPillar={gatedNav}
+          />
+        )}
         {pillar === "admin" && isAdmin && <AdminView />}
 
         {pillar !== "terminal" && <div className="hr" />}
