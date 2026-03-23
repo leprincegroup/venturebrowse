@@ -11,6 +11,8 @@ import IdeasView from "./components/ideas/IdeasView";
 import DealsView from "./components/deals/DealsView";
 import IntelView from "./components/intel/IntelView";
 import TerminalView from "./components/terminal/TerminalView";
+import AdminView from "./components/admin/AdminView";
+import { useProfile } from "./hooks/useAdmin";
 
 // Access tiers: public (no account), free (signed in), pro (paid)
 const FREE_GATED = new Set(["ideas", "deals", "intel", "terminal"]); // requires free account to browse lists
@@ -18,8 +20,9 @@ const PRO_GATED = new Set(["terminal"]); // requires pro to access
 
 export default function App() {
   const { user } = useAuth();
-  // For demo: check localStorage for pro status (real app would check subscription in DB)
-  const isPro = user && (localStorage.getItem("vb_pro") === "true" || user.email?.includes("admin"));
+  const { profile, isAdmin, isPro: isProFromDB } = useProfile();
+  // Use DB subscription if available, fallback to localStorage for demo
+  const isPro = isProFromDB || (user && localStorage.getItem("vb_pro") === "true");
   const isFullTerminal = new URLSearchParams(window.location.search).get("terminal") === "full";
   const [pillar, setPillarRaw] = useState(isFullTerminal ? "terminal" : "daily-alt");
   function setPillar(p) { setPillarRaw(p); window.scrollTo(0, 0); }
@@ -116,6 +119,11 @@ export default function App() {
           </button>
         </div>
         <div className="nav-r">
+          {isAdmin && (
+            <button className={`pillar-btn${pillar === "admin" ? " on" : ""}`} onClick={() => setPillar("admin")} style={{ color: pillar === "admin" ? "#fff" : "rgba(255,255,255,.35)" }}>
+              Admin
+            </button>
+          )}
           {user ? (
             <UserMenu />
           ) : (
@@ -166,6 +174,7 @@ export default function App() {
         )}
         {pillar === "intel" && <IntelView onSelectDeal={handleSelectDeal} />}
         {pillar === "terminal" && <TerminalView />}
+        {pillar === "admin" && isAdmin && <AdminView />}
 
         {pillar !== "terminal" && <div className="hr" />}
 
